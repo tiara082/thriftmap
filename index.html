@@ -291,6 +291,119 @@
       line-height: 1.6;
     }
 
+    /* SECTION KATEGORI POPULER */
+    .popular-categories {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .popular-categories .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .popular-categories .title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      color: #2c3e50;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      text-align: center;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 320px;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .category-icon {
+      font-size: 3.5rem;
+      color: #27ae60;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 80px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .category-card:hover .category-icon {
+      background: #27ae60;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .category-title {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .category-desc {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .category-btn {
+      display: inline-block;
+      background-color: #27ae60;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+      width: 140px;
+      text-align: center;
+    }
+
+    .category-btn:hover {
+      background-color: #219653;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .popular-categories .title {
+        font-size: 2rem;
+      }
+    }
+
     /* ASSESSORS SECTION STYLES */
     .assessors {
       padding: 80px 0;
@@ -437,7 +550,7 @@
   </div>
 
   <!--
-    - HEADER (DIGANTI)
+    - HEADER
   -->
 
   <header>
@@ -615,7 +728,7 @@
 
               </ul>
 
-              <!-- BARANG DAN PERALATAN (menggantikan Rumah & Dapur) -->
+              <!-- BARANG DAN PERALATAN -->
               <ul class="dropdown-panel-list">
 
                 <li class="menu-title">
@@ -662,6 +775,11 @@
             <a href="#product-featured" class="menu-title">Penawaran</a>
           </li>
 
+          <!-- MENU PRODUK DIBAWAH 50K -->
+          <li class="menu-category">
+            <a href="#under-50k" class="menu-title">Dibawah 50K</a>
+          </li>
+
         </ul>
 
       </div>
@@ -688,15 +806,15 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Item Trending</p>
+              <p class="banner-subtitle">Fashion Berkelanjutan</p>
 
-              <h2 class="banner-title">Fashion Preloved Wanita</h2>
+              <h2 class="banner-title">Koleksi Preloved Premium</h2>
 
               <p class="banner-text">
-                mulai dari Rp <b>50.000</b>
+                Dapatkan fashion berkualitas dengan harga terjangkau, mulai dari <b>Rp 25.000</b>
               </p>
 
-              <a href="#" class="banner-btn">Belanja Sekarang</a>
+              <a href="#" class="banner-btn">Jelajahi Koleksi</a>
 
             </div>
 
@@ -704,16 +822,16 @@
 
           <div class="slider-item">
 
-            <img src="./assets/images/banner-2.png" alt="kacamata vintage" class="banner-img">
+            <img src="./assets/images/banner-2.png" alt="aksesoris preloved" class="banner-img">
 
             <div class="banner-content">
 
               <p class="banner-subtitle">Aksesoris Unik</p>
 
-              <h2 class="banner-title">Kacamata Vintage</h2>
+              <h2 class="banner-title">Temukan Gaya Vintage</h2>
 
               <p class="banner-text">
-                mulai dari Rp <b>35.000</b>
+                Aksesoris preloved berkualitas, mulai dari <b>Rp 15.000</b>
               </p>
 
               <a href="#" class="banner-btn">Belanja Sekarang</a>
@@ -730,13 +848,13 @@
 
               <p class="banner-subtitle">Penawaran Spesial</p>
 
-              <h2 class="banner-title">Koleksi Musim Panas</h2>
+              <h2 class="banner-title">Diskon Hingga 50%</h2>
 
               <p class="banner-text">
-                mulai dari Rp <b>45.000</b>
+                Hemat lebih banyak dengan belanja preloved, mulai dari <b>Rp 20.000</b>
               </p>
 
-              <a href="#" class="banner-btn">Belanja Sekarang</a>
+              <a href="#" class="banner-btn">Lihat Penawaran</a>
 
             </div>
 
@@ -748,10 +866,79 @@
 
     </div>
 
+    <!--
+      - KATEGORI POPULER
+    -->
 
+    <section class="popular-categories scroll-reveal">
+      <div class="container">
+        <h2 class="title">Kategori Populer</h2>
+
+        <div class="categories-grid">
+          <!-- Kategori 1: Pakaian Wanita -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="woman-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Pakaian Wanita</h3>
+            <p class="category-desc">
+              Dress, atasan, celana, dan<br>
+              aksesoris preloved<br>
+              berkualitas untuk gaya<br>
+              sehari-hari.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 2: Pakaian Pria -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="man-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Pakaian Pria</h3>
+            <p class="category-desc">
+              Kemeja, celana, jaket, dan<br>
+              perlengkapan fashion pria<br>
+              dengan harga terjangkau.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 3: Anak & Bayi -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="shirt-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Anak & Bayi</h3>
+            <p class="category-desc">
+              Pakaian, mainan, dan<br>
+              perlengkapan anak-anak<br>
+              yang masih layak pakai<br>
+              dengan kondisi baik.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 4: Barang & Peralatan -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="home-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Barang & Peralatan</h3>
+            <p class="category-desc">
+              Peralatan rumah tangga,<br>
+              elektronik, buku, dan<br>
+              barang-barang berguna<br>
+              lainnya.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!--
-      - PRODUCT CONTAINER (SEMUA PRODUK TETAP ADA)
+      - PRODUCT CONTAINER
     -->
 
     <div class="product-container">
@@ -761,12 +948,12 @@
         <div class="product-box">
 
           <!--
-            - PRODUCT FEATURED (Tetap ada)
+            - PRODUCT FEATURED
           -->
 
           <div class="product-featured scroll-reveal" id="product-featured">
 
-            <h2 class="title">Penawaran Hari Ini</h2>
+            <h2 class="title">Penawaran Spesial Minggu Ini</h2>
 
             <div class="showcase-wrapper has-scrollbar">
 
@@ -775,7 +962,7 @@
                 <div class="showcase">
 
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/shampoo.jpg" alt="paket perawatan rambut" class="showcase-img">
+                    <img src="./assets/images/products/jacket-3.jpg" alt="jaket denim vintage" class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
@@ -784,22 +971,22 @@
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
                       <ion-icon name="star-outline"></ion-icon>
                     </div>
 
                     <a href="#">
-                      <h3 class="showcase-title">Paket Perawatan Rambut</h3>
+                      <h3 class="showcase-title">Jaket Denim Vintage</h3>
                     </a>
 
                     <p class="showcase-desc">
-                      Produk berkualitas dengan harga terjangkau. Dapatkan penawaran terbatas untuk perawatan rambut Anda.
+                      Jaket denim preloved dengan gaya klasik yang timeless. Cocok untuk berbagai gaya fashion.
                     </p>
 
                     <div class="price-box">
-                      <p class="price">Rp 150.000</p>
+                      <p class="price">Rp 75.000</p>
 
-                      <del>Rp 200.000</del>
+                      <del>Rp 120.000</del>
                     </div>
 
                     <button class="add-cart-btn">tambah ke keranjang</button>
@@ -807,11 +994,11 @@
                     <div class="showcase-status">
                       <div class="wrapper">
                         <p>
-                          sudah terjual: <b>20</b>
+                          sudah terjual: <b>12</b>
                         </p>
 
                         <p>
-                          tersedia: <b>40</b>
+                          tersedia: <b>5</b>
                         </p>
                       </div>
 
@@ -864,7 +1051,7 @@
                 <div class="showcase">
 
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold diamonds Earring" class="showcase-img">
+                    <img src="./assets/images/products/jewellery-1.jpg" alt="tas kulit vintage" class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
@@ -873,30 +1060,30 @@
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half-outline"></ion-icon>
                     </div>
 
                     <h3 class="showcase-title">
-                      <a href="#" class="showcase-title">Anting Berlian Emas Mawar</a>
+                      <a href="#" class="showcase-title">Tas Kulit Vintage</a>
                     </h3>
 
                     <p class="showcase-desc">
-                      Anting berkualitas tinggi dengan desain elegan. Dapatkan penawaran spesial untuk aksesori cantik ini.
+                      Tas kulit preloved dengan desain klasik yang elegan. Kondisi masih sangat baik dan awet.
                     </p>
 
                     <div class="price-box">
-                      <p class="price">Rp 1.990.000</p>
-                      <del>Rp 2.500.000</del>
+                      <p class="price">Rp 150.000</p>
+                      <del>Rp 250.000</del>
                     </div>
 
                     <button class="add-cart-btn">tambah ke keranjang</button>
 
                     <div class="showcase-status">
                       <div class="wrapper">
-                        <p> sudah terjual: <b>15</b> </p>
+                        <p> sudah terjual: <b>8</b> </p>
 
-                        <p> tersedia: <b>40</b> </p>
+                        <p> tersedia: <b>3</b> </p>
                       </div>
 
                       <div class="showcase-status-bar"></div>
@@ -941,7 +1128,7 @@
           </div>
 
           <!--
-            - PRODUCT GRID (9 produk - Tetap ada)
+            - PRODUCT GRID
           -->
 
           <div class="product-main scroll-reveal">
@@ -955,8 +1142,8 @@
 
                 <div class="showcase-banner">
 
-                  <img src="./assets/images/products/jacket-3.jpg" alt="Jaket Kulit Pria Musim Dingin" width="300" class="product-img default">
-                  <img src="./assets/images/products/jacket-4.jpg" alt="Jaket Kulit Pria Musim Dingin" width="300" class="product-img hover">
+                  <img src="./assets/images/products/jacket-3.jpg" alt="Jaket Kulit Pria" width="300" class="product-img default">
+                  <img src="./assets/images/products/jacket-4.jpg" alt="Jaket Kulit Pria" width="300" class="product-img hover">
 
                   <p class="showcase-badge">15%</p>
 
@@ -987,7 +1174,7 @@
                   <a href="#" class="showcase-category">jaket</a>
 
                   <a href="#">
-                    <h3 class="showcase-title">Jaket Kulit Pria Musim Dingin</h3>
+                    <h3 class="showcase-title">Jaket Kulit Pria</h3>
                   </a>
 
                   <div class="showcase-rating">
@@ -999,8 +1186,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">Rp 72.000</p>
-                    <del>Rp 85.000</del>
+                    <p class="price">Rp 120.000</p>
+                    <del>Rp 150.000</del>
                   </div>
 
                 </div>
@@ -1051,8 +1238,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">Rp 45.000</p>
-                    <del>Rp 56.000</del>
+                    <p class="price">Rp 65.000</p>
+                    <del>Rp 85.000</del>
                   </div>
 
                 </div>
@@ -1101,8 +1288,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">Rp 58.000</p>
-                    <del>Rp 65.000</del>
+                    <p class="price">Rp 85.000</p>
+                    <del>Rp 110.000</del>
                   </div>
 
                 </div>
@@ -1113,8 +1300,8 @@
               <div class="showcase">
 
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/clothes-3.jpg" alt="Rok Floral Hitam" class="product-img default" width="300">
-                  <img src="./assets/images/products/clothes-4.jpg" alt="Rok Floral Hitam" class="product-img hover" width="300">
+                  <img src="./assets/images/products/clothes-3.jpg" alt="Rok Floral" class="product-img default" width="300">
+                  <img src="./assets/images/products/clothes-4.jpg" alt="Rok Floral" class="product-img hover" width="300">
 
                   <p class="showcase-badge angle pink">new</p>
 
@@ -1141,7 +1328,7 @@
                   <a href="#" class="showcase-category">rok</a>
 
                   <h3>
-                    <a href="#" class="showcase-title">Rok Floral Hitam Midi</a>
+                    <a href="#" class="showcase-title">Rok Floral Midi</a>
                   </h3>
 
                   <div class="showcase-rating">
@@ -1153,8 +1340,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">Rp 25.000</p>
-                    <del>Rp 35.000</del>
+                    <p class="price">Rp 45.000</p>
+                    <del>Rp 65.000</del>
                   </div>
 
                 </div>
@@ -1169,7 +1356,7 @@
             - PRODUK DIBAWAH 50K
           -->
 
-          <div class="product-main scroll-reveal">
+          <div class="product-main scroll-reveal" id="under-50k">
 
             <h2 class="title">Produk Dibawah 50 Ribu</h2>
 
@@ -1210,7 +1397,7 @@
                   </div>
                   <div class="price-box">
                     <p class="price">Rp 35.000</p>
-                    <del>Rp 45.000</del>
+                    <del>Rp 50.000</del>
                   </div>
                 </div>
               </div>
@@ -1249,7 +1436,7 @@
                   </div>
                   <div class="price-box">
                     <p class="price">Rp 45.000</p>
-                    <del>Rp 60.000</del>
+                    <del>Rp 65.000</del>
                   </div>
                 </div>
               </div>
@@ -1289,7 +1476,7 @@
                   </div>
                   <div class="price-box">
                     <p class="price">Rp 42.000</p>
-                    <del>Rp 55.000</del>
+                    <del>Rp 60.000</del>
                   </div>
                 </div>
               </div>
@@ -1328,7 +1515,7 @@
                   </div>
                   <div class="price-box">
                     <p class="price">Rp 48.000</p>
-                    <del>Rp 65.000</del>
+                    <del>Rp 75.000</del>
                   </div>
                 </div>
               </div>
@@ -1380,7 +1567,7 @@
             <h3 class="feature-title">Harga Terjangkau</h3>
             <p class="feature-desc">
               Dapatkan fashion berkualitas dengan harga yang ramah kantong.
-              Hemat hingga 50% dibandingkan harga retail tanpa mengorbankan gaya dan kualitas.
+              Hemat hingga 70% dibandingkan harga retail tanpa mengorbankan gaya dan kualitas.
             </p>
           </div>
         </div>
@@ -1390,7 +1577,7 @@
   </main>
 
   <!--
-    - FOOTER (TETAP SAMA)
+    - FOOTER
   -->
 
   <footer>
@@ -1406,23 +1593,23 @@
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Fashion</a>
+            <a href="#" class="footer-nav-link">Pakaian Wanita</a>
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Elektronik</a>
+            <a href="#" class="footer-nav-link">Pakaian Pria</a>
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Kecantikan</a>
+            <a href="#" class="footer-nav-link">Anak & Bayi</a>
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Kesehatan</a>
+            <a href="#" class="footer-nav-link">Barang & Peralatan</a>
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Jam Tangan</a>
+            <a href="#" class="footer-nav-link">Aksesoris</a>
           </li>
 
         </ul>
@@ -1446,7 +1633,7 @@
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Hubungi Kami</a>
+            <a href="#" class="footer-nav-link">Dibawah 50K</a>
           </li>
 
           <li class="footer-nav-item">
@@ -1490,15 +1677,7 @@
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Diskon</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Produk Baru</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Penjualan Terbaik</a>
+            <a href="#" class="footer-nav-link">Bantuan</a>
           </li>
 
           <li class="footer-nav-item">
@@ -1506,7 +1685,15 @@
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Peta Situs</a>
+            <a href="#" class="footer-nav-link">FAQ</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pengembalian</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Garansi</a>
           </li>
 
         </ul>
@@ -1592,10 +1779,8 @@
 
       <div class="container">
 
-        <!-- <img src="./assets/images/payment.png" alt="metode pembayaran" class="payment-img"> -->
-
         <p class="copyright">
-          Hak Cipta &copy; <a href="#">Thriftmap</a>
+          Hak Cipta &copy; <a href="#">EcoThreads</a>
         </p>
 
       </div>

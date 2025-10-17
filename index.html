@@ -26,6 +26,48 @@
     rel="stylesheet">
 
   <style>
+    /* HAPUS GARIS PUTIH NAVBAR */
+    header, header *, .header-main, .header-main *, 
+    .desktop-navigation-menu, .desktop-navigation-menu * {
+        border: none !important;
+    }
+
+    .header-main {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .desktop-navigation-menu {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    header {
+        background: white !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Badge/Lencana styling */
+    .badge-icon {
+      position: relative;
+    }
+    
+    .badge-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff6b6b;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
     /* ANIMASI SCROLL REVEAL */
     .scroll-reveal {
       opacity: 0;
@@ -248,6 +290,102 @@
       color: #7f8c8d;
       line-height: 1.6;
     }
+
+    /* ASSESSORS SECTION STYLES */
+    .assessors {
+      padding: 80px 0;
+      background-color: #f8f9fa;
+    }
+
+    .assessors .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .assessors-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .assessor-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .assessor-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .assessor-img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .assessor-content {
+      padding: 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .assessor-title {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .assessor-impact {
+      font-size: 1rem;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+
+    .assessor-btn {
+      display: inline-block;
+      background-color: #27ae60;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .assessor-btn:hover {
+      background-color: #219653;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .assessors-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .assessor-img {
+        height: 200px;
+      }
+      
+      .assessor-content {
+        padding: 20px;
+      }
+      
+      .assessor-title {
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 
@@ -270,7 +408,7 @@
       </button>
 
       <div class="newsletter-img">
-        <img src="./assets/images/products/jacket-1.jpg" alt="special offer" width="400" height="400">
+        <img src="./assets/images/Gemini_Generated_Image_88hriy88hriy88hr (1).png" alt="special offer" width="400" height="400">
       </div>
 
       <div class="newsletter">
@@ -299,7 +437,7 @@
   </div>
 
   <!--
-    - HEADER
+    - HEADER (DIGANTI)
   -->
 
   <header>
@@ -323,13 +461,14 @@
 
         <div class="header-user-actions">
 
-        <a href="login.html" class="action-btn">
+          <a href="login.html" class="action-btn">
             <ion-icon name="person-outline"></ion-icon>
-        </a>
+          </a>
 
-          <button class="action-btn">
-            <ion-icon name="heart-outline"></ion-icon>
-            <span class="count">0</span>
+          <!-- Badge/Lencana menggantikan Love -->
+          <button class="action-btn badge-icon">
+            <ion-icon name="ribbon-outline"></ion-icon>
+            <span class="badge-count">3</span>
           </button>
 
           <button class="action-btn">
@@ -358,6 +497,7 @@
 
             <div class="dropdown-panel">
 
+              <!-- PAKAIAN WANITA -->
               <ul class="dropdown-panel-list">
 
                 <li class="menu-title">
@@ -381,21 +521,30 @@
                 </li>
 
                 <li class="panel-list-item">
+                  <a href="#">Sepatu</a>
+                </li>
+
+                <li class="panel-list-item">
                   <a href="#">Aksesoris</a>
                 </li>
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/electronics-banner-1.jpg" alt="koleksi wanita" width="250" height="119">
+                    <img src="./assets/images/womens-banner.png" alt="koleksi wanita" width="250" height="119">
                   </a>
                 </li>
 
               </ul>
 
+              <!-- PAKAIAN PRIA -->
               <ul class="dropdown-panel-list">
 
                 <li class="menu-title">
                   <a href="#">Pakaian Pria</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Atasan</a>
                 </li>
 
                 <li class="panel-list-item">
@@ -420,12 +569,13 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/mens-banner.jpg" alt="fashion pria" width="250" height="119">
+                    <img src="./assets/images/mens-banner.png" alt="fashion pria" width="250" height="119">
                   </a>
                 </li>
 
               </ul>
 
+              <!-- ANAK & BAYI -->
               <ul class="dropdown-panel-list">
 
                 <li class="menu-title">
@@ -434,6 +584,11 @@
 
                 <li class="panel-list-item">
                   <a href="#">Pakaian Bayi</a>
+                </li>
+
+                
+                <li class="panel-list-item">
+                  <a href="#">Peralatan Bayi</a>
                 </li>
 
                 <li class="panel-list-item">
@@ -454,41 +609,46 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/womens-banner.jpg" alt="fashion anak" width="250" height="119">
+                    <img src="./assets/images/toys-banner.png" alt="fashion anak" width="250" height="119">
                   </a>
                 </li>
 
               </ul>
 
+              <!-- BARANG DAN PERALATAN (menggantikan Rumah & Dapur) -->
               <ul class="dropdown-panel-list">
 
                 <li class="menu-title">
-                  <a href="#">Rumah & Dapur</a>
+                  <a href="#">Barang dan Peralatan</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Peralatan Rumah Tangga</a>
                 </li>
 
                 <li class="panel-list-item">
                   <a href="#">Peralatan Dapur</a>
                 </li>
 
-                <li class="panel-list-item">
-                  <a href="#">Dekorasi</a>
+                  <li class="panel-list-item">
+                  <a href="#">Alat Tulis Kantor</a>
                 </li>
 
                 <li class="panel-list-item">
-                  <a href="#">Perabotan</a>
+                  <a href="#">Elektronik</a>
                 </li>
 
                 <li class="panel-list-item">
-                  <a href="#">Buku & Media</a>
+                  <a href="#">Buku</a>
                 </li>
 
                 <li class="panel-list-item">
-                  <a href="#">Lainnya</a>
+                  <a href="#">Barang Lain</a>
                 </li>
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/electronics-banner-2.jpg" alt="koleksi rumah" width="250" height="119">
+                    <img src="./assets/images/accessories-banner.png" alt="barang dan peralatan" width="250" height="119">
                   </a>
                 </li>
 
@@ -497,106 +657,7 @@
             </div>
           </li>
 
-          <li class="menu-category">
-            <a href="#" class="menu-title">Pria</a>
-
-            <ul class="dropdown-list">
-
-              <li class="dropdown-item">
-                <a href="#">Kemeja</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Celana Pendek & Jeans</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Sepatu</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Dompet</a>
-              </li>
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Wanita</a>
-
-            <ul class="dropdown-list">
-
-              <li class="dropdown-item">
-                <a href="#">Dress & Rok</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Atasan</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Celana</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Tas</a>
-              </li>
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Aksesoris</a>
-
-            <ul class="dropdown-list">
-
-              <li class="dropdown-item">
-                <a href="#">Anting</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Cincin</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Kalung</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Gelang</a>
-              </li>
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Sepatu</a>
-
-            <ul class="dropdown-list">
-
-              <li class="dropdown-item">
-                <a href="#">Kasual</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Formal</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Olahraga</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Boots</a>
-              </li>
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Blog</a>
-          </li>
-
+          <!-- MENU PENAWARAN -->
           <li class="menu-category">
             <a href="#product-featured" class="menu-title">Penawaran</a>
           </li>
@@ -643,7 +704,7 @@
 
           <div class="slider-item">
 
-            <img src="./assets/images/banner-2.jpg" alt="kacamata vintage" class="banner-img">
+            <img src="./assets/images/banner-2.png" alt="kacamata vintage" class="banner-img">
 
             <div class="banner-content">
 
@@ -663,7 +724,7 @@
 
           <div class="slider-item">
 
-            <img src="./assets/images/banner-3.jpg" alt="sale koleksi musim panas" class="banner-img">
+            <img src="./assets/images/banner-3.png" alt="sale koleksi musim panas" class="banner-img">
 
             <div class="banner-content">
 
@@ -686,6 +747,7 @@
       </div>
 
     </div>
+
 
 
     <!--
@@ -1328,7 +1390,7 @@
   </main>
 
   <!--
-    - FOOTER
+    - FOOTER (TETAP SAMA)
   -->
 
   <footer>
@@ -1716,6 +1778,17 @@
           });
         }
       });
+    });
+
+    // Script untuk badge gamifikasi
+    document.addEventListener('DOMContentLoaded', function() {
+      const badgeBtn = document.querySelector('.badge-icon');
+      
+      if (badgeBtn) {
+        badgeBtn.addEventListener('click', function() {
+          alert('Anda memiliki 3 lencana/badge!\n\n🏆 Badge Pemula\n⭐ Badge Ramah Lingkungan\n💚 Badge Pembeli Setia');
+        });
+      }
     });
 
     // Panggil semua fungsi ketika DOM siap

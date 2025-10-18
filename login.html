@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EcoThreads</title>
+    <title>Login - ThriftMap</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk ikon -->
@@ -27,6 +27,21 @@
             border-color: #10b981;
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
+        
+        /* Hilangkan garis hitam (outline) saat hover/focus pada semua elemen */
+        button:focus,
+        a:focus,
+        input:focus,
+        button:hover,
+        a:hover {
+            outline: none !important;
+            text-decoration: none !important;
+        }
+        
+        /* Khusus untuk link agar tidak ada underline */
+        a {
+            text-decoration: none !important;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -34,10 +49,10 @@
         <!-- Logo dan Judul -->
         <div class="text-center mb-8">
             <div class="flex justify-center mb-4">
-                <img src="./assets/images/logo/logo.svg" alt="EcoThreads Logo" class="h-16">
+                <img src="./assets/images/logo/logo.svg" alt="ThriftMap Logo" class="h-16">
             </div>
-            <h1 class="text-3xl font-bold text-gray-800">EcoThreads</h1>
-            <p class="text-gray-600 mt-2">Sustainable Thrift Store</p>
+            <h1 class="text-3xl font-bold text-gray-800">ThriftMap</h1>
+            <p class="text-gray-600 mt-2">Style more, spend less</p>
         </div>
 
         <!-- Form Login -->
@@ -114,14 +129,16 @@
                 <!-- Social Login Buttons -->
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <button 
-                        type="button" 
+                        type="button"
+                        id="googleSignInBtn"
                         class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors hover:border-green-500"
                     >
                         <i class="fab fa-google text-green-600 mr-2"></i>
                         <span class="text-gray-700 font-medium">Google</span>
                     </button>
                     <button 
-                        type="button" 
+                        type="button"
+                        id="facebookSignInBtn"
                         class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors hover:border-green-500"
                     >
                         <i class="fab fa-facebook text-green-600 mr-2"></i>
@@ -151,9 +168,13 @@
 
         <!-- Footer -->
         <div class="text-center mt-8 text-gray-500 text-sm">
-            <p>&copy; 2023 EcoThreads. Seluruh hak cipta dilindungi.</p>
+            <p>&copy; 2025 ThriftMap. Seluruh hak cipta dilindungi.</p>
         </div>
     </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
 
     <script>
         // Toggle password visibility
@@ -214,6 +235,47 @@
                 
             }, 1500);
         });
+
+        // Firebase Auth (Google & Facebook) — replace with your Firebase config
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+          projectId: "YOUR_PROJECT_ID",
+          appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        const facebookProvider = new firebase.auth.FacebookAuthProvider();
+        facebookProvider.addScope('email');
+
+        // Handlers for social buttons
+        const googleBtn = document.getElementById('googleSignInBtn');
+        const facebookBtn = document.getElementById('facebookSignInBtn');
+
+        if (googleBtn) {
+          googleBtn.addEventListener('click', async () => {
+            try {
+              const result = await auth.signInWithPopup(googleProvider);
+              showAlert('success', `Halo, ${result.user.displayName || 'user'}!`);
+              setTimeout(() => window.location.href = 'index.html', 800);
+            } catch (err) {
+              showAlert('error', err.message);
+            }
+          });
+        }
+
+        if (facebookBtn) {
+          facebookBtn.addEventListener('click', async () => {
+            try {
+              const result = await auth.signInWithPopup(facebookProvider);
+              showAlert('success', `Halo, ${result.user.displayName || 'user'}!`);
+              setTimeout(() => window.location.href = 'index.html', 800);
+            } catch (err) {
+              showAlert('error', err.message);
+            }
+          });
+        }
 
         // Fungsi untuk menampilkan alert
         function showAlert(type, message) {

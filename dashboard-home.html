@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ThriftMap</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Remove black outline */
+        * {
+            outline: none !important;
+        }
+        
+        button:focus, button:hover, button:active { outline: none !important; }
+
+    /* Shopping app pieces */
+    .chip { padding: 0.5rem 1rem; border-radius: 9999px; background: #fff; border: 1px solid #e5e7eb; color: #374151; cursor: pointer; transition: all .2s ease; white-space: nowrap; display: inline-flex; align-items: center; }
+    .chip:hover { border-color: #10b981; color: #047857; }
+    .chip-active { background: #ecfdf5; border-color: #10b981; color: #047857; }
+        .carousel { scroll-snap-type: x mandatory; }
+        .carousel > * { scroll-snap-align: start; }
+        .banner-gradient-1 { background: linear-gradient(135deg,#d1fae5,#a7f3d0); }
+        .banner-gradient-2 { background: linear-gradient(135deg,#e0e7ff,#c7d2fe); }
+        .banner-gradient-3 { background: linear-gradient(135deg,#fee2e2,#fecaca); }
+        .badge-sale { background: #fee2e2; color: #b91c1c; }
+        .btn { transition: all .25s ease; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
+        .h-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed hidden">
+        <div class="flex items-center justify-between p-4 border-b border-green-700">
+            <div class="flex items-center space-x-3">
+                <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                <span class="sidebar-text font-bold text-lg">ThriftMap</span>
+            </div>
+            <button id="toggleSidebar" class="text-white hover:text-green-200">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-4 space-y-2">
+                <a href="dashboard-home.html" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white">
+                    <i class="fas fa-home mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                
+                <a href="dashboard-profile.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-user mr-3"></i>
+                    <span class="sidebar-text">Profil</span>
+                </a>
+                
+                <a href="dashboard-products.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-tshirt mr-3"></i>
+                    <span class="sidebar-text">Produk</span>
+                </a>
+                
+                <a href="dashboard-orders.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-shopping-bag mr-3"></i>
+                    <span class="sidebar-text">Pesanan</span>
+                </a>
+                
+                <a href="dashboard-tracking.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="sidebar-text">Lacak Pesanan</span>
+                </a>
+                
+                <a href="dashboard-payment.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-credit-card mr-3"></i>
+                    <span class="sidebar-text">Pembayaran</span>
+                </a>
+                
+                <a href="dashboard-settings.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span class="sidebar-text">Pengaturan</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
+            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-text">Keluar</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-0">
+        <!-- Shopping Topbar -->
+        <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 py-3">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2 shrink-0">
+                        <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                        <span class="font-bold text-lg text-gray-800">ThriftMap</span>
+                    </a>
+                    <div class="relative flex-1">
+                        <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" placeholder="Cari barang second berkualitas..." class="w-full pl-10 pr-12 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <button class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-green-600 text-white rounded-md text-sm btn">Cari</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="dashboard-products.html" class="p-2 text-gray-600 hover:text-green-600"><i class="fas fa-tags"></i></a>
+                        <a href="#" class="p-2 text-gray-600 hover:text-green-600 relative" title="Wishlist"><i class="fas fa-heart"></i><span class="wish-count absolute -top-1 -right-1 text-[10px] bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center" style="display:none">0</span></a>
+                        <a href="dashboard-cart.html" class="p-2 text-gray-600 hover:text-green-600 relative" title="Keranjang">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count absolute -top-1 -right-1 text-[10px] bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center" style="display:none">0</span>
+                        </a>
+                        <!-- Global Menu Dropdown -->
+                        <div class="relative">
+                            <button id="globalMenuBtn" class="p-2 text-gray-600 hover:text-green-600" aria-haspopup="true" aria-expanded="false" title="Menu">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div id="globalMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div class="py-2">
+                                    <a href="dashboard-home.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-home w-5"></i> Beranda</a>
+                                    <a href="dashboard-products.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-tags w-5"></i> Produk</a>
+                                    <a href="dashboard-orders.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-shopping-bag w-5"></i> Pesanan</a>
+                                    <a href="dashboard-tracking.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-map-marker-alt w-5"></i> Lacak Pesanan</a>
+                                    <a href="dashboard-payment.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-credit-card w-5"></i> Pembayaran</a>
+                                    <a href="dashboard-profile.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-user w-5"></i> Profil</a>
+                                    <a href="dashboard-settings.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-cog w-5"></i> Pengaturan</a>
+                                </div>
+                                <div class="border-t">
+                                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-50"><i class="fas fa-sign-out-alt w-5"></i> Keluar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
+            <!-- Hero Banner Carousel -->
+            <section class="mb-6">
+                <div id="heroCarousel" class="relative">
+                    <div class="h-scroll no-scrollbar flex gap-4 carousel" id="heroTrack">
+                        <div class="min-w-full rounded-2xl p-8 banner-gradient-1 text-gray-800 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Flash Sale Serba 50%</h2>
+                                <p class="text-gray-700 mb-4">Produk pilihan hari ini, stok terbatas!</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Belanja Sekarang <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                            <div class="hidden sm:block">
+                                <i class="fas fa-bolt text-yellow-500 text-6xl"></i>
+                            </div>
+                        </div>
+                        <div class="min-w-full rounded-2xl p-8 banner-gradient-2 text-gray-800 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Near You Picks</h2>
+                                <p class="text-gray-700 mb-4">Temukan barang thrift dekat lokasimu.</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Lihat di Peta <i class="fas fa-map-marker-alt ml-2"></i></a>
+                            </div>
+                            <div class="hidden sm:block">
+                                <i class="fas fa-map-marked-alt text-indigo-500 text-6xl"></i>
+                            </div>
+                        </div>
+                        <div class="min-w-full rounded-2xl p-8 banner-gradient-3 text-gray-800 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Koleksi Vintage Pilihan</h2>
+                                <p class="text-gray-700 mb-4">Jaket, kemeja, dan dress kualitas terbaik.</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Jelajahi <i class="fas fa-compass ml-2"></i></a>
+                            </div>
+                            <div class="hidden sm:block">
+                                <i class="fas fa-tshirt text-rose-500 text-6xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 mt-3" id="heroDots"></div>
+                </div>
+            </section>
+
+            <!-- Category Chips with edge fades -->
+            <section class="mb-6">
+                <div class="relative">
+                <div id="categoryChips" class="h-scroll no-scrollbar flex gap-2 px-6">
+                    <button class="px-4 py-2 rounded-full bg-green-600 text-white" data-cat="">Semua</button>
+                    <!-- Kategori Utama -->
+                    <button class="chip" data-cat="Pakaian Wanita">Pakaian Wanita</button>
+                    <button class="chip" data-cat="Pakaian Pria">Pakaian Pria</button>
+                    <button class="chip" data-cat="Anak & Bayi">Anak & Bayi</button>
+                    <button class="chip" data-cat="Barang & Peralatan">Barang & Peralatan</button>
+
+                    <!-- Subkategori Pakaian Wanita -->
+                    <button class="chip" data-cat="Dress & Rok">Dress & Rok</button>
+                    <button class="chip" data-cat="Atasan">Atasan</button>
+                    <button class="chip" data-cat="Celana">Celana</button>
+                    <button class="chip" data-cat="Jaket & Sweater">Jaket & Sweater</button>
+                    <button class="chip" data-cat="Sepatu">Sepatu</button>
+                    <button class="chip" data-cat="Aksesoris">Aksesoris</button>
+
+                    <!-- Subkategori Pakaian Pria -->
+                    <button class="chip" data-cat="Kemeja">Kemeja</button>
+                    <button class="chip" data-cat="Jaket">Jaket</button>
+
+                    <!-- Subkategori Anak & Bayi -->
+                    <button class="chip" data-cat="Pakaian Bayi">Pakaian Bayi</button>
+                    <button class="chip" data-cat="Peralatan Bayi">Peralatan Bayi</button>
+                    <button class="chip" data-cat="Pakaian Anak">Pakaian Anak</button>
+                    <button class="chip" data-cat="Sepatu Anak">Sepatu Anak</button>
+                    <button class="chip" data-cat="Mainan">Mainan</button>
+                    <button class="chip" data-cat="Buku">Buku</button>
+
+                    <!-- Subkategori Barang & Peralatan -->
+                    <button class="chip" data-cat="Peralatan Rumah Tangga">Peralatan Rumah Tangga</button>
+                    <button class="chip" data-cat="Peralatan Dapur">Peralatan Dapur</button>
+                    <button class="chip" data-cat="Alat Tulis Kantor">Alat Tulis Kantor</button>
+                    <button class="chip" data-cat="Elektronik">Elektronik</button>
+                    <button class="chip" data-cat="Barang Lain">Barang Lain</button>
+                </div>
+                <!-- Edge fades -->
+                <div id="chipsFadeLeft" class="pointer-events-none absolute left-0 top-0 h-full w-6 bg-gradient-to-r from-[#f8fafc] to-transparent transition-opacity duration-200"></div>
+                <div id="chipsFadeRight" class="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-[#f8fafc] to-transparent transition-opacity duration-200"></div>
+                </div>
+            </section>
+
+            <!-- Flash Sale -->
+            <section class="mb-8">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Flash Sale</h3>
+                    <div class="text-sm text-gray-600">Berakhir dalam <span id="fsTimer" class="font-semibold text-gray-900">--:--:--</span></div>
+                </div>
+                <div class="h-scroll no-scrollbar flex gap-4">
+                    <!-- Card 1 -->
+                    <div class="min-w-[220px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <div class="relative">
+                            <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="Jaket">
+                            <span class="absolute top-2 left-2 text-xs px-2 py-1 rounded badge-sale">-50%</span>
+                        </div>
+                        <div class="p-3">
+                            <p class="font-semibold text-gray-800 line-clamp-1">Jaket Denim Vintage</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 85.000</span>
+                                <button class="text-sm px-2 py-1 bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim Vintage">Tambah</button>
+                            </div>
+                            <div class="mt-2 h-1 bg-gray-100 rounded">
+                                <div class="h-1 bg-green-500 rounded" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="min-w-[220px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <div class="relative">
+                            <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="Kemeja">
+                            <span class="absolute top-2 left-2 text-xs px-2 py-1 rounded badge-sale">-35%</span>
+                        </div>
+                        <div class="p-3">
+                            <p class="font-semibold text-gray-800 line-clamp-1">Kemeja Katun</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 55.000</span>
+                                <button class="text-sm px-2 py-1 bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                            </div>
+                            <div class="mt-2 h-1 bg-gray-100 rounded">
+                                <div class="h-1 bg-green-500 rounded" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Near You / Trending -->
+            <section class="mb-8">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xl font-bold text-gray-800">Trending</h3>
+                    <a href="dashboard-products.html" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Product -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800">Sweater Hoodie</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 75.000</span>
+                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Sweater Hoodie">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800">Kemeja Katun</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 55.000</span>
+                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duplicate safely to fill grid with same assets -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800">Jaket Denim</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 89.000</span>
+                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800">Kemeja Casual</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 59.000</span>
+                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Casual">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommendation Horizontal -->
+            <section class="mb-8">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xl font-bold text-gray-800">Untuk Kamu</h3>
+                </div>
+                <div class="h-scroll no-scrollbar flex gap-4">
+                    <div class="min-w-[180px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-36 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800 line-clamp-1">Jaket Denim Vintage</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 85.000</span>
+                                <button class="px-2 py-1 text-xs bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim Vintage">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="min-w-[180px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
+                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-36 object-cover" alt="product">
+                        <div class="p-3">
+                            <p class="font-medium text-gray-800 line-clamp-1">Kemeja Katun</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-green-600 font-bold">Rp 55.000</span>
+                                <button class="px-2 py-1 text-xs bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+        <div class="flex justify-around py-2 text-xs">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-home text-base"></i>
+                <span>Home</span>
+            </a>
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-tags text-base"></i>
+                <span>Produk</span>
+            </a>
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-shopping-bag text-base"></i>
+                <span>Pesanan</span>
+            </a>
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-map-marker-alt text-base"></i>
+                <span>Lacak</span>
+            </a>
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-user text-base"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="./assets/js/cart.js"></script>
+    <script src="./assets/js/notify.js"></script>
+    <script>
+        // Wishlist badge persistence
+        (function(){
+            const KEY = 'tm_wishlist_count';
+            function update(){
+                const c = parseInt(localStorage.getItem(KEY)||'0',10)||0;
+                document.querySelectorAll('.wish-count').forEach(b=>{
+                    if (c>0){ b.textContent = String(c); b.style.display=''; }
+                    else { b.textContent='0'; b.style.display='none'; }
+                });
+            }
+            document.addEventListener('DOMContentLoaded', update);
+            window.TMWishlist = {
+                set(n){ localStorage.setItem(KEY, String(Math.max(0, Number(n)||0))); update(); },
+                increment(){ const v=(parseInt(localStorage.getItem(KEY)||'0',10)||0)+1; localStorage.setItem(KEY, String(v)); update(); },
+                decrement(){ const v=Math.max(0,(parseInt(localStorage.getItem(KEY)||'0',10)||0)-1); localStorage.setItem(KEY, String(v)); update(); }
+            };
+        })();
+        // Global menu dropdown
+        const globalMenuBtn = document.getElementById('globalMenuBtn');
+        const globalMenu = document.getElementById('globalMenu');
+        if (globalMenuBtn && globalMenu) {
+            globalMenuBtn.addEventListener('click', () => {
+                const expanded = globalMenuBtn.getAttribute('aria-expanded') === 'true';
+                globalMenuBtn.setAttribute('aria-expanded', String(!expanded));
+                globalMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', (e) => {
+                if (!globalMenu.contains(e.target) && e.target !== globalMenuBtn && !globalMenuBtn.contains(e.target)) {
+                    globalMenu.classList.add('hidden');
+                    globalMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        // Category chips -> navigate with ?category= on products page and persist active
+        (function(){
+            const wrap = document.getElementById('categoryChips');
+            const fadeL = document.getElementById('chipsFadeLeft');
+            const fadeR = document.getElementById('chipsFadeRight');
+            if (!wrap) return;
+
+            function updateFades(){
+                const maxScroll = wrap.scrollWidth - wrap.clientWidth;
+                if (maxScroll <= 0){ fadeL.style.opacity = '0'; fadeR.style.opacity = '0'; return; }
+                fadeL.style.opacity = wrap.scrollLeft > 0 ? '1' : '0';
+                fadeR.style.opacity = wrap.scrollLeft < maxScroll - 1 ? '1' : '0';
+            }
+            wrap.addEventListener('scroll', updateFades);
+            window.addEventListener('resize', updateFades);
+            setTimeout(updateFades, 50);
+
+            // Restore active chip
+            const lastCat = localStorage.getItem('tm_last_category') || '';
+            if (lastCat){
+                wrap.querySelectorAll('button[data-cat]').forEach(b=>{
+                    b.classList.toggle('chip-active', b.getAttribute('data-cat')===lastCat && lastCat !== '');
+                });
+            }
+
+            wrap.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-cat]');
+                if (!btn) return;
+                const cat = btn.getAttribute('data-cat') || '';
+                localStorage.setItem('tm_last_category', cat);
+                const url = new URL(location.origin + (location.pathname.replace(/[^\/]+$/, '') + 'dashboard-products.html'));
+                if (cat) url.searchParams.set('category', cat);
+                location.href = url.toString();
+            });
+        })();
+
+        // Bottom nav active state
+        document.querySelectorAll('a[data-nav]').forEach(a => {
+            try {
+                const href = a.getAttribute('href') || '';
+                if (location.pathname.endsWith(href)) {
+                    a.classList.add('text-green-600');
+                }
+            } catch {}
+        });
+        // Hero carousel logic
+        const heroTrack = document.getElementById('heroTrack');
+        const heroDots = document.getElementById('heroDots');
+        let heroIndex = 0;
+        const heroSlides = heroTrack ? heroTrack.children.length : 0;
+        function renderDots(){
+            if (!heroDots) return;
+            heroDots.innerHTML = '';
+            for(let i=0;i<heroSlides;i++){
+                const b = document.createElement('button');
+                b.className = 'h-2 w-2 rounded-full ' + (i===heroIndex? 'bg-green-600':'bg-gray-300');
+                b.addEventListener('click', ()=>{ heroIndex=i; updateHero(); });
+                heroDots.appendChild(b);
+            }
+        }
+        function updateHero(){
+            if (!heroTrack) return;
+            heroTrack.scrollTo({ left: heroIndex * heroTrack.clientWidth, behavior: 'smooth' });
+            renderDots();
+        }
+        function autoHero(){ heroIndex = (heroIndex+1) % heroSlides; updateHero(); }
+        if (heroSlides>0){ renderDots(); setInterval(autoHero, 4000); }
+
+        // Flash sale countdown (1 hour from load)
+        const fsTimer = document.getElementById('fsTimer');
+        const fsEnd = Date.now() + 60*60*1000;
+        function tick(){
+            const diff = Math.max(0, fsEnd - Date.now());
+            const h = Math.floor(diff/3600000).toString().padStart(2,'0');
+            const m = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+            const s = Math.floor((diff%60000)/1000).toString().padStart(2,'0');
+            if (fsTimer) fsTimer.textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(tick, 1000); tick();
+
+        // Add to cart micro interaction
+        function showToast(message, type='success'){
+            if (type==='success') return Notify.toastSuccess(message);
+            if (type==='error') return Notify.toastError(message);
+            if (type==='warning') return Notify.toastWarn(message);
+            return Notify.toastInfo(message);
+        }
+        document.querySelectorAll('.add-cart').forEach(btn=>{
+            btn.addEventListener('click', ()=>{
+                const name = btn.getAttribute('data-name')||'Produk';
+                showToast(`${name} ditambahkan ke keranjang`);
+            });
+        });
+    </script>
+</body>
+</html>

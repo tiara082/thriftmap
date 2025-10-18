@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EcoThreads</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/style-prefix.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS (Untuk Maps) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* Leaflet Map Container */
+        #map, #tracking-map {
+            height: 400px;
+            border-radius: 10px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed">
+        <div class="flex items-center justify-between p-4 border-b border-green-700">
+            <div class="flex items-center space-x-3">
+                <img src="./assets/images/logo/logo.svg" alt="EcoThreads" class="h-8 w-8">
+                <span class="sidebar-text font-bold text-lg">EcoThreads</span>
+            </div>
+            <button id="toggleSidebar" class="text-white hover:text-green-200">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-4 space-y-2">
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white" data-page="dashboard">
+                    <i class="fas fa-home mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="profile">
+                    <i class="fas fa-user mr-3"></i>
+                    <span class="sidebar-text">Profil</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="products">
+                    <i class="fas fa-tshirt mr-3"></i>
+                    <span class="sidebar-text">Produk</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="orders">
+                    <i class="fas fa-shopping-bag mr-3"></i>
+                    <span class="sidebar-text">Pesanan</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="tracking">
+                    <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="sidebar-text">Lacak Pesanan</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="payment">
+                    <i class="fas fa-credit-card mr-3"></i>
+                    <span class="sidebar-text">Pembayaran</span>
+                </a>
+                
+                <a href="#" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100" data-page="settings">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span class="sidebar-text">Pengaturan</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
+            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-text">Keluar</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-64 main-content-expanded">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="flex items-center justify-between p-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800" id="pageTitle">Dashboard</h1>
+                    <p class="text-gray-600" id="pageSubtitle">Selamat datang di dashboard EcoThreads</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="p-2 text-gray-600 hover:text-gray-900">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <span class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <img src="https://ui-avatars.com/api/?name=User+EcoThreads&background=10b981&color=fff" 
+                             alt="User" class="h-10 w-10 rounded-full">
+                        <span class="text-gray-700">User EcoThreads</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="p-6">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-shopping-bag text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Total Pesanan</p>
+                                <h3 class="text-2xl font-bold text-gray-800">12</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-heart text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Wishlist</p>
+                                <h3 class="text-2xl font-bold text-gray-800">8</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-star text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Poin Reward</p>
+                                <h3 class="text-2xl font-bold text-gray-800">1,250</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-purple-100 text-purple-600 mr-4">
+                                <i class="fas fa-wallet text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Saldo E-Wallet</p>
+                                <h3 class="text-2xl font-bold text-gray-800">Rp 250.000</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Recent Orders -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Pesanan Terbaru</h2>
+                            <a href="#" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-gray-800">Jaket Denim Vintage</p>
+                                    <p class="text-sm text-gray-500">#ORD-001234</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium text-gray-800">Rp 85.000</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Selesai</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-gray-800">Dress Floral</p>
+                                    <p class="text-sm text-gray-500">#ORD-001235</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium text-gray-800">Rp 65.000</p>
+                                    <span class="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Proses</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommended Products -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Rekomendasi Untuk Anda</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg">
+                                <img src="./assets/images/products/jacket-3.jpg" alt="Product" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Sweater Hoodie</p>
+                                    <p class="text-green-600 font-semibold">Rp 75.000</p>
+                                </div>
+                                <button class="p-2 text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg">
+                                <img src="./assets/images/products/shirt-1.jpg" alt="Product" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Kemeja Katun</p>
+                                    <p class="text-green-600 font-semibold">Rp 55.000</p>
+                                </div>
+                                <button class="p-2 text-gray-400 hover:text-green-600">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile" class="page">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Profil Saya</h2>
+                        
+                        <div class="flex items-center space-x-6 mb-8">
+                            <div class="relative">
+                                <img src="https://ui-avatars.com/api/?name=User+EcoThreads&background=10b981&color=fff&size=120" 
+                                     alt="Profile" class="w-24 h-24 rounded-full">
+                                <button class="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full">
+                                    <i class="fas fa-camera text-sm"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">User EcoThreads</h3>
+                                <p class="text-gray-600">user@ecothreads.id</p>
+                                <p class="text-gray-500 text-sm">Bergabung sejak Jan 2024</p>
+                            </div>
+                        </div>
+                        
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" 
+                                           value="User EcoThreads">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                    <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" 
+                                           value="user@ecothreads.id">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Telepon</label>
+                                    <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" 
+                                           value="08123456789">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
+                                    <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-4">
+                                <button type="button" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                                    Batal
+                                </button>
+                                <button type="submit" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Address Section -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">Alamat Saya</h2>
+                            <button id="addAddressBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                <i class="fas fa-plus mr-2"></i>Tambah Alamat
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4" id="addressList">
+                            <!-- Address cards will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Page -->
+            <div id="products" class="page">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Filters -->
+                    <div class="lg:w-1/4">
+                        <div class="bg-white rounded-xl shadow-sm p-6 sticky top-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4">Filter Produk</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                        <option>Semua Kategori</option>
+                                        <option>Pakaian Wanita</option>
+                                        <option>Pakaian Pria</option>
+                                        <option>Aksesoris</option>
+                                        <option>Sepatu</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <input type="radio" name="price" class="mr-2 text-green-600">
+                                            <span class="text-sm">Semua Harga</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" name="price" class="mr-2 text-green-600">
+                                            <span class="text-sm">Dibawah Rp 50.000</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" name="price" class="mr-2 text-green-600">
+                                            <span class="text-sm">Rp 50.000 - 100.000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Kondisi</label>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="mr-2 rounded text-green-600">
+                                            <span class="text-sm">Seperti Baru</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="mr-2 rounded text-green-600">
+                                            <span class="text-sm">Baik</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="mr-2 rounded text-green-600">
+                                            <span class="text-sm">Cukup</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Grid -->
+                    <div class="lg:w-3/4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Semua Produk</h2>
+                            
+                            <div class="flex space-x-4">
+                                <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                                    <option>Urutkan: Terbaru</option>
+                                    <option>Urutkan: Harga Terendah</option>
+                                    <option>Urutkan: Harga Tertinggi</option>
+                                    <option>Urutkan: Populer</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="productsGrid">
+                            <!-- Product cards will be dynamically added here -->
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="flex justify-center items-center space-x-2 mt-8">
+                            <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-3 py-2 bg-green-600 text-white rounded-lg">1</button>
+                            <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">2</button>
+                            <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">3</button>
+                            <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Detail Page -->
+            <div id="product-detail" class="page">
+                <div class="max-w-6xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Product Images -->
+                            <div>
+                                <div class="mb-4 rounded-lg overflow-hidden">
+                                    <img id="mainProductImage" src="./assets/images/products/jacket-3.jpg" alt="Product" class="w-full h-96 object-cover">
+                                </div>
+                                <div class="grid grid-cols-4 gap-2">
+                                    <img src="./assets/images/products/jacket-3.jpg" alt="Thumbnail" class="h-20 object-cover rounded-lg cursor-pointer border-2 border-green-500">
+                                    <img src="./assets/images/products/jacket-4.jpg" alt="Thumbnail" class="h-20 object-cover rounded-lg cursor-pointer">
+                                    <img src="./assets/images/products/jacket-5.jpg" alt="Thumbnail" class="h-20 object-cover rounded-lg cursor-pointer">
+                                    <img src="./assets/images/products/jacket-6.jpg" alt="Thumbnail" class="h-20 object-cover rounded-lg cursor-pointer">
+                                </div>
+                            </div>
+                            
+                            <!-- Product Info -->
+                            <div>
+                                <h1 id="productTitle" class="text-3xl font-bold text-gray-800 mb-2">Jaket Kulit Pria Musim Dingin</h1>
+                                <div class="flex items-center mb-4">
+                                    <div class="flex text-yellow-400 mr-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="text-gray-600">(42 reviews)</span>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <span class="text-3xl font-bold text-green-600">Rp 72.000</span>
+                                    <span class="text-lg text-gray-500 line-through ml-2">Rp 85.000</span>
+                                    <span class="ml-2 px-2 py-1 bg-red-100 text-red-600 text-sm rounded-full">15% OFF</span>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Deskripsi</h3>
+                                    <p class="text-gray-600 leading-relaxed">
+                                        Jaket kulit pria berkualitas tinggi dengan desain klasik yang timeless. 
+                                        Cocok untuk musim dingin dengan bahan yang hangat dan nyaman. 
+                                        Kondisi masih sangat baik dengan sedikit tanda pakai.
+                                    </p>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Spesifikasi</h3>
+                                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                                        <div><span class="font-medium">Kondisi:</span> Sangat Baik</div>
+                                        <div><span class="font-medium">Brand:</span> Vintage Co.</div>
+                                        <div><span class="font-medium">Bahan:</span> Kulit Asli</div>
+                                        <div><span class="font-medium">Warna:</span> Coklat</div>
+                                        <div><span class="font-medium">Ukuran:</span> L</div>
+                                        <div><span class="font-medium">Stok:</span> 1 pcs</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex space-x-4 mb-6">
+                                    <div class="flex items-center border border-gray-300 rounded-lg">
+                                        <button class="px-4 py-2 text-gray-600 hover:text-gray-800">-</button>
+                                        <span class="px-4 py-2">1</span>
+                                        <button class="px-4 py-2 text-gray-600 hover:text-gray-800">+</button>
+                                    </div>
+                                    
+                                    <button class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">
+                                        <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
+                                    </button>
+                                    
+                                    <button class="p-3 border border-gray-300 rounded-lg text-gray-600 hover:text-red-500">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="border-t pt-4">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-truck mr-2 text-green-600"></i>
+                                        <span>Gratis ongkir untuk pembelian di atas Rp 100.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Page -->
+            <div id="orders" class="page">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Pesanan</h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Order ID</th>
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Produk</th>
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Tanggal</th>
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Total</th>
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Status</th>
+                                    <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- Orders will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking Page -->
+            <div id="tracking" class="page">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Lacak Pesanan</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Masukkan Kode Pesanan</label>
+                            <div class="flex space-x-4">
+                                <input type="text" placeholder="Contoh: #ORD-001234" 
+                                       class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <button class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                    Lacak
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tracking Map -->
+                        <div id="tracking-map" class="mb-6"></div>
+                        
+                        <!-- Tracking Timeline -->
+                        <div class="relative">
+                            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-green-200"></div>
+                            
+                            <div class="space-y-8">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div class="ml-6">
+                                        <p class="font-medium text-gray-800">Pesanan Diterima</p>
+                                        <p class="text-sm text-gray-600">15 Jan 2024, 10:30 WIB</p>
+                                        <p class="text-sm text-gray-500 mt-1">Pesanan Anda telah diterima dan sedang diproses</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div class="ml-6">
+                                        <p class="font-medium text-gray-800">Pesanan Diproses</p>
+                                        <p class="text-sm text-gray-600">15 Jan 2024, 14:15 WIB</p>
+                                        <p class="text-sm text-gray-500 mt-1">Pesanan sedang dikemas oleh penjual</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div class="ml-6">
+                                        <p class="font-medium text-gray-800">Pesanan Dikirim</p>
+                                        <p class="text-sm text-gray-600">16 Jan 2024, 09:00 WIB</p>
+                                        <p class="text-sm text-gray-500 mt-1">Pesanan telah diambil oleh kurir</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-200 flex items-center justify-center">
+                                        <i class="fas fa-truck text-green-600 text-sm"></i>
+                                    </div>
+                                    <div class="ml-6">
+                                        <p class="font-medium text-gray-800">Dalam Pengiriman</p>
+                                        <p class="text-sm text-gray-600">Estimasi: 17 Jan 2024</p>
+                                        <p class="text-sm text-gray-500 mt-1">Pesanan sedang dalam perjalanan ke alamat Anda</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-home text-gray-400 text-sm"></i>
+                                    </div>
+                                    <div class="ml-6">
+                                        <p class="font-medium text-gray-400">Terkirim</p>
+                                        <p class="text-sm text-gray-400">-</p>
+                                        <p class="text-sm text-gray-400 mt-1">Menunggu pesanan sampai</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Page -->
+            <div id="payment" class="page">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Metode Pembayaran</h2>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Payment Methods -->
+                            <div class="lg:col-span-2">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Pilih Metode Pembayaran</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 cursor-pointer">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                                    <i class="fab fa-cc-visa text-blue-600 text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">Kartu Kredit/Debit</p>
+                                                    <p class="text-sm text-gray-600">Visa, Mastercard, JCB</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 cursor-pointer">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                                    <i class="fas fa-wallet text-green-600 text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">E-Wallet</p>
+                                                    <p class="text-sm text-gray-600">Gopay, OVO, Dana, LinkAja</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 cursor-pointer">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                                                    <i class="fas fa-money-bill-wave text-orange-600 text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">Transfer Bank</p>
+                                                    <p class="text-sm text-gray-600">BCA, Mandiri, BNI, BRI</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 cursor-pointer">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                                    <i class="fas fa-store text-purple-600 text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-800">Bayar di Tempat</p>
+                                                    <p class="text-sm text-gray-600">COD (Cash on Delivery)</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Order Summary -->
+                            <div class="bg-gray-50 rounded-lg p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Ringkasan Pesanan</h3>
+                                
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-600">Subtotal</span>
+                                        <span class="text-gray-800">Rp 145.000</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-600">Ongkos Kirim</span>
+                                        <span class="text-gray-800">Rp 15.000</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-600">Diskon</span>
+                                        <span class="text-green-600">-Rp 13.000</span>
+                                    </div>
+                                    <div class="border-t pt-3">
+                                        <div class="flex justify-between font-semibold">
+                                            <span class="text-gray-800">Total</span>
+                                            <span class="text-green-600">Rp 147.000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">
+                                    Bayar Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Pengaturan Akun</h2>
+                        
+                        <div class="space-y-8">
+                            <!-- Notification Settings -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Notifikasi</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">Email Notifikasi</p>
+                                            <p class="text-sm text-gray-600">Kirim notifikasi via email</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">SMS Notifikasi</p>
+                                            <p class="text-sm text-gray-600">Kirim notifikasi via SMS</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">Promo & Penawaran</p>
+                                            <p class="text-sm text-gray-600">Informasi promo dan diskon</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Privacy Settings -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Privasi & Keamanan</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">Profil Publik</p>
+                                            <p class="text-sm text-gray-600">Izinkan orang lain melihat profil Anda</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <button class="text-green-600 hover:text-green-800 font-medium">
+                                            <i class="fas fa-key mr-2"></i>Ubah Password
+                                        </button>
+                                    </div>
+                                    
+                                    <div>
+                                        <button class="text-green-600 hover:text-green-800 font-medium">
+                                            <i class="fas fa-envelope mr-2"></i>Ubah Email
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Language Settings -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Bahasa & Wilayah</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Bahasa</label>
+                                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                            <option>Bahasa Indonesia</option>
+                                            <option>English</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Zona Waktu</label>
+                                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                            <option>WIB (UTC+7)</option>
+                                            <option>WITA (UTC+8)</option>
+                                            <option>WIT (UTC+9)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
+                                    Simpan Pengaturan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Address Modal -->
+    <div id="addressModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Tambah Alamat Baru</h3>
+                <button id="closeAddressModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="addressForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Label Alamat</label>
+                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" 
+                           placeholder="Contoh: Rumah, Kantor">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
+                    <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" 
+                              rows="3" placeholder="Tulis alamat lengkap"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kota</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kode Pos</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" id="cancelAddress" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Simpan Alamat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Sample data
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Jaket Kulit Pria",
+                price: 72000,
+                originalPrice: 85000,
+                image: "./assets/images/products/jacket-3.jpg",
+                category: "Pria",
+                condition: "Sangat Baik",
+                rating: 4.5
+            },
+            {
+                id: 2,
+                name: "Kemeja Katun Premium",
+                price: 45000,
+                originalPrice: 56000,
+                image: "./assets/images/products/shirt-1.jpg",
+                category: "Pria",
+                condition: "Baik",
+                rating: 4.2
+            },
+            {
+                id: 3,
+                name: "Dress Floral Midi",
+                price: 55000,
+                originalPrice: 70000,
+                image: "./assets/images/products/clothes-3.jpg",
+                category: "Wanita",
+                condition: "Seperti Baru",
+                rating: 4.8
+            },
+            {
+                id: 4,
+                name: "Tas Mini Wanita",
+                price: 42000,
+                originalPrice: 55000,
+                image: "./assets/images/products/party-wear-1.jpg",
+                category: "Aksesoris",
+                condition: "Baik",
+                rating: 4.3
+            },
+            {
+                id: 5,
+                name: "Sepatu Sneakers",
+                price: 88000,
+                originalPrice: 120000,
+                image: "./assets/images/products/shoes-1.jpg",
+                category: "Sepatu",
+                condition: "Cukup",
+                rating: 4.0
+            },
+            {
+                id: 6,
+                name: "Sweater Hoodie",
+                price: 48000,
+                originalPrice: 65000,
+                image: "./assets/images/products/jacket-1.jpg",
+                category: "Unisex",
+                condition: "Baik",
+                rating: 4.6
+            }
+        ];
+
+        const sampleOrders = [
+            {
+                id: "ORD-001234",
+                product: "Jaket Denim Vintage",
+                date: "15 Jan 2024",
+                total: 85000,
+                status: "Selesai"
+            },
+            {
+                id: "ORD-001235",
+                product: "Dress Floral",
+                date: "14 Jan 2024",
+                total: 65000,
+                status: "Proses"
+            },
+            {
+                id: "ORD-001236",
+                product: "Kemeja Linen",
+                date: "12 Jan 2024",
+                total: 55000,
+                status: "Dikirim"
+            }
+        ];
+
+        const sampleAddresses = [
+            {
+                id: 1,
+                label: "Rumah",
+                address: "Jl. Thrift No. 123, Jakarta Selatan",
+                city: "Jakarta",
+                postalCode: "12345",
+                isPrimary: true
+            },
+            {
+                id: 2,
+                label: "Kantor",
+                address: "Gedung EcoThreads Lt. 5, Jl. Sustainable No. 456",
+                city: "Jakarta",
+                postalCode: "12346",
+                isPrimary: false
+            }
+        ];
+
+        // Initialize Maps
+        let trackingMap;
+
+        function initTrackingMap() {
+            trackingMap = L.map('tracking-map').setView([-6.2088, 106.8456], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(trackingMap);
+            
+            // Add marker for current location
+            L.marker([-6.2088, 106.8456])
+                .addTo(trackingMap)
+                .bindPopup('Lokasi Paket Saat Ini')
+                .openPopup();
+        }
+
+        // DOM Elements
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('.page');
+        const pageTitle = document.getElementById('pageTitle');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+
+        // Page Titles
+        const pageTitles = {
+            dashboard: { title: "Dashboard", subtitle: "Selamat datang di dashboard EcoThreads" },
+            profile: { title: "Profil Saya", subtitle: "Kelola informasi profil dan alamat Anda" },
+            products: { title: "Produk", subtitle: "Temukan fashion preloved berkualitas" },
+            orders: { title: "Pesanan", subtitle: "Lihat riwayat dan status pesanan Anda" },
+            tracking: { title: "Lacak Pesanan", subtitle: "Pantau perjalanan pesanan Anda" },
+            payment: { title: "Pembayaran", subtitle: "Pilih metode pembayaran yang sesuai" },
+            settings: { title: "Pengaturan", subtitle: "Personalikan pengalaman berbelanja Anda" }
+        };
+
+        // Toggle Sidebar
+        toggleSidebar.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-collapsed');
+            mainContent.classList.toggle('main-content-expanded');
+        });
+
+        // Navigation
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetPage = item.getAttribute('data-page');
+                
+                // Update active nav item
+                navItems.forEach(nav => {
+                    nav.classList.remove('bg-green-700', 'text-white');
+                    nav.classList.add('hover:bg-green-700', 'text-green-100');
+                });
+                item.classList.add('bg-green-700', 'text-white');
+                item.classList.remove('hover:bg-green-700', 'text-green-100');
+                
+                // Show target page
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(targetPage).classList.add('active');
+                
+                // Update page title
+                if (pageTitles[targetPage]) {
+                    pageTitle.textContent = pageTitles[targetPage].title;
+                    pageSubtitle.textContent = pageTitles[targetPage].subtitle;
+                }
+                
+                // Initialize map if on tracking page
+                if (targetPage === 'tracking') {
+                    setTimeout(() => {
+                        if (!trackingMap) {
+                            initTrackingMap();
+                        } else {
+                            trackingMap.invalidateSize();
+                        }
+                    }, 100);
+                }
+            });
+        });
+
+        // Address Management
+        const addressModal = document.getElementById('addressModal');
+        const addAddressBtn = document.getElementById('addAddressBtn');
+        const closeAddressModal = document.getElementById('closeAddressModal');
+        const cancelAddress = document.getElementById('cancelAddress');
+        const addressForm = document.getElementById('addressForm');
+        const addressList = document.getElementById('addressList');
+
+        function renderAddresses() {
+            addressList.innerHTML = '';
+            sampleAddresses.forEach(address => {
+                const addressCard = document.createElement('div');
+                addressCard.className = 'border border-gray-200 rounded-lg p-4';
+                addressCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="font-medium text-gray-800">${address.label}</span>
+                            ${address.isPrimary ? '<span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Utama</span>' : ''}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
+                            ${!address.isPrimary ? '<button class="text-red-600 hover:text-red-800 text-sm">Hapus</button>' : ''}
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-2">${address.address}</p>
+                    <p class="text-gray-500 text-sm">${address.city}, ${address.postalCode}</p>
+                    ${!address.isPrimary ? `
+                    <div class="mt-3">
+                        <button class="text-green-600 hover:text-green-800 text-sm font-medium">
+                            Jadikan Alamat Utama
+                        </button>
+                    </div>
+                    ` : ''}
+                `;
+                addressList.appendChild(addressCard);
+            });
+        }
+
+        addAddressBtn.addEventListener('click', () => {
+            addressModal.classList.remove('hidden');
+        });
+
+        closeAddressModal.addEventListener('click', () => {
+            addressModal.classList.add('hidden');
+        });
+
+        cancelAddress.addEventListener('click', () => {
+            addressModal.classList.add('hidden');
+        });
+
+        addressForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add address logic here
+            addressModal.classList.add('hidden');
+            // Show success message
+            alert('Alamat berhasil ditambahkan!');
+        });
+
+        // Products Management
+        const productsGrid = document.getElementById('productsGrid');
+
+        function renderProducts() {
+            productsGrid.innerHTML = '';
+            sampleProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-xl shadow-sm overflow-hidden card-hover cursor-pointer';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium text-gray-800">${product.name}</h3>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">${product.condition}</span>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400 text-sm mr-2">
+                                ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
+                                ${product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                            </div>
+                            <span class="text-gray-500 text-sm">${product.rating}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-green-600 font-bold">Rp ${product.price.toLocaleString()}</span>
+                                <span class="text-gray-500 text-sm line-through ml-2">Rp ${product.originalPrice.toLocaleString()}</span>
+                            </div>
+                            <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productCard.addEventListener('click', () => {
+                    showProductDetail(product);
+                });
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        function showProductDetail(product) {
+            document.getElementById('productTitle').textContent = product.name;
+            document.getElementById('mainProductImage').src = product.image;
+            
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('product-detail').classList.add('active');
+            
+            pageTitle.textContent = product.name;
+            pageSubtitle.textContent = "Detail Produk";
+        }
+
+        // Orders Management
+        const ordersTable = document.getElementById('ordersTable');
+
+        function renderOrders() {
+            ordersTable.innerHTML = '';
+            sampleOrders.forEach(order => {
+                const statusClass = {
+                    'Selesai': 'bg-green-100 text-green-800',
+                    'Proses': 'bg-yellow-100 text-yellow-800',
+                    'Dikirim': 'bg-blue-100 text-blue-800'
+                }[order.status] || 'bg-gray-100 text-gray-800';
+                
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-200 hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-4 px-4">
+                        <span class="font-medium text-green-600">${order.id}</span>
+                    </td>
+                    <td class="py-4 px-4">
+                        <span class="text-gray-800">${order.product}</span>
+                    </td>
+                    <td class="py-4 px-4 text-gray-600">${order.date}</td>
+                    <td class="py-4 px-4 font-medium text-gray-800">Rp ${order.total.toLocaleString()}</td>
+                    <td class="py-4 px-4">
+                        <span class="px-3 py-1 rounded-full text-sm ${statusClass}">${order.status}</span>
+                    </td>
+                    <td class="py-4 px-4">
+                        <button class="text-green-600 hover:text-green-800 text-sm font-medium">
+                            Detail
+                        </button>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
+            });
+        }
+
+        // Thumbnail image click handler
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('object-cover') && e.target.parentElement.classList.contains('cursor-pointer')) {
+                const mainImage = document.getElementById('mainProductImage');
+                mainImage.src = e.target.src;
+                
+                // Update active thumbnail
+                document.querySelectorAll('#product-detail img.h-20').forEach(img => {
+                    img.classList.remove('border-2', 'border-green-500');
+                });
+                e.target.classList.add('border-2', 'border-green-500');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAddresses();
+            renderProducts();
+            renderOrders();
+            
+            // Initialize tracking map if on tracking page
+            if (document.getElementById('tracking').classList.contains('active')) {
+                setTimeout(initTrackingMap, 500);
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === addressModal) {
+                addressModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

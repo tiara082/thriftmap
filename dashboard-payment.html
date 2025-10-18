@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - ThriftMap</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+
+        .card-select {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-select:hover,
+        .card-select.active {
+            border-color: #0f9a6b;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+        }
+
+        * {
+            outline: none !important;
+        }
+        
+        button:focus,
+        button:hover,
+        button:active {
+            outline: none !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed hidden">
+        <div class="flex items-center justify-between p-4 border-b border-green-700">
+            <div class="flex items-center space-x-3">
+                <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                <span class="sidebar-text font-bold text-lg">ThriftMap</span>
+            </div>
+            <button id="toggleSidebar" class="text-white hover:text-green-200">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-4 space-y-2">
+                <a href="dashboard-home.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-home mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                
+                <a href="dashboard-profile.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-user mr-3"></i>
+                    <span class="sidebar-text">Profil</span>
+                </a>
+                
+                <a href="dashboard-products.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-tshirt mr-3"></i>
+                    <span class="sidebar-text">Produk</span>
+                </a>
+                
+                <a href="dashboard-orders.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-shopping-bag mr-3"></i>
+                    <span class="sidebar-text">Pesanan</span>
+                </a>
+                
+                <a href="dashboard-tracking.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="sidebar-text">Lacak Pesanan</span>
+                </a>
+                
+                <a href="dashboard-payment.html" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white">
+                    <i class="fas fa-credit-card mr-3"></i>
+                    <span class="sidebar-text">Pembayaran</span>
+                </a>
+                
+                <a href="dashboard-settings.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span class="sidebar-text">Pengaturan</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
+            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-text">Keluar</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-0">
+        <!-- Shopping Topbar -->
+        <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 py-3">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2 shrink-0">
+                        <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                        <span class="font-bold text-lg text-gray-800">ThriftMap</span>
+                    </a>
+                    <div class="relative flex-1">
+                        <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" placeholder="Cari metode, promo..." class="w-full pl-10 pr-12 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <button class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-green-600 text-white rounded-md text-sm btn">Cari</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="dashboard-products.html" class="p-2 text-gray-600 hover:text-green-600"><i class="fas fa-tags"></i></a>
+                        <a href="#" class="p-2 text-gray-600 hover:text-green-600 relative"><i class="fas fa-heart"></i><span class="absolute -top-1 -right-1 text-[10px] bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center">3</span></a>
+                        <a href="#" class="p-2 text-gray-600 hover:text-green-600 relative"><i class="fas fa-shopping-cart"></i><span class="absolute -top-1 -right-1 text-[10px] bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center">2</span></a>
+                        <!-- Global Menu Dropdown -->
+                        <div class="relative">
+                            <button id="globalMenuBtn" class="p-2 text-gray-600 hover:text-green-600" aria-haspopup="true" aria-expanded="false" title="Menu">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div id="globalMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div class="py-2">
+                                    <a href="dashboard-home.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-home w-5"></i> Beranda</a>
+                                    <a href="dashboard-products.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-tags w-5"></i> Produk</a>
+                                    <a href="dashboard-orders.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-shopping-bag w-5"></i> Pesanan</a>
+                                    <a href="dashboard-tracking.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-map-marker-alt w-5"></i> Lacak Pesanan</a>
+                                    <a href="dashboard-payment.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-credit-card w-5"></i> Pembayaran</a>
+                                    <a href="dashboard-profile.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-user w-5"></i> Profil</a>
+                                    <a href="dashboard-settings.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-cog w-5"></i> Pengaturan</a>
+                                </div>
+                                <div class="border-t">
+                                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-50"><i class="fas fa-sign-out-alt w-5"></i> Keluar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <!-- Payment Methods -->
+                <div class="xl:col-span-2 space-y-4">
+                    <div class="card-select rounded-xl bg-white p-5 cursor-pointer" data-method="card">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fab fa-cc-visa text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Kartu Kredit/Debit</p>
+                                    <p class="text-sm text-gray-500">Visa, Mastercard, JCB, American Express</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-green-500 hidden"></i>
+                        </div>
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 hidden" data-form="card">
+                            <input type="text" placeholder="Nama pada Kartu" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <input type="text" placeholder="Nomor Kartu" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <input type="text" placeholder="MM/YY" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <input type="text" placeholder="CVV" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                    </div>
+
+                    <div class="card-select rounded-xl bg-white p-5 cursor-pointer" data-method="ewallet">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-wallet text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">E-Wallet</p>
+                                    <p class="text-sm text-gray-500">GoPay, OVO, Dana, LinkAja, ShopeePay</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-green-500 hidden"></i>
+                        </div>
+                        <div class="mt-4 hidden" data-form="ewallet">
+                            <p class="text-sm text-gray-600 mb-3">Pilih dompet digital Anda</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button class="px-3 py-2 border border-gray-200 rounded-lg hover:border-green-500">GoPay</button>
+                                <button class="px-3 py-2 border border-gray-200 rounded-lg hover:border-green-500">OVO</button>
+                                <button class="px-3 py-2 border border-gray-200 rounded-lg hover:border-green-500">Dana</button>
+                                <button class="px-3 py-2 border border-gray-200 rounded-lg hover:border-green-500">LinkAja</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-select rounded-xl bg-white p-5 cursor-pointer" data-method="bank">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-money-bill-wave text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Transfer Bank</p>
+                                    <p class="text-sm text-gray-500">BCA, Mandiri, BNI, BRI, CIMB</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-green-500 hidden"></i>
+                        </div>
+                        <div class="mt-4 hidden" data-form="bank">
+                            <p class="text-sm text-gray-600 mb-3">Pilih bank tujuan</p>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <option>BCA - 1234567890 a.n ThriftMap</option>
+                                <option>Mandiri - 9876543210 a.n ThriftMap</option>
+                                <option>BNI - 4455667788 a.n ThriftMap</option>
+                                <option>BRI - 1122334455 a.n ThriftMap</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-select rounded-xl bg-white p-5 cursor-pointer" data-method="cod">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-store text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Bayar di Tempat</p>
+                                    <p class="text-sm text-gray-500">COD (Cash on Delivery)</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-check-circle text-green-500 hidden"></i>
+                        </div>
+                        <div class="mt-4 text-sm text-gray-600 hidden" data-form="cod">
+                            Kurir kami akan menghubungi Anda sebelum pengantaran. Pastikan dana tunai tersedia sesuai total belanja.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Ringkasan Pesanan</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Subtotal</span>
+                                <span class="text-gray-800" id="subtotal">Rp 145.000</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Ongkos Kirim</span>
+                                <span class="text-gray-800" id="shipping">Rp 15.000</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Diskon</span>
+                                <span class="text-green-600" id="discount">-Rp 13.000</span>
+                            </div>
+                            <div class="border-t pt-3 flex justify-between font-semibold">
+                                <span class="text-gray-800">Total</span>
+                                <span class="text-green-600 text-lg" id="grandTotal">Rp 147.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6 space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Voucher & Promo</h3>
+                        <div class="flex gap-3">
+                            <input type="text" placeholder="Masukkan kode voucher" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <button class="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Gunakan</button>
+                        </div>
+                        <p class="text-sm text-gray-500">Dapatkan potongan hingga 20% dengan voucher "HEMAT20".</p>
+                    </div>
+
+                    <button id="payNow" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold">
+                        Bayar Sekarang
+                    </button>
+                    <p id="paymentHint" class="text-center text-sm text-gray-500"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+        <div class="flex justify-around py-2 text-xs">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-home text-base"></i>
+                <span>Home</span>
+            </a>
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-tags text-base"></i>
+                <span>Produk</span>
+            </a>
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-shopping-bag text-base"></i>
+                <span>Pesanan</span>
+            </a>
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-map-marker-alt text-base"></i>
+                <span>Lacak</span>
+            </a>
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-user text-base"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Global menu dropdown & bottom nav active
+        (function(){
+            const btn = document.getElementById('globalMenuBtn');
+            const menu = document.getElementById('globalMenu');
+            if (btn && menu) {
+                btn.addEventListener('click', () => {
+                    const expanded = btn.getAttribute('aria-expanded') === 'true';
+                    btn.setAttribute('aria-expanded', String(!expanded));
+                    menu.classList.toggle('hidden');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+            document.querySelectorAll('a[data-nav]').forEach(a => {
+                const href = a.getAttribute('href') || '';
+                if (location.pathname.endsWith(href)) a.classList.add('text-green-600');
+            });
+        })();
+
+        const methodCards = document.querySelectorAll('.card-select');
+        const paymentHint = document.getElementById('paymentHint');
+        let selectedMethod = null;
+
+        methodCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const method = card.dataset.method;
+                selectedMethod = method;
+
+                methodCards.forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('i.fas.fa-check-circle').classList.add('hidden');
+                    item.querySelectorAll('[data-form]').forEach(form => form.classList.add('hidden'));
+                });
+
+                card.classList.add('active');
+                card.querySelector('i.fas.fa-check-circle').classList.remove('hidden');
+                card.querySelectorAll('[data-form]').forEach(form => form.classList.remove('hidden'));
+
+                paymentHint.textContent = `Metode pembayaran "${card.querySelector('p.font-semibold').textContent}" dipilih.`;
+                paymentHint.classList.remove('text-red-500');
+                paymentHint.classList.add('text-green-600');
+            });
+        });
+
+        document.getElementById('payNow').addEventListener('click', () => {
+            if (!selectedMethod) {
+                paymentHint.textContent = 'Silakan pilih metode pembayaran terlebih dahulu.';
+                paymentHint.classList.remove('text-green-600');
+                paymentHint.classList.add('text-red-500');
+                return;
+            }
+
+            paymentHint.textContent = `Pembayaran dengan metode ${selectedMethod.toUpperCase()} sedang diproses...`;
+            paymentHint.classList.remove('text-red-500');
+            paymentHint.classList.add('text-green-600');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - ThriftMap</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Leaflet CSS for Map View -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Map view layout */
+        .map-container {
+            height: 72vh;
+            min-height: 520px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .results-scroll {
+            max-height: 72vh;
+            overflow-y: auto;
+        }
+
+        * {
+            outline: none !important;
+        }
+        
+        button:focus,
+        button:hover,
+        button:active {
+            outline: none !important;
+        }
+
+        /* Shared button micro-interaction */
+        .btn { transition: all .25s ease; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
+
+    /* Leaflet popup unify look */
+    .leaflet-popup-content-wrapper { border-radius: 12px; box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+    /* extra right space so text doesn't hide under the close (×) button */
+    .leaflet-popup-content { margin: 10px 20px 12px 12px; }
+    .leaflet-popup-close-button { top: 6px !important; right: 6px !important; }
+    .leaflet-popup-tip { background: #fff; }
+    /* make the popup action button full width without overflow */
+    .leaflet-popup-content [data-view-detail] { display: block; width: 100%; box-sizing: border-box; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed hidden">
+        <div class="flex items-center justify-between p-4 border-b border-green-700">
+            <div class="flex items-center space-x-3">
+                <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                <span class="sidebar-text font-bold text-lg">ThriftMap</span>
+            </div>
+            <button id="toggleSidebar" class="text-white hover:text-green-200">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-4 space-y-2">
+                <a href="dashboard-home.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-home mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                
+                <a href="dashboard-profile.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-user mr-3"></i>
+                    <span class="sidebar-text">Profil</span>
+                </a>
+                
+                <a href="dashboard-products.html" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white">
+                    <i class="fas fa-tshirt mr-3"></i>
+                    <span class="sidebar-text">Produk</span>
+                </a>
+                
+                <a href="dashboard-orders.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-shopping-bag mr-3"></i>
+                    <span class="sidebar-text">Pesanan</span>
+                </a>
+                
+                <a href="dashboard-tracking.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="sidebar-text">Lacak Pesanan</span>
+                </a>
+                
+                <a href="dashboard-payment.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-credit-card mr-3"></i>
+                    <span class="sidebar-text">Pembayaran</span>
+                </a>
+                
+                <a href="dashboard-settings.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span class="sidebar-text">Pengaturan</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
+            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-text">Keluar</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-0">
+        <!-- Shopping Topbar -->
+        <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 py-3">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2 shrink-0">
+                        <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
+                        <span class="font-bold text-lg text-gray-800">ThriftMap</span>
+                    </a>
+                    <div class="relative flex-1">
+                        <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" placeholder="Cari barang second berkualitas..." class="w-full pl-10 pr-12 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <button class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-green-600 text-white rounded-md text-sm btn">Cari</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="dashboard-products.html" class="p-2 text-gray-600 hover:text-green-600"><i class="fas fa-tags"></i></a>
+                        <a href="#" class="p-2 text-gray-600 hover:text-green-600 relative" title="Wishlist"><i class="fas fa-heart"></i><span class="wish-count absolute -top-1 -right-1 text-[10px] bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center" style="display:none">0</span></a>
+                        <a href="dashboard-cart.html" class="p-2 text-gray-600 hover:text-green-600 relative" title="Keranjang">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count absolute -top-1 -right-1 text-[10px] bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center" style="display:none">0</span>
+                        </a>
+                        <!-- Global Menu Dropdown -->
+                        <div class="relative">
+                            <button id="globalMenuBtn" class="p-2 text-gray-600 hover:text-green-600" aria-haspopup="true" aria-expanded="false" title="Menu">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <div id="globalMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div class="py-2">
+                                    <a href="dashboard-home.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-home w-5"></i> Beranda</a>
+                                    <a href="dashboard-products.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-tags w-5"></i> Produk</a>
+                                    <a href="dashboard-orders.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-shopping-bag w-5"></i> Pesanan</a>
+                                    <a href="dashboard-tracking.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-map-marker-alt w-5"></i> Lacak Pesanan</a>
+                                    <a href="dashboard-payment.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-credit-card w-5"></i> Pembayaran</a>
+                                    <a href="dashboard-profile.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-user w-5"></i> Profil</a>
+                                    <a href="dashboard-settings.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-cog w-5"></i> Pengaturan</a>
+                                </div>
+                                <div class="border-t">
+                                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-50"><i class="fas fa-sign-out-alt w-5"></i> Keluar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
+            <!-- View Toggle + Filter Summary -->
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+                <div class="flex items-center gap-2">
+                    <button id="btnMapView" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 flex items-center gap-2">
+                        <i class="fas fa-map"></i><span>Map View</span>
+                    </button>
+                    <button id="btnGridView" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 flex items-center gap-2">
+                        <i class="fas fa-th"></i><span>Grid View</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div id="activeFilters" class="hidden flex items-center gap-2 flex-wrap"></div>
+                  <div class="text-sm text-gray-500 hidden sm:block" id="geoStatus"></div>
+                </div>
+            </div>
+
+            <!-- MAP VIEW -->
+            <div id="mapSection" class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+                <!-- Left: Results like GMaps -->
+                <aside class="bg-white rounded-xl shadow-sm p-0 lg:col-span-1">
+                    <div class="p-4 border-b border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <div class="relative flex-1">
+                                <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="searchInput" type="text" placeholder="Cari produk, kategori, kondisi..." class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            <button id="btnUseLocation" class="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50" title="Gunakan lokasiku">
+                                <i class="fas fa-location-crosshairs"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 grid grid-cols-3 gap-2 text-sm">
+                            <div class="col-span-2 flex items-center gap-3">
+                                <label for="radiusRange" class="text-gray-600 whitespace-nowrap">Radius</label>
+                                <input id="radiusRange" type="range" min="1" max="20" value="5" class="w-full">
+                            </div>
+                            <div class="text-right"><span id="radiusLabel" class="font-medium text-gray-800">5 km</span></div>
+                        </div>
+                    </div>
+                    <div id="resultsList" class="results-scroll divide-y divide-gray-100">
+                        <!-- Results injected here -->
+                    </div>
+                </aside>
+
+                <!-- Right: Map -->
+                <section class="lg:col-span-2">
+                    <div id="productsMap" class="map-container bg-gray-100"></div>
+                </section>
+            </div>
+
+            <!-- GRID VIEW (existing layout) -->
+            <div id="gridSection" class="flex flex-col lg:flex-row gap-6 hidden">
+                <!-- Filters -->
+                <div class="lg:w-1/4">
+                    <div class="bg-white rounded-xl shadow-sm p-6 sticky top-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Filter Produk</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                    <option>Semua Kategori</option>
+                                    <option>Pakaian Wanita</option>
+                                    <option>Pakaian Pria</option>
+                                    <option>Aksesoris</option>
+                                    <option>Sepatu</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="radio" name="price" class="mr-2 text-green-600" checked>
+                                        Semua Harga
+                                    </label>
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="radio" name="price" class="mr-2 text-green-600">
+                                        Dibawah Rp 50.000
+                                    </label>
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="radio" name="price" class="mr-2 text-green-600">
+                                        Rp 50.000 - 100.000
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kondisi</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="checkbox" class="mr-2 rounded text-green-600">
+                                        Seperti Baru
+                                    </label>
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="checkbox" class="mr-2 rounded text-green-600">
+                                        Baik
+                                    </label>
+                                    <label class="flex items-center text-sm text-gray-600">
+                                        <input type="checkbox" class="mr-2 rounded text-green-600">
+                                        Cukup
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="lg:w-3/4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                        <h2 id="productsHeading" class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Semua Produk</h2>
+                        
+                        <div class="flex space-x-4">
+                            <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                                <option>Urutkan: Terbaru</option>
+                                <option>Urutkan: Harga Terendah</option>
+                                <option>Urutkan: Harga Tertinggi</option>
+                                <option>Urutkan: Populer</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="productsGrid">
+                        <!-- Product cards will be injected here -->
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="flex justify-center items-center space-x-2 mt-8">
+                        <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="px-3 py-2 bg-green-600 text-white rounded-lg">1</button>
+                        <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">3</button>
+                        <button class="px-3 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Detail -->
+            <section id="productDetail" class="mt-10 hidden">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 id="detailTitle" class="text-2xl font-bold text-gray-800">Detail Produk</h2>
+                            <p class="text-gray-600">Informasi lengkap produk pilihan Anda</p>
+                        </div>
+                        <button id="closeDetail" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times mr-2"></i>Tutup
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <div class="mb-4 rounded-lg overflow-hidden">
+                                <img id="detailImage" src="" alt="Produk" class="w-full h-96 object-cover">
+                            </div>
+                            <div class="grid grid-cols-4 gap-2" id="detailThumbnails">
+                                <!-- Thumbnails injected here -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <div id="detailRating" class="flex text-yellow-400 mr-2"></div>
+                                <span id="detailRatingValue" class="text-gray-600"></span>
+                            </div>
+
+                            <div class="mb-6">
+                                <span id="detailPrice" class="text-3xl font-bold text-green-600">Rp 0</span>
+                                <span id="detailOriginalPrice" class="text-lg text-gray-500 line-through ml-2"></span>
+                                <span class="ml-2 px-2 py-1 bg-red-100 text-red-600 text-sm rounded-full" id="detailDiscount"></span>
+                            </div>
+
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Deskripsi</h3>
+                                <p id="detailDescription" class="text-gray-600 leading-relaxed">
+                                    Pilih produk untuk melihat deskripsi lengkap.
+                                </p>
+                            </div>
+
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Spesifikasi</h3>
+                                <div class="grid grid-cols-2 gap-2 text-sm text-gray-600" id="detailSpecs">
+                                    <!-- Specs injected here -->
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-4">
+                                <div class="flex items-center border border-gray-300 rounded-lg">
+                                    <button class="px-4 py-2 text-gray-600 hover:text-gray-800" id="qtyMinus">-</button>
+                                    <span id="detailQuantity" class="px-4 py-2">1</span>
+                                    <button class="px-4 py-2 text-gray-600 hover:text-gray-800" id="qtyPlus">+</button>
+                                </div>
+                                
+                                <button class="flex-1 min-w-[200px] bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">
+                                    <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
+                                </button>
+                                
+                                <button class="p-3 border border-gray-300 rounded-lg text-gray-600 hover:text-red-500">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+        <div class="flex justify-around py-2 text-xs">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-home text-base"></i>
+                <span>Home</span>
+            </a>
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-tags text-base"></i>
+                <span>Produk</span>
+            </a>
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-shopping-bag text-base"></i>
+                <span>Pesanan</span>
+            </a>
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-map-marker-alt text-base"></i>
+                <span>Lacak</span>
+            </a>
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-user text-base"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="./assets/js/cart.js"></script>
+    <script src="./assets/js/notify.js"></script>
+    <script>
+        // Wishlist badge persistence
+        (function(){
+            const KEY = 'tm_wishlist_count';
+            function update(){
+                const c = parseInt(localStorage.getItem(KEY)||'0',10)||0;
+                document.querySelectorAll('.wish-count').forEach(b=>{
+                    if (c>0){ b.textContent = String(c); b.style.display=''; }
+                    else { b.textContent='0'; b.style.display='none'; }
+                });
+            }
+            document.addEventListener('DOMContentLoaded', update);
+            window.TMWishlist = Object.assign(window.TMWishlist||{}, {
+                set(n){ localStorage.setItem(KEY, String(Math.max(0, Number(n)||0))); update(); },
+                increment(){ const v=(parseInt(localStorage.getItem(KEY)||'0',10)||0)+1; localStorage.setItem(KEY, String(v)); update(); },
+                decrement(){ const v=Math.max(0,(parseInt(localStorage.getItem(KEY)||'0',10)||0)-1); localStorage.setItem(KEY, String(v)); update(); }
+            });
+        })();
+        // Global menu dropdown & bottom nav active
+        (function(){
+            const btn = document.getElementById('globalMenuBtn');
+            const menu = document.getElementById('globalMenu');
+            if (btn && menu) {
+                btn.addEventListener('click', () => {
+                    const expanded = btn.getAttribute('aria-expanded') === 'true';
+                    btn.setAttribute('aria-expanded', String(!expanded));
+                    menu.classList.toggle('hidden');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+            document.querySelectorAll('a[data-nav]').forEach(a => {
+                const href = a.getAttribute('href') || '';
+                if (location.pathname.endsWith(href)) a.classList.add('text-green-600');
+            });
+        })();
+
+        // View toggle
+        const mapSection = document.getElementById('mapSection');
+        const gridSection = document.getElementById('gridSection');
+        const btnMapView = document.getElementById('btnMapView');
+        const btnGridView = document.getElementById('btnGridView');
+        function setToggleActive(active) {
+            const activeClasses = ['border-green-600','text-green-700','bg-green-50'];
+            const baseClasses = ['border','border-gray-300','text-gray-700','bg-white'];
+            [btnMapView, btnGridView].forEach(btn => {
+                btn.classList.remove(...activeClasses);
+                if (!btn.classList.contains('border')) btn.classList.add(...baseClasses);
+            });
+            active.classList.add(...activeClasses);
+        }
+        btnMapView.addEventListener('click', () => {
+            mapSection.classList.remove('hidden');
+            gridSection.classList.add('hidden');
+            setToggleActive(btnMapView);
+            setTimeout(() => productsMap && productsMap.invalidateSize(), 200);
+        });
+        btnGridView.addEventListener('click', () => {
+            gridSection.classList.remove('hidden');
+            mapSection.classList.add('hidden');
+            setToggleActive(btnGridView);
+        });
+        // Set initial active state
+        setToggleActive(btnMapView);
+
+        const productsGrid = document.getElementById('productsGrid');
+        const productDetail = document.getElementById('productDetail');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailImage = document.getElementById('detailImage');
+        const detailThumbnails = document.getElementById('detailThumbnails');
+        const detailRating = document.getElementById('detailRating');
+        const detailRatingValue = document.getElementById('detailRatingValue');
+        const detailPrice = document.getElementById('detailPrice');
+        const detailOriginalPrice = document.getElementById('detailOriginalPrice');
+        const detailDiscount = document.getElementById('detailDiscount');
+        const detailDescription = document.getElementById('detailDescription');
+        const detailSpecs = document.getElementById('detailSpecs');
+        const detailQuantity = document.getElementById('detailQuantity');
+        const closeDetail = document.getElementById('closeDetail');
+        const qtyMinus = document.getElementById('qtyMinus');
+        const qtyPlus = document.getElementById('qtyPlus');
+
+    let currentQuantity = 1;
+
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Jaket Kulit Pria",
+                price: 72000,
+                originalPrice: 85000,
+                image: "./assets/images/products/jacket-3.jpg",
+                gallery: [
+                    "./assets/images/products/jacket-3.jpg",
+                    "./assets/images/products/jacket-4.jpg",
+                    "./assets/images/products/jacket-5.jpg",
+                    "./assets/images/products/jacket-6.jpg"
+                ],
+                category: "Pria",
+                condition: "Sangat Baik",
+                rating: 4.5,
+                description: "Jaket kulit pria berkualitas tinggi dengan desain klasik yang timeless. Cocok untuk musim dingin dengan bahan yang hangat dan nyaman. Kondisi masih sangat baik dengan sedikit tanda pakai.",
+                specs: [
+                    { label: "Kondisi", value: "Sangat Baik" },
+                    { label: "Brand", value: "Vintage Co." },
+                    { label: "Bahan", value: "Kulit Asli" },
+                    { label: "Warna", value: "Coklat" },
+                    { label: "Ukuran", value: "L" },
+                    { label: "Stok", value: "1 pcs" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Kemeja Katun Premium",
+                price: 45000,
+                originalPrice: 56000,
+                image: "./assets/images/products/shirt-1.jpg",
+                gallery: [
+                    "./assets/images/products/shirt-1.jpg",
+                    "./assets/images/products/clothes-4.jpg",
+                    "./assets/images/products/clothes-5.jpg"
+                ],
+                category: "Pria",
+                condition: "Baik",
+                rating: 4.2,
+                description: "Kemeja katun premium dengan tekstur halus dan nyaman dipakai sepanjang hari. Cutting slim fit membuat penampilan lebih rapi.",
+                specs: [
+                    { label: "Kondisi", value: "Baik" },
+                    { label: "Brand", value: "Urban Threads" },
+                    { label: "Bahan", value: "Katun" },
+                    { label: "Warna", value: "Putih" },
+                    { label: "Ukuran", value: "M" },
+                    { label: "Stok", value: "2 pcs" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Dress Floral Midi",
+                price: 55000,
+                originalPrice: 70000,
+                image: "./assets/images/products/clothes-3.jpg",
+                gallery: [
+                    "./assets/images/products/clothes-3.jpg",
+                    "./assets/images/products/clothes-1.jpg",
+                    "./assets/images/products/clothes-2.jpg"
+                ],
+                category: "Wanita",
+                condition: "Seperti Baru",
+                rating: 4.8,
+                description: "Dress floral midi yang feminin dengan bahan adem dan jatuh. Cocok untuk acara semi formal maupun casual brunch.",
+                specs: [
+                    { label: "Kondisi", value: "Seperti Baru" },
+                    { label: "Brand", value: "Bloom & Co." },
+                    { label: "Bahan", value: "Rayon" },
+                    { label: "Warna", value: "Navy Floral" },
+                    { label: "Ukuran", value: "M" },
+                    { label: "Stok", value: "1 pcs" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Tas Mini Wanita",
+                price: 42000,
+                originalPrice: 55000,
+                image: "./assets/images/products/party-wear-1.jpg",
+                gallery: [
+                    "./assets/images/products/party-wear-1.jpg",
+                    "./assets/images/products/party-wear-2.jpg"
+                ],
+                category: "Aksesoris",
+                condition: "Baik",
+                rating: 4.3,
+                description: "Tas mini wanita dengan desain chic yang mudah dipadupadankan. Tersedia tali panjang dan pendek sekaligus.",
+                specs: [
+                    { label: "Kondisi", value: "Baik" },
+                    { label: "Brand", value: "Minimalist" },
+                    { label: "Bahan", value: "Kulit Sintetis" },
+                    { label: "Warna", value: "Hitam" },
+                    { label: "Ukuran", value: "20 x 15 cm" },
+                    { label: "Stok", value: "3 pcs" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Sepatu Sneakers",
+                price: 88000,
+                originalPrice: 120000,
+                image: "./assets/images/products/shoes-1.jpg",
+                gallery: [
+                    "./assets/images/products/shoes-1.jpg",
+                    "./assets/images/products/shoes-2.jpg",
+                    "./assets/images/products/shoes-3.jpg"
+                ],
+                category: "Sepatu",
+                condition: "Cukup",
+                rating: 4.0,
+                description: "Sneakers kasual yang nyaman untuk aktivitas sehari-hari. Sol masih tebal dan upper dalam kondisi baik.",
+                specs: [
+                    { label: "Kondisi", value: "Cukup" },
+                    { label: "Brand", value: "Street Step" },
+                    { label: "Bahan", value: "Canvas" },
+                    { label: "Warna", value: "Putih" },
+                    { label: "Ukuran", value: "42" },
+                    { label: "Stok", value: "1 pasang" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Sweater Hoodie",
+                price: 48000,
+                originalPrice: 65000,
+                image: "./assets/images/products/jacket-1.jpg",
+                gallery: [
+                    "./assets/images/products/jacket-1.jpg",
+                    "./assets/images/products/jacket-2.jpg"
+                ],
+                category: "Unisex",
+                condition: "Baik",
+                rating: 4.6,
+                description: "Sweater hoodie unisex dengan bahan fleece lembut yang hangat namun tetap ringan dipakai.",
+                specs: [
+                    { label: "Kondisi", value: "Baik" },
+                    { label: "Brand", value: "Cozy Club" },
+                    { label: "Bahan", value: "Fleece" },
+                    { label: "Warna", value: "Hijau Sage" },
+                    { label: "Ukuran", value: "Free Size" },
+                    { label: "Stok", value: "2 pcs" }
+                ]
+            }
+        ];
+
+        function renderProducts(filterInput) {
+            productsGrid.innerHTML = '';
+            let filtered = sampleProducts.slice();
+            // Build keyword list from filterInput if provided
+            if (filterInput && typeof filterInput === 'string') {
+                const keywords = getFilterKeywords(filterInput);
+                filtered = filtered.filter(p => matchProduct(p, keywords));
+            } else if (Array.isArray(filterInput)) {
+                filtered = filtered.filter(p => matchProduct(p, filterInput));
+            }
+
+            filtered.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-xl shadow-sm overflow-hidden card-hover cursor-pointer';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium text-gray-800">${product.name}</h3>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">${product.condition}</span>
+                        </div>
+                        <div class="flex items-center mb-2 text-sm text-gray-600">
+                            <span class="text-yellow-400 mr-2">
+                                ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
+                                ${product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                            </span>
+                            ${product.rating.toFixed(1)} / 5
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-green-600 font-bold">Rp ${product.price.toLocaleString('id-ID')}</span>
+                                <span class="text-gray-500 text-sm line-through ml-2">Rp ${product.originalPrice.toLocaleString('id-ID')}</span>
+                            </div>
+                            <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700" data-add-cart data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productCard.addEventListener('click', () => showProductDetail(product));
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        function matchProduct(product, keywords){
+            if (!keywords || keywords.length === 0) return true;
+            const hay = (product.name + ' ' + product.category + ' ' + product.condition).toLowerCase();
+            return keywords.some(k => hay.includes(k.toLowerCase()));
+        }
+
+        function getFilterKeywords(cat){
+            if (!cat) return [];
+            const map = {
+                'Pakaian Wanita': ['Wanita'],
+                'Pakaian Pria': ['Pria'],
+                'Anak & Bayi': ['Anak','Bayi'],
+                'Barang & Peralatan': ['Elektronik','Peralatan','Buku','Rumah'],
+                'Dress & Rok': ['Dress','Rok'],
+                'Atasan': ['Atasan','Kemeja','Kaos','T-shirt'],
+                'Celana': ['Celana'],
+                'Jaket & Sweater': ['Jaket','Sweater','Hoodie'],
+                'Sepatu': ['Sepatu'],
+                'Aksesoris': ['Aksesoris','Tas','Topi','Gelang','Kalung'],
+                'Kemeja': ['Kemeja'],
+                'Jaket': ['Jaket'],
+                'Pakaian Bayi': ['Bayi'],
+                'Peralatan Bayi': ['Bayi','Peralatan'],
+                'Pakaian Anak': ['Anak'],
+                'Sepatu Anak': ['Sepatu','Anak'],
+                'Mainan': ['Mainan'],
+                'Buku': ['Buku'],
+                'Peralatan Rumah Tangga': ['Peralatan','Rumah'],
+                'Peralatan Dapur': ['Dapur','Peralatan'],
+                'Alat Tulis Kantor': ['Alat Tulis','Kantor'],
+                'Elektronik': ['Elektronik'],
+                'Barang Lain': ['Barang']
+            };
+            return map[cat] || cat.split(/\s*&\s*|\s+/g).filter(Boolean);
+        }
+
+        function showProductDetail(product) {
+            detailTitle.textContent = product.name;
+            detailImage.src = product.image;
+            detailRating.innerHTML = '<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating)) + (product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : '');
+            detailRatingValue.textContent = `${product.rating.toFixed(1)} (ulasan pelanggan)`;
+            detailPrice.textContent = `Rp ${product.price.toLocaleString('id-ID')}`;
+            detailOriginalPrice.textContent = `Rp ${product.originalPrice.toLocaleString('id-ID')}`;
+            const discountPercent = Math.round((1 - product.price / product.originalPrice) * 100);
+            detailDiscount.textContent = `${discountPercent}% OFF`;
+            detailDescription.textContent = product.description;
+            detailSpecs.innerHTML = product.specs.map(spec => `<div><span class="font-medium">${spec.label}:</span> ${spec.value}</div>`).join('');
+            detailThumbnails.innerHTML = product.gallery.map((image, index) => `
+                <img src="${image}" alt="${product.name}" class="h-20 object-cover rounded-lg cursor-pointer ${index === 0 ? 'border-2 border-green-500' : ''}">
+            `).join('');
+            currentQuantity = 1;
+            detailQuantity.textContent = currentQuantity;
+            productDetail.classList.remove('hidden');
+        }
+
+        detailThumbnails.addEventListener('click', (event) => {
+            if (event.target.tagName === 'IMG') {
+                detailThumbnails.querySelectorAll('img').forEach(img => img.classList.remove('border-2', 'border-green-500'));
+                event.target.classList.add('border-2', 'border-green-500');
+                detailImage.src = event.target.src;
+            }
+        });
+
+        closeDetail.addEventListener('click', () => {
+            productDetail.classList.add('hidden');
+        });
+
+        qtyMinus.addEventListener('click', () => {
+            if (currentQuantity > 1) {
+                currentQuantity -= 1;
+                detailQuantity.textContent = currentQuantity;
+            }
+        });
+
+        qtyPlus.addEventListener('click', () => {
+            currentQuantity += 1;
+            detailQuantity.textContent = currentQuantity;
+        });
+
+    renderProducts();
+
+        // =======================
+        // Map View Implementation
+        // =======================
+        let productsMap;
+        let userMarker;
+        let radiusCircle;
+        let markersLayer;
+        const resultsList = document.getElementById('resultsList');
+        const searchInput = document.getElementById('searchInput');
+        const radiusRange = document.getElementById('radiusRange');
+        const radiusLabel = document.getElementById('radiusLabel');
+        const btnUseLocation = document.getElementById('btnUseLocation');
+        const geoStatus = document.getElementById('geoStatus');
+
+        let userLatLng = null;
+
+        function kmToDegLat(km){ return km/110.574; }
+        function kmToDegLng(km, lat){ return km/(111.320*Math.cos(lat*Math.PI/180)); }
+
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            function toRad(x){ return x * Math.PI / 180; }
+            const R = 6371; // km
+            const dLat = toRad(lat2-lat1);
+            const dLon = toRad(lon2-lon1);
+            const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)*Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function ensureProductCoords(center){
+            // Assign random coords around center when missing
+            sampleProducts.forEach((p, idx) => {
+                if (!p.lat || !p.lng) {
+                    const rKm = 1 + (idx % 5) * 0.8; // 1km..4km
+                    const latOff = kmToDegLat((Math.random()-0.5)*2*rKm);
+                    const lngOff = kmToDegLng((Math.random()-0.5)*2*rKm, center.lat);
+                    p.lat = center.lat + latOff;
+                    p.lng = center.lng + lngOff;
+                }
+            });
+        }
+
+        function renderMarkersAndList() {
+            const query = (searchInput.value || '').toLowerCase();
+            const radiusKm = parseInt(radiusRange.value, 10);
+            radiusLabel.textContent = radiusKm + ' km';
+
+            if (!markersLayer) { markersLayer = L.layerGroup().addTo(productsMap); }
+            markersLayer.clearLayers();
+            resultsList.innerHTML = '';
+
+            // Draw radius circle
+            if (radiusCircle) { productsMap.removeLayer(radiusCircle); }
+            if (userLatLng) {
+                radiusCircle = L.circle(userLatLng, { radius: radiusKm * 1000, color: '#10b981', fillColor: '#10b981', fillOpacity: 0.08 }).addTo(productsMap);
+            }
+
+            const filtered = sampleProducts
+                .map(p => {
+                    const distance = userLatLng ? haversineDistance(userLatLng.lat, userLatLng.lng, p.lat, p.lng) : null;
+                    return { ...p, distance };
+                })
+                .filter(p => {
+                    const textMatch = !query || (p.name + ' ' + p.category + ' ' + p.condition).toLowerCase().includes(query);
+                    const radiusMatch = userLatLng ? (p.distance !== null && p.distance <= parseInt(radiusRange.value,10)) : true;
+                    return textMatch && radiusMatch;
+                })
+                .sort((a,b) => (a.distance ?? 1e9) - (b.distance ?? 1e9));
+
+            if (filtered.length === 0) {
+                resultsList.innerHTML = '<div class="p-4 text-sm text-gray-500">Tidak ada produk dalam radius ini. Perbesar radius atau ubah pencarian.</div>';
+            }
+
+            const listItems = [];
+            const markerById = {};
+            filtered.forEach(product => {
+                const marker = L.marker([product.lat, product.lng]).addTo(markersLayer);
+                marker.bindPopup(`
+                    <div class='min-w-[240px]'>
+                        <div class='flex items-center gap-3'>
+                            <img src='${product.image}' class='w-12 h-12 object-cover rounded-lg flex-shrink-0' alt='${product.name}'/>
+                            <div class='min-w-0'>
+                                <div class='font-semibold text-gray-800 truncate'>${product.name}</div>
+                                <div class='text-green-600 font-bold leading-tight'>Rp ${product.price.toLocaleString('id-ID')}</div>
+                                ${product.distance!==null?`<div class='text-xs text-gray-500 mt-0.5'>${product.distance.toFixed(2)} km dari Anda</div>`:''}
+                            </div>
+                        </div>
+                        <button class='mt-3 px-3 py-2 bg-green-600 text-white hover:bg-green-700' data-view-detail='${product.id}'>Lihat Detail</button>
+                    </div>
+                `);
+
+                markerById[product.id] = marker;
+
+                const item = document.createElement('div');
+                item.className = 'p-4 hover:bg-gray-50 cursor-pointer';
+                item.innerHTML = `
+                    <div class='flex gap-3'>
+                        <img src='${product.image}' class='w-16 h-16 object-cover rounded-lg' alt='${product.name}'/>
+                        <div class='flex-1'>
+                            <div class='flex items-center justify-between'>
+                                <p class='font-semibold text-gray-800'>${product.name}</p>
+                                <span class='px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full'>${product.condition}</span>
+                            </div>
+                            <div class='text-sm text-gray-500'>${product.category} • ${product.rating.toFixed(1)}★</div>
+                            <div class='flex items-center justify-between mt-1'>
+                                <div>
+                                    <span class='text-green-600 font-bold'>Rp ${product.price.toLocaleString('id-ID')}</span>
+                                    <span class='text-gray-400 text-xs line-through ml-2'>Rp ${product.originalPrice.toLocaleString('id-ID')}</span>
+                                </div>
+                                ${product.distance!==null?`<span class='text-xs text-gray-600'>${product.distance.toFixed(2)} km</span>`:''}
+                            </div>
+                        </div>
+                    </div>`;
+                item.addEventListener('click', () => {
+                    productsMap.setView([product.lat, product.lng], Math.max(productsMap.getZoom(), 14));
+                    marker.openPopup();
+                    highlightSelected(item);
+                });
+                resultsList.appendChild(item);
+                listItems.push(item);
+
+                marker.on('click', () => {
+                    const idx = listItems.findIndex(li => li.contains(item.querySelector('img')));
+                    if (idx > -1) highlightSelected(listItems[idx]);
+                });
+            });
+
+            // Delegate click from popup detail button
+            productsMap.on('popupopen', (e) => {
+                const root = e.popup.getElement();
+                const btn = root.querySelector('[data-view-detail]');
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        const id = parseInt(btn.getAttribute('data-view-detail'), 10);
+                        const product = sampleProducts.find(p => p.id === id);
+                        if (product) {
+                            showProductDetail(product);
+                            window.scrollTo({ top: document.getElementById('productDetail').offsetTop - 80, behavior: 'smooth' });
+                        }
+                    });
+                }
+            });
+
+            function highlightSelected(el){
+                resultsList.querySelectorAll('.bg-green-50').forEach(n => n.classList.remove('bg-green-50'));
+                el.classList.add('bg-green-50');
+            }
+        }
+
+        function initMap(center){
+            if (!productsMap) {
+                productsMap = L.map('productsMap').setView([center.lat, center.lng], 12);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(productsMap);
+            } else {
+                productsMap.setView([center.lat, center.lng], 12);
+            }
+
+            // user marker
+            if (userMarker) { productsMap.removeLayer(userMarker); }
+            userMarker = L.marker([center.lat, center.lng], { title: 'Lokasi Anda' }).addTo(productsMap);
+            userMarker.bindPopup('Lokasi Anda');
+
+            ensureProductCoords(center);
+            renderMarkersAndList();
+        }
+
+        function locateUser() {
+            if (!navigator.geolocation) {
+                geoStatus.textContent = 'Geolocation tidak didukung browser ini.';
+                geoStatus.classList.remove('text-gray-500');
+                geoStatus.classList.add('text-red-500');
+                // fallback to Malang
+                userLatLng = { lat: -7.981894, lng: 112.626503 };
+                initMap(userLatLng);
+                return;
+            }
+            geoStatus.textContent = 'Mencari lokasi Anda…';
+            geoStatus.classList.remove('text-red-500');
+            geoStatus.classList.add('text-gray-500');
+            navigator.geolocation.getCurrentPosition((pos) => {
+                userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                geoStatus.textContent = 'Lokasi ditemukan';
+                geoStatus.classList.remove('text-gray-500');
+                geoStatus.classList.add('text-green-600');
+                initMap(userLatLng);
+            }, (err) => {
+                geoStatus.textContent = 'Tidak bisa akses lokasi, gunakan fallback (Malang).';
+                geoStatus.classList.remove('text-gray-500');
+                geoStatus.classList.add('text-orange-600');
+                userLatLng = { lat: -7.981894, lng: 112.626503 }; // Malang
+                initMap(userLatLng);
+            }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 });
+        }
+
+        // Events
+        btnUseLocation.addEventListener('click', locateUser);
+        radiusRange.addEventListener('input', () => renderMarkersAndList());
+        searchInput.addEventListener('input', () => renderMarkersAndList());
+
+        // Initialize map view on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply category filter from URL if present
+            const params = new URLSearchParams(location.search);
+            const categoryParam = params.get('category');
+            if (categoryParam) {
+                const keywords = getFilterKeywords(categoryParam);
+                const heading = document.getElementById('productsHeading');
+                if (heading) heading.textContent = `Kategori: ${categoryParam}`;
+                // Set search for Map view and re-render markers
+                if (typeof searchInput !== 'undefined' && searchInput) {
+                    searchInput.value = keywords.join(' ');
+                }
+                // Switch to Grid view for a more list-friendly UX
+                if (btnGridView) btnGridView.click();
+                renderProducts(keywords);
+                // Render filter pill
+                renderFilterPills([categoryParam]);
+            }
+            locateUser();
+        });
+
+        function renderFilterPills(filters){
+            const wrap = document.getElementById('activeFilters');
+            if (!wrap) return;
+            if (!filters || filters.length === 0){ wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+            wrap.classList.remove('hidden');
+            wrap.innerHTML = filters.map(f => `
+              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm border border-green-300 bg-green-50 text-green-700">
+                 <i class="fas fa-filter"></i>${f}
+              </span>
+            `).join('') + `
+              <button id="btnClearFilters" class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">Bersihkan</button>
+            `;
+            const clearBtn = document.getElementById('btnClearFilters');
+            if (clearBtn){
+                clearBtn.addEventListener('click', () => {
+                    const url = new URL(location.href);
+                    url.searchParams.delete('category');
+                    location.href = url.toString();
+                });
+            }
+        }
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>

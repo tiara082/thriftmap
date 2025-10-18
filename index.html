@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thriftmap - Style More, Spend Less.</title>
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style-prefix.css">
+
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    /* FIX MODAL - PASTIKAN KONTEN TERLIHAT SETELAH MODAL DITUTUP */
+    .modal.closed { 
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      z-index: -1 !important;
+    }
+
+    .overlay {
+      pointer-events: none !important;
+      opacity: 0 !important;
+    }
+
+    .overlay.active {
+      pointer-events: all !important;
+      opacity: 1 !important;
+    }
+
+    /* Pastikan body dan main terlihat */
+    body {
+      position: relative !important;
+      overflow-x: hidden !important;
+    }
+
+    main {
+      position: relative !important;
+      z-index: 1 !important;
+      background: white !important;
+    }
+
+    /* PERBAIKAN FOOTER SOCIAL MEDIA */
+.social-link {
+  display: flex !important;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.social-link .footer-nav-item {
+  margin: 0 !important;
+}
+
+.social-link .footer-nav-link {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link .footer-nav-link:hover {
+  background: #27ae60;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.social-link .footer-nav-link ion-icon {
+  font-size: 20px;
+}
+
+/* Pastikan footer nav list tampil dengan benar */
+.footer-nav-list {
+  display: block !important;
+}
+    /* HAPUS GARIS PUTIH NAVBAR */
+    header, header *, .header-main, .header-main *, 
+    .desktop-navigation-menu, .desktop-navigation-menu * {
+        border: none !important;
+    }
+
+    .header-main {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .desktop-navigation-menu {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    header {
+        background: white !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* ANIMASI SCROLL REVEAL */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Animasi untuk setiap section dengan delay berbeda */
+    .banner.scroll-reveal {
+      transition-delay: 0.1s;
+    }
+
+    .product-featured.scroll-reveal {
+      transition-delay: 0.2s;
+    }
+
+    .product-main.scroll-reveal {
+      transition-delay: 0.3s;
+    }
+
+    .why-choose-us.scroll-reveal {
+      transition-delay: 0.4s;
+    }
+
+    /* Animasi khusus untuk feature cards */
+    .feature-card {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .feature-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Delay untuk setiap feature card */
+    .feature-card:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    .feature-card:nth-child(2) {
+      transition-delay: 0.3s;
+    }
+
+    .feature-card:nth-child(3) {
+      transition-delay: 0.5s;
+    }
+
+    /* Smooth scroll untuk seluruh halaman */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Efek parallax ringan untuk banner */
+    .banner {
+      transform: translateZ(0);
+    }
+
+    /* Hover effects untuk cards */
+    .feature-card {
+      transition: all 0.6s ease, transform 0.3s ease !important;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) !important;
+    }
+
+    .why-choose-us .feature-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .why-choose-us .feature-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .why-choose-us .feature-title {
+      text-align: center;
+      width: 100%;
+    }
+
+    .why-choose-us .feature-desc {
+      text-align: center;
+      width: 100%;
+    }
+
+    /* MEMPERBESAR ICON DAN MEMBUATNYA LEBIH MENARIK */
+    .why-choose-us .feature-icon {
+      font-size: 4rem !important;
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.1);
+      width: 100px !important;
+      height: 100px !important;
+      border-radius: 50%;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 auto 25px auto !important;
+      transition: all 0.3s ease;
+    }
+
+    .why-choose-us .feature-card:hover .feature-icon {
+      background: #27ae60;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    /* PERBAIKAN UKURAN LOGO */
+    .header-logo img {
+      width: 180px !important;
+      height: 54px !important;
+      object-fit: contain;
+    }
+
+    /* Untuk tampilan mobile */
+    @media (max-width: 768px) {
+      .header-logo img {
+        width: 150px !important;
+        height: 45px !important;
+      }
+    }
+
+    /* Jika logo masih kecil, coba ukuran lebih besar */
+    @media (min-width: 1024px) {
+      .header-logo img {
+        width: 200px !important;
+        height: 60px !important;
+      }
+    }
+
+    /* Why Choose Us Section */
+    .why-choose-us {
+      padding: 60px 0;
+      background-color: #f8f9fa;
+    }
+
+    .why-choose-us .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .why-choose-us .title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      color: #2c3e50;
+    }
+
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .feature-desc {
+      color: #7f8c8d;
+      line-height: 1.6;
+    }
+
+    /* SECTION KATEGORI POPULER */
+    .popular-categories {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .popular-categories .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .popular-categories .title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      color: #2c3e50;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      text-align: center;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 320px;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .category-icon {
+      font-size: 3.5rem;
+      color: #27ae60;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 80px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .category-card:hover .category-icon {
+      background: #27ae60;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .category-title {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .category-desc {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .category-btn {
+      display: inline-block;
+      background-color: #27ae60;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+      width: 140px;
+      text-align: center;
+    }
+
+    .category-btn:hover {
+      background-color: #219653;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .popular-categories .title {
+        font-size: 2rem;
+      }
+    }
+
+    /* PERBAIKAN SHOWCASE UNTUK THRIFT STORE - HAPUS RATING */
+    .showcase-content {
+      position: relative;
+    }
+
+    /* Kondisi badge */
+    .condition-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .condition-excellent {
+      background: #d1f2eb;
+      color: #00695c;
+    }
+
+    .condition-good {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .condition-fair {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Featured showcase improvements */
+    .showcase {
+      position: relative;
+      overflow: visible;
+    }
+
+    .showcase-desc {
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    /* Remove countdown and stock elements completely */
+    .countdown-box,
+    .showcase-status,
+    .showcase-rating {
+      display: none !important;
+    }
+
+    /* Improved CTA button */
+    .add-cart-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .add-cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    /* Sustainability badge */
+    .sustainability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .sustainability-badge ion-icon {
+      font-size: 16px;
+    }
+
+    /* Better price display */
+    .price-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #27ae60;
+    }
+
+    .price-box del {
+      font-size: 1.2rem;
+      color: #999;
+    }
+
+    .discount-percentage {
+      background: #ff6b6b;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Improved product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .product-grid .showcase {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .product-grid .showcase:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Sticky header on scroll */
+    header.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      animation: slideDown 0.3s ease;
+    }
+
+    header.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    header.visible {
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* Improved banner */
+    .banner-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .banner-btn {
+      padding: 14px 32px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .banner-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    /* Loading animation for images */
+    .product-img {
+      transition: opacity 0.3s ease;
+    }
+
+    .product-img.loading {
+      opacity: 0.6;
+      background: #f0f0f0;
+    }
+
+    /* Product rarity indicator */
+    .rarity-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .rarity-rare {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .rarity-limited {
+      background: #f39c12;
+      color: white;
+    }
+
+    .rarity-new {
+      background: #3498db;
+      color: white;
+    }
+
+    /* STYLING UNTUK TEKS DESKRIPSI */
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-subtitle.highlight {
+      color: #27ae60;
+      font-weight: 500;
+      background: rgba(39, 174, 96, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      display: inline-block;
+    }
+
+    /* FOOTER SOCIAL MEDIA IMPROVEMENTS */
+    .social-link {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-link .footer-nav-item {
+      margin: 0;
+    }
+
+    .social-link .footer-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+
+    .social-link .footer-nav-link:hover {
+      background: #27ae60;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* HEADER IMPROVEMENTS */
+    .header-user-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .action-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #27ae60;
+      color: white;
+    }
+
+    .action-btn .count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff6b6b;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="overlay" data-overlay></div>
+
+  <!--
+    - MODAL (Welcome message)
+  -->
+
+  <div class="modal" data-modal>
+
+    <div class="modal-close-overlay" data-modal-overlay></div>
+
+    <div class="modal-content">
+
+      <button class="modal-close-btn" data-modal-close>
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <div class="newsletter-img">
+        <img src="./assets/images/Gemini_Generated_Image_88hriy88hriy88hr (1).png" alt="special offer" width="400" height="400">
+      </div>
+
+      <div class="newsletter">
+
+        <form action="#">
+
+          <div class="newsletter-header">
+
+            <h3 class="newsletter-title">Selamat Datang di ThriftMap!</h3>
+
+            <p class="newsletter-desc">
+                Temukan berbagai pilihan fashion preloved yang berkualitas dan ramah lingkungan.
+              <b>Mulai langkah kecil untuk bergaya tanpa berlebihan 💚</b>
+            </p>
+
+          </div>
+
+          <button type="button" class="btn-newsletter" data-modal-close>Jelajahi Sekarang</button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--
+    - HEADER
+  -->
+
+  <header>
+    <div class="header-main">
+
+      <div class="container">
+
+        <a href="#" class="header-logo">
+          <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
+        </a>
+
+        <div class="header-search-container">
+
+          <input type="search" name="search" class="search-field" placeholder="Cari produk preloved...">
+
+          <button class="search-btn">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+
+        </div>
+
+        <div class="header-user-actions">
+
+          <a href="login.html" class="action-btn">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+
+          <!-- Icon keranjang diarahkan ke login -->
+          <a href="login.html" class="action-btn">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count">0</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <nav class="desktop-navigation-menu">
+
+      <div class="container">
+
+        <ul class="desktop-menu-category-list">
+
+          <li class="menu-category">
+            <a href="#" class="menu-title">Beranda</a>
+          </li>
+
+          <li class="menu-category">
+            <a href="#" class="menu-title">Kategori</a>
+
+            <div class="dropdown-panel">
+
+              <!-- PAKAIAN WANITA -->
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Pakaian Wanita</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Dress & Rok</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Atasan</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Celana</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Jaket & Sweater</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Sepatu</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Aksesoris</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="./assets/images/womens-banner.png" alt="koleksi wanita" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+              <!-- PAKAIAN PRIA -->
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Pakaian Pria</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Atasan</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Kemeja</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Celana</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Jaket</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Sepatu</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Aksesoris</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="./assets/images/mens-banner.png" alt="fashion pria" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+              <!-- ANAK & BAYI -->
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Anak & Bayi</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Pakaian Bayi</a>
+                </li>
+
+                
+                <li class="panel-list-item">
+                  <a href="#">Peralatan Bayi</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Pakaian Anak</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Sepatu Anak</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Mainan</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Buku</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="./assets/images/toys-banner.png" alt="fashion anak" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+              <!-- BARANG DAN PERALATAN -->
+              <ul class="dropdown-panel-list">
+
+                <li class="menu-title">
+                  <a href="#">Barang dan Peralatan</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Peralatan Rumah Tangga</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Peralatan Dapur</a>
+                </li>
+
+                  <li class="panel-list-item">
+                  <a href="#">Alat Tulis Kantor</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Elektronik</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Buku</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">Barang Lain</a>
+                </li>
+
+                <li class="panel-list-item">
+                  <a href="#">
+                    <img src="./assets/images/accessories-banner.png" alt="barang dan peralatan" width="250" height="119">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <!-- MENU PENAWARAN -->
+          <li class="menu-category">
+            <a href="#product-featured" class="menu-title">Promo Pilihan</a>
+          </li>
+
+          <!-- MENU PRODUK DIBAWAH 50K -->
+          <li class="menu-category">
+            <a href="#under-50k" class="menu-title">Produk di Bawah 50k</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+  <main>
+
+    <!--
+      - BANNER
+    -->
+
+    <div class="banner scroll-reveal">
+
+      <div class="container">
+
+        <div class="slider-container has-scrollbar">
+
+          <div class="slider-item">
+
+            <img src="./assets/images/banner-1.jpg" alt="fashion preloved wanita" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Fashion</p>
+
+              <h2 class="banner-title">Preloved Premium</h2>
+
+              <p class="banner-text">
+                Fashion pilihan dengan harga bersahabat, mulai dari <br> <b>Rp 25.000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Lihat Koleksi</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="./assets/images/banner-2.png" alt="aksesoris preloved" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Aksesoris </p>
+
+              <h2 class="banner-title">Aksesoris Unik</h2>
+
+              <p class="banner-text">
+                Tambahkan detail unik dalam gaya Anda, mulai dari <br> <b>Rp 15.000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Belanja Sekarang</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="./assets/images/banner-3.png" alt="sale koleksi musim panas" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Penawaran Spesial</p>
+
+              <h2 class="banner-title">Diskon Hingga 50%</h2>
+
+              <p class="banner-text">
+                Hemat lebih banyak dengan belanja preloved, mulai dari <b>Rp 20.000</b>
+              </p>
+
+              <a href="#" class="banner-btn">Lihat Penawaran</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--
+      - KATEGORI POPULER
+    -->
+
+    <section class="popular-categories scroll-reveal">
+      <div class="container">
+        <h2 class="title">Kategori Populer</h2>
+
+        <div class="categories-grid">
+          <!-- Kategori 1: Pakaian Wanita -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="woman-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Pakaian Wanita</h3>
+            <p class="category-desc">
+              Dress, atasan, celana, dan<br>
+              aksesoris preloved<br>
+              berkualitas untuk gaya<br>
+              sehari-hari.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 2: Pakaian Pria -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="man-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Pakaian Pria</h3>
+            <p class="category-desc">
+              Kemeja, celana, jaket, dan<br>
+              perlengkapan fashion pria<br>
+              dengan harga terjangkau.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 3: Anak & Bayi -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="shirt-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Anak & Bayi</h3>
+            <p class="category-desc">
+              Pakaian, mainan, dan<br>
+              perlengkapan anak-anak<br>
+              yang masih layak pakai<br>
+              dengan kondisi baik.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+
+          <!-- Kategori 4: Barang & Peralatan -->
+          <div class="category-card scroll-reveal">
+            <div class="category-icon">
+              <ion-icon name="home-outline"></ion-icon>
+            </div>
+            <h3 class="category-title">Barang & Peralatan</h3>
+            <p class="category-desc">
+              Peralatan rumah tangga,<br>
+              elektronik, buku, dan<br>
+              barang-barang berguna<br>
+              lainnya.
+            </p>
+            <a href="#" class="category-btn">Jelajahi</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      - PRODUCT CONTAINER
+    -->
+
+    <div class="product-container">
+
+      <div class="container">
+
+        <div class="product-box">
+
+          <!--
+            - PRODUCT FEATURED
+          -->
+
+          <div class="product-featured scroll-reveal" id="product-featured">
+
+            <h2 class="title">Pilihan Spesial Minggu Ini</h2>
+            <div class="showcase-wrapper has-scrollbar">
+
+              <div class="showcase-container">
+
+                <div class="showcase">
+
+                  <div class="showcase-banner">
+                    <img src="./assets/images/products/jacket-1.png" alt="jaket denim " class="showcase-img">
+                  </div>
+
+                  <div class="showcase-content">
+
+                    <a href="#">
+                      <h3 class="showcase-title">Jaket Denim </h3>
+                    </a>
+
+                    <span class="condition-badge condition-excellent">Kondisi Sangat Baik</span>
+
+                    <p class="showcase-desc">
+                      Jaket denim preloved dengan gaya klasik yang timeless. Cocok untuk berbagai gaya fashion. Hanya ada 1 unit!
+                    </p>
+
+                    <div class="price-box">
+                      <p class="price">Rp 75.000</p>
+                      <del>Rp 120.000</del>
+                      <span class="discount-percentage">38% OFF</span>
+                    </div>
+
+                    <button class="add-cart-btn">🛒 Ambil Sekarang</button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="showcase-container">
+
+                <div class="showcase">
+
+                  <div class="showcase-banner">
+                    <img src="./assets/images/products/bag-1.png" alt="tas kulit " class="showcase-img">
+                  </div>
+
+                  <div class="showcase-content">
+
+                    <h3 class="showcase-title">
+                      <a href="#" class="showcase-title">Tas Kulit </a>
+                    </h3>
+
+                    <span class="condition-badge condition-excellent">Kondisi Sangat Baik</span>
+
+                    <p class="showcase-desc">
+                      Tas kulit preloved dengan desain klasik yang elegan. Kondisi masih sangat baik dan awet. Item eksklusif!
+                    </p>
+
+                    <div class="price-box">
+                      <p class="price">Rp 150.000</p>
+                      <del>Rp 250.000</del>
+                      <span class="discount-percentage">40% OFF</span>
+                    </div>
+                    <button class="add-cart-btn">🛒 Ambil Sekarang</button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!--
+            - PRODUCT GRID
+          -->
+
+          <div class="product-main scroll-reveal">
+
+            <h2 class="title">Produk Baru Masuk</h2>
+            <div class="product-grid">
+
+              <!-- Produk 1 -->
+              <div class="showcase">
+
+                <div class="showcase-banner">
+
+                  <img src="./assets/images/products/jacket-3.png" alt="Jaket Kulit Pria" width="300" class="product-img default">
+                  <img src="./assets/images/products/jacket-4.png" alt="Jaket Kulit Pria" width="300" class="product-img hover">
+
+                  <div class="showcase-actions">
+
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <div class="showcase-content">
+
+                  <a href="#" class="showcase-category">jaket</a>
+
+                  <a href="#">
+                    <h3 class="showcase-title">Jaket Kulit Pria</h3>
+                  </a>
+
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
+
+                  <div class="price-box">
+                    <p class="price">Rp 120.000</p>
+                    <del>Rp 150.000</del>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Produk 2 -->
+              <div class="showcase">
+
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/shirt-1.png" class="product-img default" width="300">
+                  <img src="./assets/images/products/shirt-2.png" class="product-img hover" width="300">
+
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">T-shirt</a>
+
+                  <h3>
+                    <a href="#" class="showcase-title">Kaos Bahan Pendek</a>
+                  </h3>
+
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
+
+                  <div class="price-box">
+                    <p class="price">Rp 65.000</p>
+                    <del>Rp 85.000</del>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Produk 3 -->
+              <div class="showcase">
+
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/jacket-5.png" alt="Denim Jacket wanita" class="product-img default" width="300">
+                  <img src="./assets/images/products/jacket-6.png" alt="Jaket Denim wanita" class="product-img hover" width="300">
+
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">Jaket</a>
+
+                  <h3>
+                    <a href="#" class="showcase-title">Jaket Denim Wanita</a>
+                  </h3>
+
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
+
+                  <div class="price-box">
+                    <p class="price">Rp 85.000</p>
+                    <del>Rp 110.000</del>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Produk 4 -->
+              <div class="showcase">
+
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/skirt-1.png" alt="Rok Floral" class="product-img default" width="300">
+                  <img src="./assets/images/products/skirt-2.png" alt="Rok Floral" class="product-img hover" width="300">
+
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">rok</a>
+
+                  <h3>
+                    <a href="#" class="showcase-title">Rok Floral Midi</a>
+                  </h3>
+
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
+
+                  <div class="price-box">
+                    <p class="price">Rp 45.000</p>
+                    <del>Rp 65.000</del>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!--
+            - PRODUK DIBAWAH 50K
+          -->
+
+          <div class="product-main scroll-reveal" id="under-50k">
+
+            <h2 class="title">Produk Dibawah 50 Ribu</h2>
+            <div class="product-grid">
+
+              <!-- Produk 1 -->
+              <div class="showcase">
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/shirt-3.png" alt="Kaos Basic Cotton" class="product-img default" width="300">
+                  <img src="./assets/images/products/shirt-4.png" alt="Kaos Basic Cotton" class="product-img hover" width="300">
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">kaos</a>
+                  <h3>
+                    <a href="#" class="showcase-title">Kaos Basic Cotton</a>
+                  </h3>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
+                  <div class="price-box">
+                    <p class="price">Rp 35.000</p>
+                    <del>Rp 50.000</del>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Produk 2 -->
+              <div class="showcase">
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/pants-1.png" alt="Celana Jeans Pendek" class="product-img default" width="300">
+                  <img src="./assets/images/products/pants-2.png" alt="Celana Jeans Pendek" class="product-img hover" width="300">
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">celana</a>
+                  <h3>
+                    <a href="#" class="showcase-title">Celana Jeans Pendek</a>
+                  </h3>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
+                  <div class="price-box">
+                    <p class="price">Rp 45.000</p>
+                    <del>Rp 65.000</del>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Produk 3 -->
+              <div class="showcase">
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/bag-2.png" alt="Tas Mini Wanita" class="product-img default" width="300">
+                  <img src="./assets/images/products/bag-3.png" alt="Tas Mini Wanita" class="product-img hover" width="300">
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">tas</a>
+                  <h3>
+                    <a href="#" class="showcase-title">Tas Mini Wanita</a>
+                  </h3>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
+                  <div class="price-box">
+                    <p class="price">Rp 42.000</p>
+                    <del>Rp 60.000</del>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Produk 4 -->
+              <div class="showcase">
+                <div class="showcase-banner">
+                  <img src="./assets/images/products/sweater-1.png" alt="Sweater Hoodie" class="product-img default" width="300">
+                  <img src="./assets/images/products/sweater-2.png" alt="Sweater Hoodie" class="product-img hover" width="300">
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">sweater</a>
+                  <h3>
+                    <a href="#" class="showcase-title">Sweater Hoodie Basic</a>
+                  </h3>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
+                  <div class="price-box">
+                    <p class="price">Rp 48.000</p>
+                    <del>Rp 75.000</del>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--
+      - WHY CHOOSE US SECTION
+    -->
+
+    <section class="why-choose-us scroll-reveal">
+      <div class="container">
+        <h2 class="title">Mengapa Memilih ThriftMap?</h2>
+
+        <div class="features-container">
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon">
+              <ion-icon name="leaf-outline"></ion-icon>
+            </div>
+            <h3 class="feature-title">Ramah Lingkungan</h3>
+            <p class="feature-desc">
+              Setiap pembelian di ThriftMap berkontribusi pada pengurangan limbah fashion
+              dan mendukung ekonomi sirkular yang berkelanjutan untuk bumi yang lebih baik.
+            </p>
+          </div>
+
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon">
+              <ion-icon name="diamond-outline"></ion-icon>
+            </div>
+            <h3 class="feature-title">Kualitas Terjamin</h3>
+            <p class="feature-desc">
+              Semua produk melalui proses kurasi ketat untuk memastikan kualitas terbaik.
+              Kami hanya menawarkan barang preloved dalam kondisi baik dan layak pakai.
+            </p>
+          </div>
+
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon">
+              <ion-icon name="wallet-outline"></ion-icon>
+            </div>
+            <h3 class="feature-title">Harga Terjangkau</h3>
+            <p class="feature-desc">
+              Dapatkan fashion berkualitas dengan harga yang ramah kantong.
+              Hemat hingga 70% dibandingkan harga retail tanpa mengorbankan gaya dan kualitas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!--
+    - FOOTER
+  -->
+
+  <footer>
+
+    <div class="footer-nav">
+
+      <div class="container">
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Kategori Populer</h2>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pakaian Wanita</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pakaian Pria</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Anak & Bayi</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Barang & Peralatan</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Aksesoris</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Produk</h2>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Diskon</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Produk Baru</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Penjualan Terbaik</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Perusahaan Kami</h2>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pengiriman</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pemberitahuan Hukum</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Syarat dan Ketentuan</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Tentang Kami</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pembayaran Aman</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Layanan</h2>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Bantuan</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Hubungi Kami</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">FAQ</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Pengembalian</a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">Garansi</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Kontak</h2>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+
+            <address class="content">
+              Jl. Thrift No. 123
+              Jakarta Selatan, 12345, Indonesia
+            </address>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="call-outline"></ion-icon>
+            </div>
+
+            <a href="tel:+62123456789" class="footer-nav-link">(021) 2345-6789</a>
+          </li>
+
+          <li class="footer-nav-item flex">
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
+            <a href="mailto:hello@thriftmap.id" class="footer-nav-link">hello@thriftmap.id</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-nav-list">
+
+          <li class="footer-nav-item">
+            <h2 class="nav-title">Ikuti Kami</h2>
+          </li>
+
+          <li>
+            <ul class="social-link">
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-tiktok"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-youtube"></ion-icon>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="container">
+
+        <p class="copyright">
+          Hak Cipta &copy; 2024 <a href="#">ThriftMap</a> - Style More, Spend Less.
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!--
+    - custom js link
+  -->
+  <script>
+    // Modal functionality
+    'use strict';
+
+    const modal = document.querySelector('[data-modal]');
+    const modalCloseBtn = document.querySelector('[data-modal-close]');
+    const modalCloseOverlay = document.querySelector('[data-modal-overlay]');
+
+    // Function to close modal
+    const closeModal = function () {
+      modal.classList.add('closed');
+      document.querySelector('.overlay').classList.remove('active');
+    }
+
+    // Close modal when clicking close button
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', closeModal);
+    }
+
+    // Close modal when clicking overlay
+    if (modalCloseOverlay) {
+      modalCloseOverlay.addEventListener('click', closeModal);
+    }
+
+    // Close modal with ESC key
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('closed')) {
+        closeModal();
+      }
+    });
+  </script>
+  <!-- <script src="./assets/js/script.js"></script> -->
+
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    // Scroll Reveal Animation
+    function initScrollReveal() {
+      const revealElements = document.querySelectorAll('.scroll-reveal');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            
+            // Jika element memiliki feature cards di dalamnya, trigger animasi untuk cards juga
+            const featureCards = entry.target.querySelectorAll('.feature-card');
+            if (featureCards.length > 0) {
+              featureCards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('revealed');
+                }, index * 200);
+              });
+            }
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      revealElements.forEach(element => {
+        observer.observe(element);
+      });
+
+      // Juga observe feature cards secara individual jika mereka ada di luar container yang di-observe
+      const individualFeatureCards = document.querySelectorAll('.feature-card.scroll-reveal');
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('revealed');
+            }, 100);
+          }
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      individualFeatureCards.forEach(card => {
+        cardObserver.observe(card);
+      });
+    }
+
+    // Auto Scroll untuk Hero Banner
+    let currentSlide = 0;
+    const heroSlides = document.querySelectorAll('.slider-item');
+    const heroInterval = 5000; // 5 detik
+
+    function autoScrollHero() {
+      if (heroSlides.length > 0) {
+        currentSlide = (currentSlide + 1) % heroSlides.length;
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.scrollTo({
+          left: heroSlides[currentSlide].offsetLeft,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Auto Scroll untuk Product Featured (Penawaran Hari Ini)
+    let currentFeatured = 0;
+    const featuredItems = document.querySelectorAll('.showcase-container');
+    const featuredInterval = 6000; // 6 detik
+
+    function autoScrollFeatured() {
+      if (featuredItems.length > 0) {
+        currentFeatured = (currentFeatured + 1) % featuredItems.length;
+        const featuredContainer = document.querySelector('.showcase-wrapper');
+        featuredContainer.scrollTo({
+          left: featuredItems[currentFeatured].offsetLeft,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Start auto scroll
+    let heroScrollInterval;
+    let featuredScrollInterval;
+
+    function startAutoScroll() {
+      // Hero banner auto scroll
+      heroScrollInterval = setInterval(autoScrollHero, heroInterval);
+      
+      // Featured products auto scroll
+      featuredScrollInterval = setInterval(autoScrollFeatured, featuredInterval);
+    }
+
+    // Pause auto scroll ketika hover
+    function setupAutoScrollControls() {
+      const heroSection = document.querySelector('.slider-container');
+      const featuredSection = document.querySelector('.showcase-wrapper');
+
+      if (heroSection) {
+        heroSection.addEventListener('mouseenter', () => {
+          clearInterval(heroScrollInterval);
+        });
+        heroSection.addEventListener('mouseleave', () => {
+          heroScrollInterval = setInterval(autoScrollHero, heroInterval);
+        });
+      }
+
+      if (featuredSection) {
+        featuredSection.addEventListener('mouseenter', () => {
+          clearInterval(featuredScrollInterval);
+        });
+        featuredSection.addEventListener('mouseleave', () => {
+          featuredScrollInterval = setInterval(autoScrollFeatured, featuredInterval);
+        });
+      }
+    }
+
+    // Sticky Navigation with Scroll Detection
+    let lastScrollTop = 0;
+    let scrollTimeout;
+    const header = document.querySelector('header');
+    const scrollThreshold = 100; // Minimum scroll before hiding header
+
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Clear previous timeout
+      clearTimeout(scrollTimeout);
+      
+      // Hide header immediately when scrolling
+      if (scrollTop > scrollThreshold) {
+        header.classList.add('hidden');
+        header.classList.remove('visible');
+      }
+      
+      // Set timeout to show header when scrolling stops
+      scrollTimeout = setTimeout(function() {
+        if (scrollTop > scrollThreshold) {
+          header.classList.remove('hidden');
+          header.classList.add('visible');
+          header.classList.add('sticky');
+        } else {
+          header.classList.remove('hidden', 'sticky');
+          header.classList.add('visible');
+        }
+      }, 150); // Delay in milliseconds before showing header
+      
+      lastScrollTop = scrollTop;
+    });
+
+    // Smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Panggil semua fungsi ketika DOM siap
+    document.addEventListener('DOMContentLoaded', function() {
+      // Scroll reveal animation
+      initScrollReveal();
+      
+      // Auto scroll features
+      setTimeout(() => {
+        startAutoScroll();
+        setupAutoScrollControls();
+      }, 1000);
+      
+      // Juga panggil untuk elemen yang mungkin dimuat secara dinamis
+      setTimeout(initScrollReveal, 1000);
+    });
+
+    // Juga panggil saat halaman fully loaded
+    window.addEventListener('load', initScrollReveal);
+  </script>
+
+</body>
+
+</html>

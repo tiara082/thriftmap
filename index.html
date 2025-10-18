@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoThreads - Sustainable Thrift Store</title>
+  <title>thriftmap - Style More, Spend Less.</title>
 
   <!--
     - favicon
@@ -26,6 +26,46 @@
     rel="stylesheet">
 
   <style>
+
+    /* PERBAIKAN FOOTER SOCIAL MEDIA */
+.social-link {
+  display: flex !important;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.social-link .footer-nav-item {
+  margin: 0 !important;
+}
+
+.social-link .footer-nav-link {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link .footer-nav-link:hover {
+  background: #27ae60;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.social-link .footer-nav-link ion-icon {
+  font-size: 20px;
+}
+
+/* Pastikan footer nav list tampil dengan benar */
+.footer-nav-list {
+  display: block !important;
+}
     /* HAPUS GARIS PUTIH NAVBAR */
     header, header *, .header-main, .header-main *, 
     .desktop-navigation-menu, .desktop-navigation-menu * {
@@ -45,27 +85,6 @@
     header {
         background: white !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    /* Badge/Lencana styling */
-    .badge-icon {
-      position: relative;
-    }
-    
-    .badge-count {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #ff6b6b;
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: bold;
     }
 
     /* ANIMASI SCROLL REVEAL */
@@ -141,7 +160,6 @@
       transform: translateY(-10px) !important;
     }
 
-    /* PERBAIKAN POSISI ICON MENGAPA MEMILIH ECOTHREADS */
     .why-choose-us .feature-card {
       display: flex;
       flex-direction: column;
@@ -208,38 +226,6 @@
         width: 200px !important;
         height: 60px !important;
       }
-    }
-
-    /* PERBAIKAN RADIKAL UNTUK GARIS PUTIH NAVBAR */
-    .header-main {
-      border-bottom: none !important;
-      padding-bottom: 0 !important;
-      margin-bottom: 0 !important;
-    }
-
-    .desktop-navigation-menu {
-      border-top: none !important;
-      border-bottom: none !important;
-      padding-top: 0 !important;
-      margin-top: 0 !important;
-    }
-
-    /* Hapus semua border dan padding yang mungkin */
-    header,
-    .header-main,
-    .header-main .container,
-    .desktop-navigation-menu,
-    .desktop-navigation-menu .container {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-
-    /* Reset lengkap untuk header */
-    header {
-      background: white;
-      border: none !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* Why Choose Us Section */
@@ -404,100 +390,317 @@
       }
     }
 
-    /* ASSESSORS SECTION STYLES */
-    .assessors {
-      padding: 80px 0;
-      background-color: #f8f9fa;
+    /* PERBAIKAN SHOWCASE UNTUK THRIFT STORE - HAPUS RATING */
+    .showcase-content {
+      position: relative;
     }
 
-    .assessors .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .assessors-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-    }
-
-    .assessor-card {
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .assessor-card:hover {
-      transform: translateY(-10px);
-    }
-
-    .assessor-img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-    }
-
-    .assessor-content {
-      padding: 30px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .assessor-title {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-      color: #2c3e50;
-    }
-
-    .assessor-impact {
-      font-size: 1rem;
-      color: #7f8c8d;
-      margin-bottom: 20px;
-    }
-
-    .assessor-btn {
+    /* Kondisi badge */
+    .condition-badge {
       display: inline-block;
-      background-color: #27ae60;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 5px;
-      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
       font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .condition-excellent {
+      background: #d1f2eb;
+      color: #00695c;
+    }
+
+    .condition-good {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .condition-fair {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Featured showcase improvements */
+    .showcase {
+      position: relative;
+      overflow: visible;
+    }
+
+    .showcase-desc {
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    /* Remove countdown and stock elements completely */
+    .countdown-box,
+    .showcase-status,
+    .showcase-rating {
+      display: none !important;
+    }
+
+    /* Improved CTA button */
+    .add-cart-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .add-cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    /* Sustainability badge */
+    .sustainability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .sustainability-badge ion-icon {
+      font-size: 16px;
+    }
+
+    /* Better price display */
+    .price-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #27ae60;
+    }
+
+    .price-box del {
+      font-size: 1.2rem;
+      color: #999;
+    }
+
+    .discount-percentage {
+      background: #ff6b6b;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Improved product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .product-grid .showcase {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .product-grid .showcase:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Sticky header on scroll */
+    header.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      animation: slideDown 0.3s ease;
+    }
+
+    header.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    header.visible {
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* Improved banner */
+    .banner-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .banner-btn {
+      padding: 14px 32px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .banner-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    /* Loading animation for images */
+    .product-img {
+      transition: opacity 0.3s ease;
+    }
+
+    .product-img.loading {
+      opacity: 0.6;
+      background: #f0f0f0;
+    }
+
+    /* Product rarity indicator */
+    .rarity-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .rarity-rare {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .rarity-limited {
+      background: #f39c12;
+      color: white;
+    }
+
+    .rarity-new {
+      background: #3498db;
+      color: white;
+    }
+
+    /* STYLING UNTUK TEKS DESKRIPSI */
+    .section-subtitle {
       text-align: center;
-      transition: background-color 0.3s ease;
-      align-self: flex-start;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .assessor-btn:hover {
-      background-color: #219653;
+    .section-subtitle.highlight {
+      color: #27ae60;
+      font-weight: 500;
+      background: rgba(39, 174, 96, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      display: inline-block;
     }
 
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .assessors-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      
-      .assessor-img {
-        height: 200px;
-      }
-      
-      .assessor-content {
-        padding: 20px;
-      }
-      
-      .assessor-title {
-        font-size: 1.5rem;
-      }
+    /* FOOTER SOCIAL MEDIA IMPROVEMENTS */
+    .social-link {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-link .footer-nav-item {
+      margin: 0;
+    }
+
+    .social-link .footer-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+
+    .social-link .footer-nav-link:hover {
+      background: #27ae60;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* HEADER IMPROVEMENTS */
+    .header-user-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .action-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #27ae60;
+      color: white;
+    }
+
+    .action-btn .count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff6b6b;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -530,16 +733,16 @@
 
           <div class="newsletter-header">
 
-            <h3 class="newsletter-title">Selamat Datang di EcoThreads!</h3>
+            <h3 class="newsletter-title">Selamat Datang di ThriftMap!</h3>
 
             <p class="newsletter-desc">
-              Temukan fashion preloved berkualitas dengan harga terjangkau.
-              <b>Siap tampil maksimal, ramah kantong, dan berdampak positif bagi bumi.</b>
+                Temukan berbagai pilihan fashion preloved yang berkualitas dan ramah lingkungan.
+              <b>Mulai langkah kecil untuk bergaya tanpa berlebihan 💚</b>
             </p>
 
           </div>
 
-          <button type="button" class="btn-newsletter" data-modal-close>Mulai Belanja</button>
+          <button type="button" class="btn-newsletter" data-modal-close>Jelajahi Sekarang</button>
 
         </form>
 
@@ -559,7 +762,7 @@
       <div class="container">
 
         <a href="#" class="header-logo">
-          <img src="./assets/images/logo/logo.svg" alt="EcoThreads logo" width="120" height="36">
+          <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
         </a>
 
         <div class="header-search-container">
@@ -578,16 +781,11 @@
             <ion-icon name="person-outline"></ion-icon>
           </a>
 
-          <!-- Badge/Lencana menggantikan Love -->
-          <button class="action-btn badge-icon">
-            <ion-icon name="ribbon-outline"></ion-icon>
-            <span class="badge-count">3</span>
-          </button>
-
-          <button class="action-btn">
+          <!-- Icon keranjang diarahkan ke login -->
+          <a href="login.html" class="action-btn">
             <ion-icon name="bag-handle-outline"></ion-icon>
             <span class="count">0</span>
-          </button>
+          </a>
 
         </div>
 
@@ -772,12 +970,12 @@
 
           <!-- MENU PENAWARAN -->
           <li class="menu-category">
-            <a href="#product-featured" class="menu-title">Penawaran</a>
+            <a href="#product-featured" class="menu-title">Promo Pilihan</a>
           </li>
 
           <!-- MENU PRODUK DIBAWAH 50K -->
           <li class="menu-category">
-            <a href="#under-50k" class="menu-title">Dibawah 50K</a>
+            <a href="#under-50k" class="menu-title">Produk di Bawah 50k</a>
           </li>
 
         </ul>
@@ -806,15 +1004,15 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Fashion Berkelanjutan</p>
+              <p class="banner-subtitle">Fashion</p>
 
-              <h2 class="banner-title">Koleksi Preloved Premium</h2>
+              <h2 class="banner-title">Preloved Premium</h2>
 
               <p class="banner-text">
-                Dapatkan fashion berkualitas dengan harga terjangkau, mulai dari <b>Rp 25.000</b>
+                Fashion pilihan dengan harga bersahabat, mulai dari <br> <b>Rp 25.000</b>
               </p>
 
-              <a href="#" class="banner-btn">Jelajahi Koleksi</a>
+              <a href="#" class="banner-btn">Lihat Koleksi</a>
 
             </div>
 
@@ -826,12 +1024,12 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Aksesoris Unik</p>
+              <p class="banner-subtitle">Aksesoris </p>
 
-              <h2 class="banner-title">Temukan Gaya Vintage</h2>
+              <h2 class="banner-title">Aksesoris Unik</h2>
 
               <p class="banner-text">
-                Aksesoris preloved berkualitas, mulai dari <b>Rp 15.000</b>
+                Tambahkan detail unik dalam gaya Anda, mulai dari <br> <b>Rp 15.000</b>
               </p>
 
               <a href="#" class="banner-btn">Belanja Sekarang</a>
@@ -953,8 +1151,7 @@
 
           <div class="product-featured scroll-reveal" id="product-featured">
 
-            <h2 class="title">Penawaran Spesial Minggu Ini</h2>
-
+            <h2 class="title">Pilihan Spesial Minggu Ini</h2>
             <div class="showcase-wrapper has-scrollbar">
 
               <div class="showcase-container">
@@ -962,83 +1159,28 @@
                 <div class="showcase">
 
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/jacket-3.jpg" alt="jaket denim vintage" class="showcase-img">
+                    <img src="./assets/images/products/jacket-1.png" alt="jaket denim " class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
 
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-outline"></ion-icon>
-                    </div>
-
                     <a href="#">
-                      <h3 class="showcase-title">Jaket Denim Vintage</h3>
+                      <h3 class="showcase-title">Jaket Denim </h3>
                     </a>
 
+                    <span class="condition-badge condition-excellent">Kondisi Sangat Baik</span>
+
                     <p class="showcase-desc">
-                      Jaket denim preloved dengan gaya klasik yang timeless. Cocok untuk berbagai gaya fashion.
+                      Jaket denim preloved dengan gaya klasik yang timeless. Cocok untuk berbagai gaya fashion. Hanya ada 1 unit!
                     </p>
 
                     <div class="price-box">
                       <p class="price">Rp 75.000</p>
-
                       <del>Rp 120.000</del>
+                      <span class="discount-percentage">38% OFF</span>
                     </div>
 
-                    <button class="add-cart-btn">tambah ke keranjang</button>
-
-                    <div class="showcase-status">
-                      <div class="wrapper">
-                        <p>
-                          sudah terjual: <b>12</b>
-                        </p>
-
-                        <p>
-                          tersedia: <b>5</b>
-                        </p>
-                      </div>
-
-                      <div class="showcase-status-bar"></div>
-                    </div>
-
-                    <div class="countdown-box">
-
-                      <p class="countdown-desc">
-                        Cepat! Penawaran berakhir dalam:
-                      </p>
-
-                      <div class="countdown">
-
-                        <div class="countdown-content">
-
-                          <p class="display-number">01</p>
-
-                          <p class="display-text">Hari</p>
-
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">12</p>
-                          <p class="display-text">Jam</p>
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">45</p>
-                          <p class="display-text">Menit</p>
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">30</p>
-                          <p class="display-text">Detik</p>
-                        </div>
-
-                      </div>
-
-                    </div>
+                    <button class="add-cart-btn">🛒 Ambil Sekarang</button>
 
                   </div>
 
@@ -1051,71 +1193,27 @@
                 <div class="showcase">
 
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/jewellery-1.jpg" alt="tas kulit vintage" class="showcase-img">
+                    <img src="./assets/images/products/bag-1.png" alt="tas kulit " class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
 
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-half-outline"></ion-icon>
-                    </div>
-
                     <h3 class="showcase-title">
-                      <a href="#" class="showcase-title">Tas Kulit Vintage</a>
+                      <a href="#" class="showcase-title">Tas Kulit </a>
                     </h3>
 
+                    <span class="condition-badge condition-excellent">Kondisi Sangat Baik</span>
+
                     <p class="showcase-desc">
-                      Tas kulit preloved dengan desain klasik yang elegan. Kondisi masih sangat baik dan awet.
+                      Tas kulit preloved dengan desain klasik yang elegan. Kondisi masih sangat baik dan awet. Item eksklusif!
                     </p>
 
                     <div class="price-box">
                       <p class="price">Rp 150.000</p>
                       <del>Rp 250.000</del>
+                      <span class="discount-percentage">40% OFF</span>
                     </div>
-
-                    <button class="add-cart-btn">tambah ke keranjang</button>
-
-                    <div class="showcase-status">
-                      <div class="wrapper">
-                        <p> sudah terjual: <b>8</b> </p>
-
-                        <p> tersedia: <b>3</b> </p>
-                      </div>
-
-                      <div class="showcase-status-bar"></div>
-                    </div>
-
-                    <div class="countdown-box">
-
-                      <p class="countdown-desc">Cepat! Penawaran berakhir dalam:</p>
-
-                      <div class="countdown">
-                        <div class="countdown-content">
-                          <p class="display-number">01</p>
-                          <p class="display-text">Hari</p>
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">08</p>
-                          <p class="display-text">Jam</p>
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">30</p>
-                          <p class="display-text">Menit</p>
-                        </div>
-
-                        <div class="countdown-content">
-                          <p class="display-number">15</p>
-                          <p class="display-text">Detik</p>
-                        </div>
-                      </div>
-
-                    </div>
+                    <button class="add-cart-btn">🛒 Ambil Sekarang</button>
 
                   </div>
 
@@ -1133,8 +1231,7 @@
 
           <div class="product-main scroll-reveal">
 
-            <h2 class="title">Produk Baru</h2>
-
+            <h2 class="title">Produk Baru Masuk</h2>
             <div class="product-grid">
 
               <!-- Produk 1 -->
@@ -1142,10 +1239,8 @@
 
                 <div class="showcase-banner">
 
-                  <img src="./assets/images/products/jacket-3.jpg" alt="Jaket Kulit Pria" width="300" class="product-img default">
-                  <img src="./assets/images/products/jacket-4.jpg" alt="Jaket Kulit Pria" width="300" class="product-img hover">
-
-                  <p class="showcase-badge">15%</p>
+                  <img src="./assets/images/products/jacket-3.png" alt="Jaket Kulit Pria" width="300" class="product-img default">
+                  <img src="./assets/images/products/jacket-4.png" alt="Jaket Kulit Pria" width="300" class="product-img hover">
 
                   <div class="showcase-actions">
 
@@ -1177,13 +1272,7 @@
                     <h3 class="showcase-title">Jaket Kulit Pria</h3>
                   </a>
 
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
 
                   <div class="price-box">
                     <p class="price">Rp 120.000</p>
@@ -1198,10 +1287,8 @@
               <div class="showcase">
 
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/shirt-1.jpg" alt="Kemeja Katun" class="product-img default" width="300">
-                  <img src="./assets/images/products/shirt-2.jpg" alt="Kemeja Katun" class="product-img hover" width="300">
-
-                  <p class="showcase-badge angle black">sale</p>
+                  <img src="./assets/images/products/shirt-1.png" class="product-img default" width="300">
+                  <img src="./assets/images/products/shirt-2.png" class="product-img hover" width="300">
 
                   <div class="showcase-actions">
                     <button class="btn-action">
@@ -1223,19 +1310,13 @@
                 </div>
 
                 <div class="showcase-content">
-                  <a href="#" class="showcase-category">kemeja</a>
+                  <a href="#" class="showcase-category">T-shirt</a>
 
                   <h3>
-                    <a href="#" class="showcase-title">Kemeja Katun Premium</a>
+                    <a href="#" class="showcase-title">Kaos Bahan Pendek</a>
                   </h3>
 
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
 
                   <div class="price-box">
                     <p class="price">Rp 65.000</p>
@@ -1250,8 +1331,8 @@
               <div class="showcase">
 
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/jacket-5.jpg" alt="Jaket Fleece Pria" class="product-img default" width="300">
-                  <img src="./assets/images/products/jacket-6.jpg" alt="Jaket Fleece Pria" class="product-img hover" width="300">
+                  <img src="./assets/images/products/jacket-5.png" alt="Denim Jacket wanita" class="product-img default" width="300">
+                  <img src="./assets/images/products/jacket-6.png" alt="Jaket Denim wanita" class="product-img hover" width="300">
 
                   <div class="showcase-actions">
                     <button class="btn-action">
@@ -1276,16 +1357,10 @@
                   <a href="#" class="showcase-category">Jaket</a>
 
                   <h3>
-                    <a href="#" class="showcase-title">Jaket Fleece Pria</a>
+                    <a href="#" class="showcase-title">Jaket Denim Wanita</a>
                   </h3>
 
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
 
                   <div class="price-box">
                     <p class="price">Rp 85.000</p>
@@ -1300,10 +1375,8 @@
               <div class="showcase">
 
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/clothes-3.jpg" alt="Rok Floral" class="product-img default" width="300">
-                  <img src="./assets/images/products/clothes-4.jpg" alt="Rok Floral" class="product-img hover" width="300">
-
-                  <p class="showcase-badge angle pink">new</p>
+                  <img src="./assets/images/products/skirt-1.png" alt="Rok Floral" class="product-img default" width="300">
+                  <img src="./assets/images/products/skirt-2.png" alt="Rok Floral" class="product-img hover" width="300">
 
                   <div class="showcase-actions">
                     <button class="btn-action">
@@ -1331,13 +1404,7 @@
                     <a href="#" class="showcase-title">Rok Floral Midi</a>
                   </h3>
 
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
 
                   <div class="price-box">
                     <p class="price">Rp 45.000</p>
@@ -1359,15 +1426,13 @@
           <div class="product-main scroll-reveal" id="under-50k">
 
             <h2 class="title">Produk Dibawah 50 Ribu</h2>
-
             <div class="product-grid">
 
               <!-- Produk 1 -->
               <div class="showcase">
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/shirt-1.jpg" alt="Kaos Basic Cotton" class="product-img default" width="300">
-                  <img src="./assets/images/products/shirt-2.jpg" alt="Kaos Basic Cotton" class="product-img hover" width="300">
-                  <p class="showcase-badge angle pink">best</p>
+                  <img src="./assets/images/products/shirt-3.png" alt="Kaos Basic Cotton" class="product-img default" width="300">
+                  <img src="./assets/images/products/shirt-4.png" alt="Kaos Basic Cotton" class="product-img hover" width="300">
                   <div class="showcase-actions">
                     <button class="btn-action">
                       <ion-icon name="heart-outline"></ion-icon>
@@ -1388,13 +1453,7 @@
                   <h3>
                     <a href="#" class="showcase-title">Kaos Basic Cotton</a>
                   </h3>
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
                   <div class="price-box">
                     <p class="price">Rp 35.000</p>
                     <del>Rp 50.000</del>
@@ -1405,8 +1464,8 @@
               <!-- Produk 2 -->
               <div class="showcase">
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/clothes-3.jpg" alt="Celana Jeans Pendek" class="product-img default" width="300">
-                  <img src="./assets/images/products/clothes-4.jpg" alt="Celana Jeans Pendek" class="product-img hover" width="300">
+                  <img src="./assets/images/products/pants-1.png" alt="Celana Jeans Pendek" class="product-img default" width="300">
+                  <img src="./assets/images/products/pants-2.png" alt="Celana Jeans Pendek" class="product-img hover" width="300">
                   <div class="showcase-actions">
                     <button class="btn-action">
                       <ion-icon name="heart-outline"></ion-icon>
@@ -1427,13 +1486,7 @@
                   <h3>
                     <a href="#" class="showcase-title">Celana Jeans Pendek</a>
                   </h3>
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
                   <div class="price-box">
                     <p class="price">Rp 45.000</p>
                     <del>Rp 65.000</del>
@@ -1444,9 +1497,8 @@
               <!-- Produk 3 -->
               <div class="showcase">
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/party-wear-1.jpg" alt="Tas Mini Wanita" class="product-img default" width="300">
-                  <img src="./assets/images/products/party-wear-2.jpg" alt="Tas Mini Wanita" class="product-img hover" width="300">
-                  <p class="showcase-badge angle black">sale</p>
+                  <img src="./assets/images/products/bag-2.png" alt="Tas Mini Wanita" class="product-img default" width="300">
+                  <img src="./assets/images/products/bag-3.png" alt="Tas Mini Wanita" class="product-img hover" width="300">
                   <div class="showcase-actions">
                     <button class="btn-action">
                       <ion-icon name="heart-outline"></ion-icon>
@@ -1467,13 +1519,7 @@
                   <h3>
                     <a href="#" class="showcase-title">Tas Mini Wanita</a>
                   </h3>
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-good" style="margin: 8px 0; display: inline-block;">Kondisi Baik</span>
                   <div class="price-box">
                     <p class="price">Rp 42.000</p>
                     <del>Rp 60.000</del>
@@ -1484,8 +1530,8 @@
               <!-- Produk 4 -->
               <div class="showcase">
                 <div class="showcase-banner">
-                  <img src="./assets/images/products/jacket-1.jpg" alt="Sweater Hoodie Basic" class="product-img default" width="300">
-                  <img src="./assets/images/products/jacket-2.jpg" alt="Sweater Hoodie Basic" class="product-img hover" width="300">
+                  <img src="./assets/images/products/sweater-1.png" alt="Sweater Hoodie" class="product-img default" width="300">
+                  <img src="./assets/images/products/sweater-2.png" alt="Sweater Hoodie" class="product-img hover" width="300">
                   <div class="showcase-actions">
                     <button class="btn-action">
                       <ion-icon name="heart-outline"></ion-icon>
@@ -1506,13 +1552,7 @@
                   <h3>
                     <a href="#" class="showcase-title">Sweater Hoodie Basic</a>
                   </h3>
-                  <div class="showcase-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star-outline"></ion-icon>
-                  </div>
+                  <span class="condition-badge condition-excellent" style="margin: 8px 0; display: inline-block;">Seperti Baru</span>
                   <div class="price-box">
                     <p class="price">Rp 48.000</p>
                     <del>Rp 75.000</del>
@@ -1535,7 +1575,7 @@
 
     <section class="why-choose-us scroll-reveal">
       <div class="container">
-        <h2 class="title">Mengapa Memilih EcoThreads?</h2>
+        <h2 class="title">Mengapa Memilih ThriftMap?</h2>
 
         <div class="features-container">
           <div class="feature-card scroll-reveal">
@@ -1544,7 +1584,7 @@
             </div>
             <h3 class="feature-title">Ramah Lingkungan</h3>
             <p class="feature-desc">
-              Setiap pembelian di EcoThreads berkontribusi pada pengurangan limbah fashion
+              Setiap pembelian di ThriftMap berkontribusi pada pengurangan limbah fashion
               dan mendukung ekonomi sirkular yang berkelanjutan untuk bumi yang lebih baik.
             </p>
           </div>
@@ -1630,14 +1670,6 @@
 
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Penjualan Terbaik</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Dibawah 50K</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Peta Situs</a>
           </li>
 
         </ul>
@@ -1728,7 +1760,7 @@
               <ion-icon name="mail-outline"></ion-icon>
             </div>
 
-            <a href="mailto:hello@ecothreads.id" class="footer-nav-link">hello@ecothreads.id</a>
+            <a href="mailto:hello@thriftmap.id" class="footer-nav-link">hello@thriftmap.id</a>
           </li>
 
         </ul>
@@ -1766,6 +1798,18 @@
                 </a>
               </li>
 
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-tiktok"></ion-icon>
+                </a>
+              </li>
+
+              <li class="footer-nav-item">
+                <a href="#" class="footer-nav-link">
+                  <ion-icon name="logo-youtube"></ion-icon>
+                </a>
+              </li>
+
             </ul>
           </li>
 
@@ -1780,7 +1824,7 @@
       <div class="container">
 
         <p class="copyright">
-          Hak Cipta &copy; <a href="#">EcoThreads</a>
+          Hak Cipta &copy; 2024 <a href="#">ThriftMap</a> - Style More, Spend Less.
         </p>
 
       </div>
@@ -1963,17 +2007,6 @@
           });
         }
       });
-    });
-
-    // Script untuk badge gamifikasi
-    document.addEventListener('DOMContentLoaded', function() {
-      const badgeBtn = document.querySelector('.badge-icon');
-      
-      if (badgeBtn) {
-        badgeBtn.addEventListener('click', function() {
-          alert('Anda memiliki 3 lencana/badge!\n\n🏆 Badge Pemula\n⭐ Badge Ramah Lingkungan\n💚 Badge Pembeli Setia');
-        });
-      }
     });
 
     // Panggil semua fungsi ketika DOM siap

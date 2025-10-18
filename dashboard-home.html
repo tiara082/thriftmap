@@ -439,6 +439,8 @@
 
     <script src="./assets/js/cart.js"></script>
     <script src="./assets/js/notify.js"></script>
+    <script src="./assets/js/wishlist.js"></script>
+    <script src="./assets/js/products-data.js"></script>
     <script>
         // Wishlist badge persistence
         (function(){
@@ -554,6 +556,16 @@
         }
         setInterval(tick, 1000); tick();
 
+        // Wishlist toggle (cards): any element with data-wish-id toggles wishlist
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-wish-id]');
+            if (!btn) return;
+            const id = btn.getAttribute('data-wish-id');
+            const name = btn.getAttribute('data-wish-name') || 'Produk';
+            const active = window.TMWishlist?.toggle?.(id, name);
+            btn.classList.toggle('text-red-500', !!active);
+        });
+
         // Add to cart micro interaction
         function showToast(message, type='success'){
             if (type==='success') return Notify.toastSuccess(message);
@@ -566,6 +578,40 @@
                 const name = btn.getAttribute('data-name')||'Produk';
                 showToast(`${name} ditambahkan ke keranjang`);
             });
+        });
+
+        // Add small "Detail" buttons on home products that link to the new detail page.
+        // We’ll map sample images to our sample TM_PRODUCTS ids for demo purposes.
+        document.querySelectorAll('.card-hover').forEach(card => {
+            const img = card.querySelector('img');
+            const name = (card.querySelector('p')?.textContent || '').trim();
+            if (!img) return;
+            // Heuristic mapping by filename keywords
+            let id = null;
+            const src = img.getAttribute('src') || '';
+            if (src.includes('jacket')) id = 1; // Jaket Kulit Pria
+            else if (src.includes('shirt')) id = 2; // Kemeja Katun Premium
+            else if (name.toLowerCase().includes('dress')) id = 3;
+            else if (name.toLowerCase().includes('tas')) id = 4;
+            else if (src.includes('shoes')) id = 5;
+            else id = 6; // default to Hoodie
+
+            const footer = card.querySelector('.p-3') || card;
+            const bar = document.createElement('div');
+            bar.className = 'mt-2 flex items-center justify-between';
+            const link = document.createElement('a');
+            link.href = `dashboard-product.html?id=${id}`;
+            link.className = 'text-sm text-green-700 hover:underline';
+            link.textContent = 'Detail';
+            const wish = document.createElement('button');
+            wish.type = 'button';
+            wish.setAttribute('data-wish-id', String(id));
+            wish.setAttribute('data-wish-name', name || 'Produk');
+            wish.className = 'text-gray-400 hover:text-red-500';
+            wish.innerHTML = '<i class="fas fa-heart"></i>';
+            bar.appendChild(link);
+            bar.appendChild(wish);
+            footer.appendChild(bar);
         });
     </script>
 </body>

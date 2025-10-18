@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 for consistent modals/toasts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     body { font-family: 'Poppins', sans-serif; background:#f8fafc; }
     .btn { transition: all .25s ease; }
@@ -116,6 +118,7 @@
     </div>
   </main>
 
+  <script src="./assets/js/notify.js"></script>
   <script src="./assets/js/cart.js"></script>
   <script>
     const itemsEl = document.getElementById('items');
@@ -123,6 +126,11 @@
     const shippingEl = document.getElementById('shipping');
     const grandTotalEl = document.getElementById('grandTotal');
     const orderMsg = document.getElementById('orderMsg');
+    const nameEl = document.getElementById('name');
+    const phoneEl = document.getElementById('phone');
+    const addressEl = document.getElementById('address');
+    const cityEl = document.getElementById('city');
+    const zipEl = document.getElementById('zip');
 
     function render(){
       const items = TMCart.getCart();
@@ -141,19 +149,49 @@
       if (e.target.name === 'ship') render();
     });
 
-    document.getElementById('btnPlaceOrder').addEventListener('click', () => {
-      // Minimal validation
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const address = document.getElementById('address').value.trim();
-      if (!name || !phone || !address){
-        alert('Lengkapi data alamat dulu ya.');
+    function clearFieldError(el){
+      el?.classList?.remove('border-red-500','ring-1','ring-red-300');
+    }
+    function setFieldError(el){
+      el?.classList?.add('border-red-500','ring-1','ring-red-300');
+    }
+    [nameEl, phoneEl, addressEl, cityEl, zipEl].forEach(el => {
+      el?.addEventListener('input', ()=> clearFieldError(el));
+    });
+
+    document.getElementById('btnPlaceOrder').addEventListener('click', async () => {
+      // Prevent placing order with empty cart
+      if ((TMCart.getCount?.() || 0) === 0){
+        Notify?.alertInfo?.('Keranjangmu masih kosong. Tambahkan produk dulu ya.');
+        window.location.href = 'dashboard-products.html';
         return;
       }
+      // Minimal validation (name, phone, address)
+      const name = nameEl.value.trim();
+      const phone = phoneEl.value.trim();
+      const address = addressEl.value.trim();
+      const missing = [];
+      if (!name) { missing.push(nameEl); }
+      if (!phone) { missing.push(phoneEl); }
+      if (!address) { missing.push(addressEl); }
+
+      if (missing.length){
+        missing.forEach(setFieldError);
+        const first = missing[0];
+        first?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        first?.focus?.();
+        Notify?.alertWarn?.('Lengkapi data alamat dulu ya.');
+        return;
+      }
+
+      const confirm = await (Notify?.confirm?.('Buat Pesanan', 'Yakin ingin membuat pesanan sekarang?', 'Ya, buat') ?? Promise.resolve(true));
+      if (!confirm) return;
+
       TMCart.clearCart();
       render();
+      try { Notify?.alertSuccess?.('Pesanan berhasil dibuat!'); } catch {}
       orderMsg.classList.remove('hidden');
-      setTimeout(()=>{ window.location.href = 'dashboard-orders.html'; }, 1500);
+      setTimeout(()=>{ window.location.href = 'dashboard-orders.html'; }, 1200);
     });
 
     document.addEventListener('DOMContentLoaded', render);

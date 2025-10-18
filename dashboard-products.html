@@ -155,7 +155,7 @@
     <!-- Main Content -->
     <div class="main-content ml-0">
         <!-- Shopping Topbar -->
-        <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+    <header class="bg-white sticky top-0 z-[1200] border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 py-3">
                 <div class="flex items-center gap-3">
                     <a href="index.html" class="flex items-center gap-2 shrink-0">
@@ -179,7 +179,7 @@
                             <button id="globalMenuBtn" class="p-2 text-gray-600 hover:text-green-600" aria-haspopup="true" aria-expanded="false" title="Menu">
                                 <i class="fas fa-bars"></i>
                             </button>
-                            <div id="globalMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                            <div id="globalMenu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-[1300]">
                                 <div class="py-2">
                                     <a href="dashboard-home.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-home w-5"></i> Beranda</a>
                                     <a href="dashboard-products.html" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"><i class="fas fa-tags w-5"></i> Produk</a>
@@ -441,6 +441,7 @@
 
     <script src="./assets/js/cart.js"></script>
     <script src="./assets/js/notify.js"></script>
+    <script src="./assets/js/wishlist.js"></script>
     <script>
         // Wishlist badge persistence
         (function(){
@@ -708,13 +709,20 @@
                                 <span class="text-green-600 font-bold">Rp ${product.price.toLocaleString('id-ID')}</span>
                                 <span class="text-gray-500 text-sm line-through ml-2">Rp ${product.originalPrice.toLocaleString('id-ID')}</span>
                             </div>
-                            <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700" data-add-cart data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
+                            <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
                                 <i class="fas fa-cart-plus"></i>
                             </button>
                         </div>
                     </div>
                 `;
-                productCard.addEventListener('click', () => showProductDetail(product));
+                // Navigate to new detail page when clicking the card area (except the add-to-cart button)
+                productCard.addEventListener('click', (e) => {
+                    const btn = e.target.closest('[data-add-cart]');
+                    if (btn) return; // handled by cart.js
+                    location.href = `dashboard-product.html?id=${product.id}`;
+                });
+                // Prevent bubbling when clicking add-to-cart so it doesn't navigate
+                productCard.querySelector('[data-add-cart]')?.addEventListener('click', (e) => e.stopPropagation());
                 productsGrid.appendChild(productCard);
             });
         }
@@ -887,7 +895,7 @@
                                 ${product.distance!==null?`<div class='text-xs text-gray-500 mt-0.5'>${product.distance.toFixed(2)} km dari Anda</div>`:''}
                             </div>
                         </div>
-                        <button class='mt-3 px-3 py-2 bg-green-600 text-white hover:bg-green-700' data-view-detail='${product.id}'>Lihat Detail</button>
+                        <a class='mt-3 px-3 py-2 bg-green-600 text-white hover:bg-green-700 inline-block rounded-md' href='dashboard-product.html?id=${product.id}' data-view-detail='${product.id}'>Lihat Detail</a>
                     </div>
                 `);
 
@@ -927,21 +935,7 @@
                 });
             });
 
-            // Delegate click from popup detail button
-            productsMap.on('popupopen', (e) => {
-                const root = e.popup.getElement();
-                const btn = root.querySelector('[data-view-detail]');
-                if (btn) {
-                    btn.addEventListener('click', () => {
-                        const id = parseInt(btn.getAttribute('data-view-detail'), 10);
-                        const product = sampleProducts.find(p => p.id === id);
-                        if (product) {
-                            showProductDetail(product);
-                            window.scrollTo({ top: document.getElementById('productDetail').offsetTop - 80, behavior: 'smooth' });
-                        }
-                    });
-                }
-            });
+            // No need to delegate click; anchor navigates to the new detail page
 
             function highlightSelected(el){
                 resultsList.querySelectorAll('.bg-green-50').forEach(n => n.classList.remove('bg-green-50'));

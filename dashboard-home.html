@@ -89,9 +89,35 @@
         .badge-sale { background: #fee2e2; color: #b91c1c; }
         .btn { transition: all .25s ease; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
-        .h-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .h-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Better pointer behavior for horizontal scroll area */
+    #categoryChips { touch-action: pan-x; }
+    #categoryChips.dragging { cursor: grabbing; }
+
+        /* Chips scroll arrows */
+        .chips-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            z-index: 5;
+            transition: all .2s ease;
+        }
+        .chips-arrow:hover { background: #ecfdf5; color: #047857; border-color: #10b981; }
+        .chips-arrow:disabled { opacity: .35; cursor: default; pointer-events: none; }
+        .chips-arrow--left { left: 6px; }
+        .chips-arrow--right { right: 6px; }
 
         /* STYLE PRODUK MIRIP INDEX.HTML */
         .showcase {
@@ -499,6 +525,7 @@
             </div>
         </header>
 
+        <br>
         <!-- Page Content -->
         <main class="max-w-7xl mx-auto px-4 pb-24">
             <!-- Hero Banner Carousel -->
@@ -543,7 +570,7 @@
             <!-- Category Chips with edge fades -->
             <section class="mb-6">
                 <div class="relative">
-                <div id="categoryChips" class="h-scroll no-scrollbar flex gap-2 px-6">
+                <div id="categoryChips" class="h-scroll no-scrollbar flex flex-nowrap gap-2 px-6 cursor-grab">
                     <button class="px-4 py-2 rounded-full bg-green-600 text-white" data-cat="">Semua</button>
                     <!-- Kategori Utama -->
                     <button class="chip" data-cat="Pakaian Wanita">Pakaian Wanita</button>
@@ -581,6 +608,9 @@
                 <!-- Edge fades -->
                 <div id="chipsFadeLeft" class="pointer-events-none absolute left-0 top-0 h-full w-6 bg-gradient-to-r from-[#f8fafc] to-transparent transition-opacity duration-200"></div>
                 <div id="chipsFadeRight" class="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-[#f8fafc] to-transparent transition-opacity duration-200"></div>
+                <!-- Scroll arrows -->
+                <button id="chipsPrev" type="button" class="chips-arrow chips-arrow--left" aria-label="Scroll kiri"><i class="fas fa-chevron-left"></i></button>
+                <button id="chipsNext" type="button" class="chips-arrow chips-arrow--right" aria-label="Scroll kanan"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
@@ -1113,15 +1143,72 @@
             const fadeR = document.getElementById('chipsFadeRight');
             if (!wrap) return;
 
+            const prevBtn = document.getElementById('chipsPrev');
+            const nextBtn = document.getElementById('chipsNext');
+
+            function updateArrows(){
+                if (!prevBtn || !nextBtn) return;
+                const maxScroll = wrap.scrollWidth - wrap.clientWidth;
+                if (maxScroll <= 0){ prevBtn.disabled = true; nextBtn.disabled = true; return; }
+                prevBtn.disabled = !(wrap.scrollLeft > 0);
+                nextBtn.disabled = !(wrap.scrollLeft < maxScroll - 1);
+            }
+
             function updateFades(){
                 const maxScroll = wrap.scrollWidth - wrap.clientWidth;
-                if (maxScroll <= 0){ fadeL.style.opacity = '0'; fadeR.style.opacity = '0'; return; }
+                if (maxScroll <= 0){
+                    fadeL.style.opacity = '0';
+                    fadeR.style.opacity = '0';
+                    updateArrows();
+                    return;
+                }
                 fadeL.style.opacity = wrap.scrollLeft > 0 ? '1' : '0';
                 fadeR.style.opacity = wrap.scrollLeft < maxScroll - 1 ? '1' : '0';
+                updateArrows();
             }
             wrap.addEventListener('scroll', updateFades);
             window.addEventListener('resize', updateFades);
             setTimeout(updateFades, 50);
+
+            // Arrow click handlers
+            function scrollByAmount(dir){
+                const amount = Math.round(wrap.clientWidth * 0.7);
+                wrap.scrollTo({ left: wrap.scrollLeft + dir * amount, behavior: 'smooth' });
+            }
+            if (prevBtn) prevBtn.addEventListener('click', () => scrollByAmount(-1));
+            if (nextBtn) nextBtn.addEventListener('click', () => scrollByAmount(1));
+
+            // Desktop mouse wheel -> horizontal scroll
+            wrap.addEventListener('wheel', (e) => {
+                // If the user scrolls vertically over the chips, translate to horizontal
+                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    e.preventDefault();
+                    wrap.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+
+            // Click & drag to scroll (desktop)
+            let isDown = false, startX = 0, startLeft = 0;
+            wrap.addEventListener('mousedown', (e) => {
+                isDown = true;
+                wrap.classList.add('dragging');
+                startX = e.pageX;
+                startLeft = wrap.scrollLeft;
+            });
+            wrap.addEventListener('mouseleave', () => {
+                isDown = false;
+                wrap.classList.remove('dragging');
+            });
+            wrap.addEventListener('mouseup', () => {
+                isDown = false;
+                wrap.classList.remove('dragging');
+            });
+            wrap.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const dx = e.pageX - startX;
+                wrap.scrollLeft = startLeft - dx;
+            });
 
             // Restore active chip
             const lastCat = localStorage.getItem('tm_last_category') || '';

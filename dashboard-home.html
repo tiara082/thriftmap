@@ -92,6 +92,293 @@
         .h-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* STYLE PRODUK MIRIP INDEX.HTML */
+        .showcase {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 360px;
+        }
+
+        .showcase:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .showcase-banner {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-img {
+            width: 100%;
+            aspect-ratio: 16/10;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .showcase:hover .showcase-img {
+            transform: scale(1.05);
+        }
+
+        .showcase-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.3s ease;
+        }
+
+        .showcase:hover .showcase-actions {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-action:hover {
+            background: #27ae60;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .showcase-content { padding: 15px; display: flex; flex-direction: column; flex: 1; }
+
+        .showcase-category {
+            color: #27ae60;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .showcase-title {
+            color: #2c3e50;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .showcase-title:hover {
+            color: #27ae60;
+        }
+
+        .condition-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .condition-excellent {
+            background: #d1f2eb;
+            color: #00695c;
+        }
+
+        .condition-good {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .price-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .price-box del {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .discount-percentage {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .add-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+
+        .add-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        /* FOOTER: use the exact tweaks from index.html so styles match */
+        /* PERBAIKAN FOOTER SOCIAL MEDIA */
+        .social-link {
+          display: flex !important;
+          gap: 15px;
+          margin-top: 15px;
+          flex-wrap: wrap;
+        }
+        .social-link .footer-nav-item { margin: 0 !important; }
+        .social-link .footer-nav-link {
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #f8f9fa;
+          color: #2c3e50;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+        .social-link .footer-nav-link:hover {
+          background: #27ae60;
+          color: white;
+          transform: translateY(-3px);
+        }
+        .social-link .footer-nav-link ion-icon { font-size: 20px; }
+        /* Pastikan footer nav list tampil dengan benar */
+        .footer-nav-list { display: block !important; }
+
+        /* HEADER IMPROVEMENTS */
+        .header-user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .action-btn .count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* PRODUCT GRID LAYOUT */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Align dropdown panel to right in header */
+        .tm-nav-dropdown { position: relative; }
+        .tm-nav-dropdown .tm-dropdown-panel {
+            right: 0;
+            left: auto;
+        }
+
+        /* Sustainability badge */
+        .sustainability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .sustainability-badge ion-icon {
+            font-size: 16px;
+        }
+
+        /* Auto-hide sticky header (converted to fixed) */
+        .tm-auto-hide-header {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1300;
+            background: #fff;
+            transform: translateY(0);
+            transition: transform .25s ease, box-shadow .2s ease;
+            will-change: transform;
+        }
+        .tm-auto-hide-header.header--hidden {
+            transform: translateY(-100%);
+        }
+        .tm-auto-hide-header.header--scrolled {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -155,68 +442,67 @@
 
     <!-- Main Content -->
     <div class="main-content ml-0">
-                <!-- Index-style Header/Navbar -->
-                <header style="position:sticky;top:0;z-index:1300;background:#fff">
-                    <div class="header-main">
-                        <div class="container">
-                            <a href="dashboard-home.html" class="header-logo">
-                                <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
-                            </a>
-                            <div class="header-search-container">
-                                <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari produk preloved...">
-                                <button class="search-btn" id="globalSearchBtn">
-                                    <ion-icon name="search-outline"></ion-icon>
-                                </button>
-                            </div>
-                            <div class="header-user-actions">
-                                <div class="tm-nav-dropdown">
-                                  <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
-                                    <ion-icon name="menu-outline"></ion-icon>
-                                  </button>
-                                  <div class="tm-dropdown-panel hidden" id="globalMenu">
-                                    <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
-                                    <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
-                                    <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
-                                    <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-                                    <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
-                                    <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                                    <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
-                                  </div>
-                                </div>
-                                <a href="dashboard-profile.html" class="action-btn" title="Akun">
-                                    <ion-icon name="person-outline"></ion-icon>
-                                </a>
-                                <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-                                    <ion-icon name="bag-handle-outline"></ion-icon>
-                                    <span class="count cart-count" style="display:none">0</span>
-                                </a>
-                            </div>
-                        </div>
+        <!-- Index-style Header/Navbar -->
+        <header class="tm-auto-hide-header" style="position:sticky;top:0;z-index:1300;background:#fff">
+            <div class="header-main">
+                <div class="container">
+                    <a href="dashboard-home.html" class="header-logo">
+                        <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
+                    </a>
+                    <div class="header-search-container">
+                        <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari produk preloved...">
+                        <button class="search-btn" id="globalSearchBtn">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>
                     </div>
-                    
-                </header>
+                                        <div class="header-user-actions" style="margin-left:auto">
+                        <div class="tm-nav-dropdown">
+                          <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
+                            <ion-icon name="menu-outline"></ion-icon>
+                          </button>
+                          <div class="tm-dropdown-panel hidden" id="globalMenu">
+                            <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
+                            <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
+                            <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
+                            <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
+                            <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
+                            <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
+                            <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
+                          </div>
+                        </div>
+                        <a href="dashboard-profile.html" class="action-btn" title="Akun">
+                            <ion-icon name="person-outline"></ion-icon>
+                        </a>
+                        <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+                            <ion-icon name="bag-handle-outline"></ion-icon>
+                            <span class="count cart-count" style="display:none">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
         <!-- Page Content -->
-        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
+        <main class="max-w-7xl mx-auto px-4 pb-24">
             <!-- Hero Banner Carousel -->
             <section class="mb-6">
                 <div id="heroCarousel" class="relative">
                     <div class="h-scroll no-scrollbar flex gap-4 carousel" id="heroTrack">
                         <div class="min-w-full rounded-2xl p-8 banner-gradient-1 text-gray-800 flex items-center justify-between">
                             <div>
-                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Flash Sale Serba 50%</h2>
-                                <p class="text-gray-700 mb-4">Produk pilihan hari ini, stok terbatas!</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Belanja Sekarang <i class="fas fa-arrow-right ml-2"></i></a>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Flash Sale Serba 50%</h2>
+                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-hourglass-half text-amber-500"></i> Produk pilihan hari ini, stok terbatas!</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-cart-plus mr-2"></i> Belanja Sekarang</a>
                             </div>
                             <div class="hidden sm:block">
-                                <i class="fas fa-bolt text-yellow-500 text-6xl"></i>
+                                <i class="fas fa-tags text-green-600 text-6xl"></i>
                             </div>
                         </div>
                         <div class="min-w-full rounded-2xl p-8 banner-gradient-2 text-gray-800 flex items-center justify-between">
                             <div>
-                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Near You Picks</h2>
-                                <p class="text-gray-700 mb-4">Temukan barang thrift dekat lokasimu.</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Lihat di Peta <i class="fas fa-map-marker-alt ml-2"></i></a>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-location-dot text-indigo-500"></i> Near You Picks</h2>
+                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-location-crosshairs text-indigo-400"></i> Temukan barang thrift dekat lokasimu.</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-map-location-dot mr-2"></i> Lihat di Peta</a>
                             </div>
                             <div class="hidden sm:block">
                                 <i class="fas fa-map-marked-alt text-indigo-500 text-6xl"></i>
@@ -224,16 +510,16 @@
                         </div>
                         <div class="min-w-full rounded-2xl p-8 banner-gradient-3 text-gray-800 flex items-center justify-between">
                             <div>
-                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Koleksi Vintage Pilihan</h2>
-                                <p class="text-gray-700 mb-4">Jaket, kemeja, dan dress kualitas terbaik.</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Jelajahi <i class="fas fa-compass ml-2"></i></a>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-gem text-rose-500"></i> Koleksi Vintage Pilihan</h2>
+                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-shirt text-rose-400"></i> Jaket, kemeja, dan dress kualitas terbaik.</p>
+                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-compass mr-2"></i> Jelajahi</a>
                             </div>
                             <div class="hidden sm:block">
                                 <i class="fas fa-tshirt text-rose-500 text-6xl"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-center gap-2 mt-3" id="heroDots"></div>
+                    <div class="flex items-center justify-center gap-3 mt-3" id="heroDots"></div>
                 </div>
             </section>
 
@@ -287,39 +573,140 @@
                     <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Flash Sale</h3>
                     <div class="text-sm text-gray-600">Berakhir dalam <span id="fsTimer" class="font-semibold text-gray-900">--:--:--</span></div>
                 </div>
-                <div class="h-scroll no-scrollbar flex gap-4">
-                    <!-- Card 1 -->
-                    <div class="min-w-[220px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <div class="relative">
-                            <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="Jaket">
-                            <span class="absolute top-2 left-2 text-xs px-2 py-1 rounded badge-sale">-50%</span>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/jacket-1.png" alt="Jaket Denim Vintage" class="showcase-img">
+                            <span class="condition-badge condition-excellent">-50%</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
                         </div>
-                        <div class="p-3">
-                            <p class="font-semibold text-gray-800 line-clamp-1">Jaket Denim Vintage</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 85.000</span>
-                                <button class="text-sm px-2 py-1 bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim Vintage">Tambah</button>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">jaket</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Jaket Denim Vintage</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Jaket denim preloved dengan gaya klasik yang timeless.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 85.000</p>
+                                <del>Rp 170.000</del>
+                                <span class="discount-percentage">50% OFF</span>
                             </div>
-                            <div class="mt-2 h-1 bg-gray-100 rounded">
-                                <div class="h-1 bg-green-500 rounded" style="width: 70%"></div>
-                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
                         </div>
                     </div>
-                    <!-- Card 2 -->
-                    <div class="min-w-[220px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <div class="relative">
-                            <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="Kemeja">
-                            <span class="absolute top-2 left-2 text-xs px-2 py-1 rounded badge-sale">-35%</span>
+
+                    <!-- Product 2 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/shirt-1.png" alt="Kemeja Katun" class="showcase-img">
+                            <span class="condition-badge condition-good">-35%</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
                         </div>
-                        <div class="p-3">
-                            <p class="font-semibold text-gray-800 line-clamp-1">Kemeja Katun</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 55.000</span>
-                                <button class="text-sm px-2 py-1 bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">kemeja</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Kemeja Katun Premium</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Kemeja katun preloved dengan bahan nyaman dan desain klasik.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 55.000</p>
+                                <del>Rp 85.000</del>
+                                <span class="discount-percentage">35% OFF</span>
                             </div>
-                            <div class="mt-2 h-1 bg-gray-100 rounded">
-                                <div class="h-1 bg-green-500 rounded" style="width: 45%"></div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/bag-1.png" alt="Tas Kulit" class="showcase-img">
+                            <span class="condition-badge condition-excellent">-40%</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
                             </div>
+                        </div>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">tas</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Tas Kulit Authentic</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Tas kulit preloved dengan desain klasik yang elegan.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 150.000</p>
+                                <del>Rp 250.000</del>
+                                <span class="discount-percentage">40% OFF</span>
+                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/shoes-1.png" alt="Sepatu Sneakers" class="showcase-img">
+                            <span class="condition-badge condition-good">-30%</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">sepatu</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Sepatu Sneakers Vintage</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Sepatu sneakers preloved dengan gaya retro yang trendy.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 120.000</p>
+                                <del>Rp 170.000</del>
+                                <span class="discount-percentage">30% OFF</span>
+                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
                         </div>
                     </div>
                 </div>
@@ -331,47 +718,132 @@
                     <h3 class="text-xl font-bold text-gray-800">Trending</h3>
                     <a href="dashboard-products.html" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <!-- Product -->
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800">Sweater Hoodie</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 75.000</span>
-                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Sweater Hoodie">Tambah</button>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/jacket-3.png" alt="Sweater Hoodie" class="showcase-img">
+                            <span class="condition-badge condition-excellent">Like New</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800">Kemeja Katun</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 55.000</span>
-                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">sweater</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Sweater Hoodie Casual</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Sweater hoodie preloved dengan bahan hangat dan nyaman.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 75.000</p>
                             </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
                         </div>
                     </div>
-                    <!-- Duplicate safely to fill grid with same assets -->
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-40 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800">Jaket Denim</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 89.000</span>
-                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim">Tambah</button>
+
+                    <!-- Product 2 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/shirt-2.png" alt="Kemeja Linen" class="showcase-img">
+                            <span class="condition-badge condition-good">Good Condition</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-40 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800">Kemeja Casual</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 59.000</span>
-                                <button class="px-3 py-1.5 text-sm bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Casual">Tambah</button>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">kemeja</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Kemeja Linen Modern</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Kemeja linen preloved dengan desain modern dan bahan sejuk.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 65.000</p>
                             </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/dress-1.png" alt="Dress Midi" class="showcase-img">
+                            <span class="condition-badge condition-excellent">Like New</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">dress</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Dress Midi Floral</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Dress midi preloved dengan motif floral yang feminin.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 89.000</p>
+                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/pants-1.png" alt="Celana Chino" class="showcase-img">
+                            <span class="condition-badge condition-good">Good Condition</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">celana</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Celana Chino Slim</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Celana chino preloved dengan potongan slim fit yang trendy.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 59.000</p>
+                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
                         </div>
                     </div>
                 </div>
@@ -381,31 +853,154 @@
             <section class="mb-8">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xl font-bold text-gray-800">Untuk Kamu</h3>
+                    <a href="#" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
                 </div>
-                <div class="h-scroll no-scrollbar flex gap-4">
-                    <div class="min-w-[180px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/jacket-3.jpg" class="w-full h-36 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800 line-clamp-1">Jaket Denim Vintage</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 85.000</span>
-                                <button class="px-2 py-1 text-xs bg-green-600 text-white rounded btn add-cart" data-name="Jaket Denim Vintage">Tambah</button>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/accessory-1.png" alt="Kalung Vintage" class="showcase-img">
+                            <span class="condition-badge condition-excellent">Like New</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="min-w-[180px] bg-white rounded-xl shadow-sm overflow-hidden card-hover">
-                        <img src="./assets/images/products/shirt-1.jpg" class="w-full h-36 object-cover" alt="product">
-                        <div class="p-3">
-                            <p class="font-medium text-gray-800 line-clamp-1">Kemeja Katun</p>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-green-600 font-bold">Rp 55.000</span>
-                                <button class="px-2 py-1 text-xs bg-green-600 text-white rounded btn add-cart" data-name="Kemeja Katun">Tambah</button>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">aksesoris</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Kalung Vintage Silver</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Kalung vintage preloved dengan desain klasik dan elegan.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 45.000</p>
                             </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="./assets/images/products/watch-1.png" alt="Jam Tangan" class="showcase-img">
+                            <span class="condition-badge condition-good">Good Condition</span>
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">aksesoris</a>
+                            <a href="#">
+                                <h3 class="showcase-title">Jam Tangan Classic</h3>
+                            </a>
+                            <p class="showcase-desc">
+                                Jam tangan preloved dengan desain timeless dan functional.
+                            </p>
+                            <div class="price-box">
+                                <p class="price">Rp 95.000</p>
+                            </div>
+                            <button class="add-cart-btn">Tambah ke Keranjang</button>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+
+        <!-- FOOTER EXACTLY LIKE index.html -->
+        <footer>
+            <div class="footer-nav">
+                            <div class="container">
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Kategori Populer</h2></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pakaian Wanita</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pakaian Pria</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Anak & Bayi</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Barang & Peralatan</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Aksesoris</a></li>
+                                </ul>
+
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Produk</h2></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Diskon</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Produk Baru</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Penjualan Terbaik</a></li>
+                                </ul>
+
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Perusahaan Kami</h2></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pengiriman</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pemberitahuan Hukum</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Syarat dan Ketentuan</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Tentang Kami</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pembayaran Aman</a></li>
+                                </ul>
+
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Layanan</h2></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Bantuan</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Hubungi Kami</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">FAQ</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Pengembalian</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Garansi</a></li>
+                                </ul>
+
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Kontak</h2></li>
+                                    <li class="footer-nav-item flex">
+                                        <div class="icon-box"><ion-icon name="location-outline"></ion-icon></div>
+                                        <address class="content">Jl. Thrift No. 123
+                                            Jakarta Selatan, 12345, Indonesia</address>
+                                    </li>
+                                    <li class="footer-nav-item flex">
+                                        <div class="icon-box"><ion-icon name="call-outline"></ion-icon></div>
+                                        <a href="tel:+62123456789" class="footer-nav-link">(021) 2345-6789</a>
+                                    </li>
+                                    <li class="footer-nav-item flex">
+                                        <div class="icon-box"><ion-icon name="mail-outline"></ion-icon></div>
+                                        <a href="mailto:hello@thriftmap.id" class="footer-nav-link">hello@thriftmap.id</a>
+                                    </li>
+                                </ul>
+
+                                <ul class="footer-nav-list">
+                                    <li class="footer-nav-item"><h2 class="nav-title">Ikuti Kami</h2></li>
+                                    <li>
+                                        <ul class="social-link">
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-tiktok"></ion-icon></a></li>
+                                            <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-youtube"></ion-icon></a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+            </div>
+
+            <div class="footer-bottom">
+                            <div class="container">
+                <p class="copyright">Hak Cipta &copy; 2025 <a href="#">ThriftMap</a> - Style More, Spend Less.</p>
+                            </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Mobile Bottom Navigation -->
@@ -591,50 +1186,93 @@
             if (type==='warning') return Notify.toastWarn(message);
             return Notify.toastInfo(message);
         }
-        document.querySelectorAll('.add-cart').forEach(btn=>{
-            btn.addEventListener('click', ()=>{
-                const name = btn.getAttribute('data-name')||'Produk';
-                showToast(`${name} ditambahkan ke keranjang`);
+
+        // Add cart functionality to new showcase buttons
+        document.querySelectorAll('.add-cart-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productName = this.closest('.showcase').querySelector('.showcase-title').textContent;
+                showToast(`${productName} ditambahkan ke keranjang`);
+                
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) {
+                    let currentCount = parseInt(cartCount.textContent) || 0;
+                    currentCount++;
+                    cartCount.textContent = currentCount;
+                    cartCount.style.display = currentCount > 0 ? '' : 'none';
+                }
             });
         });
 
-        // Add small "Detail" buttons on home products that link to the new detail page.
-        // We’ll map sample images to our sample TM_PRODUCTS ids for demo purposes.
-        document.querySelectorAll('.card-hover').forEach(card => {
-            const img = card.querySelector('img');
-            const name = (card.querySelector('p')?.textContent || '').trim();
-            if (!img) return;
-            // Heuristic mapping by filename keywords
-            let id = null;
-            const src = img.getAttribute('src') || '';
-            if (src.includes('jacket')) id = 1; // Jaket Kulit Pria
-            else if (src.includes('shirt')) id = 2; // Kemeja Katun Premium
-            else if (name.toLowerCase().includes('dress')) id = 3;
-            else if (name.toLowerCase().includes('tas')) id = 4;
-            else if (src.includes('shoes')) id = 5;
-            else id = 6; // default to Hoodie
-
-            const footer = card.querySelector('.p-3') || card;
-            const sep = document.createElement('div');
-            sep.className = 'mt-2 h-[2px] rounded bg-green-500/80';
-            footer.appendChild(sep);
-            const bar = document.createElement('div');
-            bar.className = 'mt-2 flex items-center justify-between';
-            const link = document.createElement('a');
-            link.href = `dashboard-product.html?id=${id}`;
-            link.className = 'text-sm text-green-700 hover:underline flex items-center gap-1';
-            link.innerHTML = '<i class="fas fa-eye"></i><span>Detail</span>';
-            const wish = document.createElement('button');
-            wish.type = 'button';
-            wish.setAttribute('data-wish-id', String(id));
-            wish.setAttribute('data-wish-name', name || 'Produk');
-            const active = window.TMWishlist?.has?.(String(id));
-            wish.className = (active ? 'text-red-500' : 'text-gray-400') + ' hover:text-red-500 transition-colors';
-            wish.innerHTML = '<i class="fas fa-heart"></i>';
-            bar.appendChild(link);
-            bar.appendChild(wish);
-            footer.appendChild(bar);
+        // Add wishlist functionality to heart buttons
+        document.querySelectorAll('.btn-action').forEach(btn => {
+            if (btn.querySelector('ion-icon[name="heart-outline"]')) {
+                btn.addEventListener('click', function() {
+                    const productName = this.closest('.showcase').querySelector('.showcase-title').textContent;
+                    showToast(`${productName} ditambahkan ke wishlist`, 'success');
+                    
+                    // Update wishlist count
+                    window.TMWishlist?.increment?.();
+                });
+            }
         });
+
+        // Auto-hide header on scroll (hide on scroll down, show on scroll up or when scrolling stops)
+        (function(){
+            const header = document.querySelector('header.tm-auto-hide-header');
+            const main = document.querySelector('main');
+            if (!header || !main) return;
+
+            function setMainOffset(){
+                // Prevent content from going under the fixed header
+                const h = header.offsetHeight;
+                main.style.paddingTop = h + 'px';
+            }
+
+            let lastY = window.pageYOffset || 0;
+            let ticking = false;
+            let stopTimer;
+
+            function onScroll(){
+                const y = window.pageYOffset || 0;
+                header.classList.toggle('header--scrolled', y > 2);
+
+                // If the global menu dropdown is open, keep header visible
+                const menu = document.getElementById('globalMenu');
+                const menuOpen = menu && !menu.classList.contains('hidden');
+                if (!menuOpen){
+                    if (y > lastY + 5 && y > 50){
+                        header.classList.add('header--hidden');
+                    } else if (y < lastY - 5){
+                        header.classList.remove('header--hidden');
+                    }
+                } else {
+                    header.classList.remove('header--hidden');
+                }
+
+                lastY = y;
+
+                // Show header shortly after scrolling stops
+                clearTimeout(stopTimer);
+                stopTimer = setTimeout(() => {
+                    header.classList.remove('header--hidden');
+                }, 180);
+            }
+
+            window.addEventListener('load', setMainOffset);
+            window.addEventListener('resize', setMainOffset);
+            setMainOffset();
+
+            window.addEventListener('scroll', () => {
+                if (!ticking){
+                    window.requestAnimationFrame(() => {
+                        onScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
     </script>
 </body>
 </html>

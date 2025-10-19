@@ -16,9 +16,6 @@
     <!-- Leaflet CSS for Map View -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Index page global styles to match navbar and product grid -->
-    <link rel="stylesheet" href="./assets/css/style-prefix.css">
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,11 +41,6 @@
             font-family: 'Poppins', sans-serif;
             background: var(--tm-page);
             color: var(--tm-text);
-        }
-
-        header, header *, .header-main, .header-main *,
-        .desktop-navigation-menu, .desktop-navigation-menu * {
-            border: none !important;
         }
 
         header {
@@ -481,6 +473,7 @@
         .showcase-banner {
             position: relative;
             padding: 1.4rem 1.4rem 1.2rem;
+            overflow: hidden;
         }
 
         .showcase-banner::before {
@@ -511,32 +504,35 @@
             opacity: 0.08;
         }
 
+        /* PERBAIKAN: Posisikan tombol di tengah */
         .showcase-actions {
             position: absolute;
             top: 50%;
             left: 50%;
             display: grid;
             gap: 0.65rem;
-            justify-items: stretch;
+            justify-items: center;
             padding: 0.55rem;
             border-radius: 24px;
             background: linear-gradient(160deg, rgba(15, 118, 110, 0.28), rgba(14, 165, 233, 0.12));
             border: 1px solid rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(16px) saturate(160%);
             box-shadow: 0 20px 38px rgba(15, 118, 110, 0.22);
-            transform: translate3d(-52%, -54%, 0) scale(0.9);
+            transform: translate(-50%, -50%) scale(0.9);
             z-index: 2;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transition: opacity 0.35s ease, transform 0.35s ease, padding 0.35s ease, gap 0.35s ease, box-shadow 0.35s ease;
+            width: auto;
+            max-width: 90%;
         }
 
         .showcase:hover .showcase-actions {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translate3d(-52%, -52%, 0) scale(1);
+            transform: translate(-50%, -50%) scale(1);
             padding: 1.15rem 1.25rem;
             gap: 0.85rem;
             box-shadow: 0 28px 52px rgba(15, 118, 110, 0.3);
@@ -636,6 +632,7 @@
             margin: 0.7rem 0 0.4rem;
         }
 
+        /* PERBAIKAN: Hapus teks "Preloved premium" */
         .showcase-meta {
             display: flex;
             align-items: center;
@@ -671,12 +668,13 @@
             font-size: 0.85rem;
         }
 
+        /* PERBAIKAN: Dekatkan harga yang dicoret dengan harga asli */
         .price-box {
             position: relative;
             display: flex;
             align-items: baseline;
-            justify-content: space-between;
-            gap: 0.85rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
             z-index: 2;
         }
 
@@ -688,6 +686,7 @@
 
         .price-box del {
             color: rgba(15, 23, 42, 0.35);
+            font-size: 0.9rem;
         }
 
         .showcase-footer-accent {
@@ -1138,7 +1137,7 @@
     </style>
 </head>
 <body>
-        <!-- Index-style Header/Navbar -->
+        <!-- Header/Navbar -->
         <header>
             <div class="header-main">
                 <div class="container">
@@ -1151,34 +1150,33 @@
                             <ion-icon name="search-outline"></ion-icon>
                         </button>
                     </div>
-                                        <div class="header-user-actions">
-                                                <a href="dashboard-profile.html" class="action-btn" title="Akun">
-                                                    <ion-icon name="person-outline"></ion-icon>
-                                                </a>
-                                                <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-                                                    <ion-icon name="bag-handle-outline"></ion-icon>
-                                                    <span class="count cart-count" style="display:none">0</span>
-                                                </a>
-                                                <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
-                                                    <ion-icon name="heart-outline"></ion-icon>
-                                                    <span class="count wish-count" style="display:none">0</span>
-                                                </a>
-                                                <div class="tm-nav-dropdown">
-                                                    <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
-                                                        <ion-icon name="menu-outline"></ion-icon>
-                                                    </button>
-                                                    <div class="tm-dropdown-panel hidden" id="globalMenu">
-                                                        <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
-                                                        <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
-                                                        <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
-                                                        <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-                                                        <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                                                    </div>
-                                                </div>
-                                        </div>
+                    <div class="header-user-actions">
+                        <a href="dashboard-profile.html" class="action-btn" title="Akun">
+                            <ion-icon name="person-outline"></ion-icon>
+                        </a>
+                        <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+                            <ion-icon name="bag-handle-outline"></ion-icon>
+                            <span class="count cart-count" style="display:none">0</span>
+                        </a>
+                        <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                            <ion-icon name="heart-outline"></ion-icon>
+                            <span class="count wish-count" style="display:none">0</span>
+                        </a>
+                        <div class="tm-nav-dropdown">
+                            <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
+                                <ion-icon name="menu-outline"></ion-icon>
+                            </button>
+                            <div class="tm-dropdown-panel hidden" id="globalMenu">
+                                <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
+                                <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
+                                <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
+                                <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
+                                <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
         </header>
 
     <!-- Page Content -->
@@ -1232,90 +1230,17 @@
                 </section>
             </div>
 
-            <!-- GRID VIEW (index-style) -->
+            <!-- GRID VIEW -->
             <div id="gridSection" class="hidden">
               <section class="product-main">
                 <div class="container">
                   <h2 id="productsHeading" class="title">Semua Produk</h2>
-                                    <div class="product-grid-wrap">
-                                        <div class="product-grid" id="productsGrid"></div>
-                                    </div>
+                  <div class="product-grid-wrap">
+                    <div class="product-grid" id="productsGrid"></div>
+                  </div>
                 </div>
               </section>
             </div>
-
-            <!-- Product Detail -->
-            <section id="productDetail" class="mt-12 hidden">
-                <div class="detail-panel p-6 lg:p-8">
-                    <div class="detail-header">
-                        <div>
-                            <h2 id="detailTitle">Detail Produk</h2>
-                            <p class="geo-status">Informasi lengkap produk pilihan Anda</p>
-                        </div>
-                        <button id="closeDetail" class="detail-close">
-                            <i class="fas fa-times"></i>
-                            <span>Tutup</span>
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-                        <div>
-                            <div class="mb-4 rounded-2xl overflow-hidden shadow-lg">
-                                <img id="detailImage" src="" alt="Produk" class="w-full h-96 object-cover">
-                            </div>
-                            <div class="grid grid-cols-4 gap-3" id="detailThumbnails">
-                                <!-- Thumbnails injected here -->
-                            </div>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <span id="detailStore" class="detail-store-tag">
-                                    <i class="fas fa-store"></i>
-                                    <span class="detail-store-text">ThriftMap Store</span>
-                                </span>
-                                <span id="detailStoreInfo" class="geo-status">Partner preloved pilihan</span>
-                            </div>
-
-                            <div class="detail-price-group">
-                                <span id="detailPrice" class="primary">Rp 0</span>
-                                <del id="detailOriginalPrice"></del>
-                                <span class="badge" id="detailDiscount"></span>
-                            </div>
-
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2">Deskripsi</h3>
-                                <p id="detailDescription" class="text-gray-600 leading-relaxed">
-                                    Pilih produk untuk melihat deskripsi lengkap.
-                                </p>
-                            </div>
-
-                            <div>
-                                <h3 class="font-semibold text-lg mb-2">Spesifikasi</h3>
-                                <div class="grid grid-cols-2 gap-2 text-sm text-gray-600" id="detailSpecs">
-                                    <!-- Specs injected here -->
-                                </div>
-                            </div>
-
-                            <div class="detail-actions">
-                                <div class="quantity-control">
-                                    <button id="qtyMinus" type="button">-</button>
-                                    <span id="detailQuantity">1</span>
-                                    <button id="qtyPlus" type="button">+</button>
-                                </div>
-                                
-                                <button class="primary-btn" type="button">
-                                    <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
-                                </button>
-                                
-                                <button class="ghost-btn" type="button">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </main>
 
     <!-- Mobile Bottom Navigation -->
@@ -1344,10 +1269,6 @@
         </div>
     </nav>
 
-    <script src="./assets/js/cart.js"></script>
-    <script src="./assets/js/notify.js"></script>
-    <script src="./assets/js/wishlist.js"></script>
-    <!-- Ionicons for index-style UI -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
@@ -1368,6 +1289,7 @@
                 decrement(){ const v=Math.max(0,(parseInt(localStorage.getItem(KEY)||'0',10)||0)-1); localStorage.setItem(KEY, String(v)); update(); }
             });
         })();
+        
         // Global menu dropdown & bottom nav active
         (function(){
             const btn = document.getElementById('globalMenuBtn');
@@ -1384,16 +1306,6 @@
                         btn.setAttribute('aria-expanded', 'false');
                     }
                 });
-                // Initial sync of badges
-                try {
-                  const orders = parseInt(localStorage.getItem('tm_orders_count')||'0',10);
-                  const wishList = JSON.parse(localStorage.getItem('tm_wishlist')||'[]');
-                  const wCount = Array.isArray(wishList)? wishList.length : 0;
-                  const oEl = menu.querySelector('.orders-count');
-                  const wEl = menu.querySelector('.wish-count');
-                  if (oEl) { if (orders>0){ oEl.style.display='inline-block'; oEl.textContent=String(orders);} else {oEl.style.display='none';} }
-                  if (wEl) { if (wCount>0){ wEl.style.display='inline-block'; wEl.textContent=String(wCount);} else {wEl.style.display='none';} }
-                } catch {}
             }
             document.querySelectorAll('a[data-nav]').forEach(a => {
                 const href = a.getAttribute('href') || '';
@@ -1409,81 +1321,47 @@
         const gridSection = document.getElementById('gridSection');
         const btnMapView = document.getElementById('btnMapView');
         const btnGridView = document.getElementById('btnGridView');
+        
         function setToggleActive(active) {
             [btnMapView, btnGridView].forEach(btn => btn.classList.remove('is-active'));
             active.classList.add('is-active');
         }
+        
         btnMapView.addEventListener('click', () => {
             mapSection.classList.remove('hidden');
             gridSection.classList.add('hidden');
             setToggleActive(btnMapView);
             setTimeout(() => productsMap && productsMap.invalidateSize(), 200);
         });
+        
         btnGridView.addEventListener('click', () => {
             gridSection.classList.remove('hidden');
             mapSection.classList.add('hidden');
             setToggleActive(btnGridView);
         });
+        
         // Set initial active state
         setToggleActive(btnMapView);
 
-                // Global header search -> filter grid
-                (function(){
-                    const input = document.getElementById('globalSearch');
-                    const btn = document.getElementById('globalSearchBtn');
-                    function doSearch(){
-                        if (!input) return;
-                        const q = input.value || '';
-                        // Switch to grid view for search results
-                        if (btnGridView) btnGridView.click();
-                        renderProducts(q);
-                        const h = document.getElementById('productsHeading');
-                        if (h) h.textContent = q ? `Hasil: ${q}` : 'Semua Produk';
-                        renderFilterPills(q ? [q] : []);
-                    }
-                    if (btn) btn.addEventListener('click', (e)=>{ e.preventDefault(); doSearch(); });
-                    if (input) input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
-                })();
-
-                        // Make header dropdown categories filter the grid
-                        (function(){
-                            const panel = document.querySelector('.dropdown-panel');
-                            if (!panel) return;
-                            panel.addEventListener('click', (e)=>{
-                                const a = e.target.closest('a');
-                                if (!a) return;
-                                const txt = (a.textContent || '').trim();
-                                if (!txt) return;
-                                // prevent following image/banner links
-                                e.preventDefault();
-                                if (btnGridView) btnGridView.click();
-                                const keywords = getFilterKeywords(txt);
-                                renderProducts(keywords);
-                                const h = document.getElementById('productsHeading');
-                                if (h) h.textContent = `Kategori: ${txt}`;
-                                renderFilterPills([txt]);
-                            });
-                        })();
+        // Global header search -> filter grid
+        (function(){
+            const input = document.getElementById('globalSearch');
+            const btn = document.getElementById('globalSearchBtn');
+            function doSearch(){
+                if (!input) return;
+                const q = input.value || '';
+                // Switch to grid view for search results
+                if (btnGridView) btnGridView.click();
+                renderProducts(q);
+                const h = document.getElementById('productsHeading');
+                if (h) h.textContent = q ? `Hasil: ${q}` : 'Semua Produk';
+                renderFilterPills(q ? [q] : []);
+            }
+            if (btn) btn.addEventListener('click', (e)=>{ e.preventDefault(); doSearch(); });
+            if (input) input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
+        })();
 
         const productsGrid = document.getElementById('productsGrid');
-        const productDetail = document.getElementById('productDetail');
-        const detailTitle = document.getElementById('detailTitle');
-        const detailImage = document.getElementById('detailImage');
-    const detailThumbnails = document.getElementById('detailThumbnails');
-    const detailStore = document.getElementById('detailStore');
-    const detailStoreText = detailStore ? detailStore.querySelector('.detail-store-text') : null;
-    const detailStoreInfo = document.getElementById('detailStoreInfo');
-        const detailPrice = document.getElementById('detailPrice');
-        const detailOriginalPrice = document.getElementById('detailOriginalPrice');
-        const detailDiscount = document.getElementById('detailDiscount');
-        const detailDescription = document.getElementById('detailDescription');
-        const detailSpecs = document.getElementById('detailSpecs');
-        const detailQuantity = document.getElementById('detailQuantity');
-        const closeDetail = document.getElementById('closeDetail');
-        const qtyMinus = document.getElementById('qtyMinus');
-        const qtyPlus = document.getElementById('qtyPlus');
-
-    let currentQuantity = 1;
 
         const sampleProducts = [
             {
@@ -1561,79 +1439,6 @@
                     { label: "Ukuran", value: "M" },
                     { label: "Stok", value: "1 pcs" }
                 ]
-            },
-            {
-                id: 4,
-                name: "Tas Mini Wanita",
-                price: 42000,
-                originalPrice: 55000,
-                image: "./assets/images/products/bag-1.png",
-                gallery: [
-                    "./assets/images/products/party-wear-1.jpg",
-                    "./assets/images/products/party-wear-2.jpg"
-                ],
-                category: "Aksesoris",
-                condition: "Baik",
-                store: "Minimalist Finds",
-                rating: 4.3,
-                description: "Tas mini wanita dengan desain chic yang mudah dipadupadankan. Tersedia tali panjang dan pendek sekaligus.",
-                specs: [
-                    { label: "Kondisi", value: "Baik" },
-                    { label: "Brand", value: "Minimalist" },
-                    { label: "Bahan", value: "Kulit Sintetis" },
-                    { label: "Warna", value: "Hitam" },
-                    { label: "Ukuran", value: "20 x 15 cm" },
-                    { label: "Stok", value: "3 pcs" }
-                ]
-            },
-            {
-                id: 5,
-                name: "Sepatu Kantor",
-                price: 88000,
-                originalPrice: 120000,
-                image: "./assets/images/products/shoe-1.jpg",
-                gallery: [
-                    "./assets/images/products/shoe-1.jpg",
-                    "./assets/images/products/shoe-2.jpg",
-                    "./assets/images/products/shoe-3.jpg"
-                ],
-                category: "Sepatu",
-                condition: "Cukup",
-                store: "Street Step Hub",
-                rating: 4.0,
-                description: "Sneakers kasual yang nyaman untuk aktivitas sehari-hari. Sol masih tebal dan upper dalam kondisi baik.",
-                specs: [
-                    { label: "Kondisi", value: "Cukup" },
-                    { label: "Brand", value: "Street Step" },
-                    { label: "Bahan", value: "Canvas" },
-                    { label: "Warna", value: "Putih" },
-                    { label: "Ukuran", value: "42" },
-                    { label: "Stok", value: "1 pasang" }
-                ]
-            },
-            {
-                id: 6,
-                name: "Sweater Hoodie",
-                price: 48000,
-                originalPrice: 65000,
-                image: "./assets/images/products/jacket-1.jpg",
-                gallery: [
-                    "./assets/images/products/jacket-1.jpg",
-                    "./assets/images/products/jacket-2.jpg"
-                ],
-                category: "Unisex",
-                condition: "Baik",
-                store: "Cozy Club Collective",
-                rating: 4.6,
-                description: "Sweater hoodie unisex dengan bahan fleece lembut yang hangat namun tetap ringan dipakai.",
-                specs: [
-                    { label: "Kondisi", value: "Baik" },
-                    { label: "Brand", value: "Cozy Club" },
-                    { label: "Bahan", value: "Fleece" },
-                    { label: "Warna", value: "Hijau Sage" },
-                    { label: "Ukuran", value: "Free Size" },
-                    { label: "Stok", value: "2 pcs" }
-                ]
             }
         ];
 
@@ -1656,60 +1461,61 @@
                 filtered = filtered.filter(p => matchProduct(p, filterInput));
             }
 
-                        filtered.forEach(product => {
-                            const card = document.createElement('div');
-                            card.className = 'showcase';
-                            const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
-                            const storeName = getStoreName(product);
-                            card.innerHTML = `
-                                <div class="showcase-banner">
-                                    <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
-                                    <div class="showcase-actions">
-                                        <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
-                                            <ion-icon name="heart-outline"></ion-icon>
-                                            <span>Tambah Wishlist</span>
-                                        </button>
-                                        <button class="btn-action" type="button" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
-                                            <ion-icon name="eye-outline"></ion-icon>
-                                            <span>Lihat Produk</span>
-                                        </button>
-                                        <button class="btn-action" type="button" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
-                                            <ion-icon name="bag-add-outline"></ion-icon>
-                                            <span>Masukkan Keranjang</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="showcase-content">
-                                    <a href="#" class="showcase-category"><ion-icon name="pricetag-outline"></ion-icon>${product.category}</a>
-                                    <a href="#"><h3 class="showcase-title">${product.name}</h3></a>
-                                    <div class="showcase-meta">
-                                        <span class="store-indicator"><i class="fas fa-store"></i>${storeName}</span>
-                                        <span><i class="fas fa-recycle"></i>Preloved premium</span>
-                                    </div>
-                                    <span class="condition-badge ${condClass}" style="position:relative; z-index:3;">${product.condition}</span>
-                                    <div class="price-box">
-                                        <p class="price">Rp ${product.price.toLocaleString('id-ID')}</p>
-                                        <del>Rp ${product.originalPrice.toLocaleString('id-ID')}</del>
-                                    </div>
-                                    <span class="showcase-footer-accent"></span>
-                                </div>
-                            `;
-                            // Card click navigates to detail when clicking content area
-                            card.addEventListener('click', (e) => {
-                                if (e.target.closest('.btn-action') || e.target.closest('[data-add-cart]')) return;
-                                location.href = `dashboard-product.html?id=${product.id}`;
-                            });
-                            // Prevent bubbling on action buttons
-                            card.querySelectorAll('.btn-action,[data-add-cart]').forEach(btn => btn.addEventListener('click', (e)=> e.stopPropagation()));
-                            // Initialize wishlist icon state
-                            const wishBtn = card.querySelector('[data-wish-id]');
-                            try {
-                                const active = window.TMWishlist?.has?.(String(product.id));
-                                const icon = wishBtn?.querySelector('ion-icon');
-                                if (icon) icon.setAttribute('name', active ? 'heart' : 'heart-outline');
-                            } catch {}
-                            productsGrid.appendChild(card);
-                        });
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'showcase';
+                const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
+                const storeName = getStoreName(product);
+                card.innerHTML = `
+                    <div class="showcase-banner">
+                        <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
+                        <div class="showcase-actions">
+                            <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
+                                <ion-icon name="heart-outline"></ion-icon>
+                                <span>Tambah Wishlist</span>
+                            </button>
+                            <button class="btn-action" type="button" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
+                                <ion-icon name="eye-outline"></ion-icon>
+                                <span>Lihat Produk</span>
+                            </button>
+                            <button class="btn-action" type="button" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
+                                <ion-icon name="bag-add-outline"></ion-icon>
+                                <span>Masukkan Keranjang</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <a href="#" class="showcase-category"><ion-icon name="pricetag-outline"></ion-icon>${product.category}</a>
+                        <a href="#"><h3 class="showcase-title">${product.name}</h3></a>
+                        <div class="showcase-meta">
+                            <span class="store-indicator"><i class="fas fa-store"></i>${storeName}</span>
+                            <!-- PERBAIKAN: Hapus teks "Preloved premium" -->
+                        </div>
+                        <span class="condition-badge ${condClass}" style="position:relative; z-index:3;">${product.condition}</span>
+                        <!-- PERBAIKAN: Dekatkan harga yang dicoret dengan harga asli -->
+                        <div class="price-box">
+                            <p class="price">Rp ${product.price.toLocaleString('id-ID')}</p>
+                            <del>Rp ${product.originalPrice.toLocaleString('id-ID')}</del>
+                        </div>
+                        <span class="showcase-footer-accent"></span>
+                    </div>
+                `;
+                // Card click navigates to detail when clicking content area
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.btn-action') || e.target.closest('[data-add-cart]')) return;
+                    location.href = `dashboard-product.html?id=${product.id}`;
+                });
+                // Prevent bubbling on action buttons
+                card.querySelectorAll('.btn-action,[data-add-cart]').forEach(btn => btn.addEventListener('click', (e)=> e.stopPropagation()));
+                // Initialize wishlist icon state
+                const wishBtn = card.querySelector('[data-wish-id]');
+                try {
+                    const active = window.TMWishlist?.has?.(String(product.id));
+                    const icon = wishBtn?.querySelector('ion-icon');
+                    if (icon) icon.setAttribute('name', active ? 'heart' : 'heart-outline');
+                } catch {}
+                productsGrid.appendChild(card);
+            });
         }
 
         function matchProduct(product, keywords){
@@ -1748,58 +1554,7 @@
             return map[cat] || cat.split(/\s*&\s*|\s+/g).filter(Boolean);
         }
 
-        function showProductDetail(product) {
-            detailTitle.textContent = product.name;
-            detailImage.src = product.image;
-            const storeName = getStoreName(product);
-            if (detailStoreText) {
-                detailStoreText.textContent = storeName;
-            }
-            if (detailStore) {
-                detailStore.setAttribute('title', `Toko: ${storeName}`);
-            }
-            if (detailStoreInfo) {
-                detailStoreInfo.textContent = `Dijual oleh ${storeName}`;
-            }
-            detailPrice.textContent = `Rp ${product.price.toLocaleString('id-ID')}`;
-            detailOriginalPrice.textContent = `Rp ${product.originalPrice.toLocaleString('id-ID')}`;
-            const discountPercent = Math.round((1 - product.price / product.originalPrice) * 100);
-            detailDiscount.textContent = `${discountPercent}% OFF`;
-            detailDescription.textContent = product.description;
-            detailSpecs.innerHTML = product.specs.map(spec => `<div><span class="font-medium">${spec.label}:</span> ${spec.value}</div>`).join('');
-            detailThumbnails.innerHTML = product.gallery.map((image, index) => `
-                <img src="${image}" alt="${product.name}" class="h-20 object-cover rounded-lg cursor-pointer ${index === 0 ? 'border-2 border-green-500' : ''}">
-            `).join('');
-            currentQuantity = 1;
-            detailQuantity.textContent = currentQuantity;
-            productDetail.classList.remove('hidden');
-        }
-
-        detailThumbnails.addEventListener('click', (event) => {
-            if (event.target.tagName === 'IMG') {
-                detailThumbnails.querySelectorAll('img').forEach(img => img.classList.remove('border-2', 'border-green-500'));
-                event.target.classList.add('border-2', 'border-green-500');
-                detailImage.src = event.target.src;
-            }
-        });
-
-        closeDetail.addEventListener('click', () => {
-            productDetail.classList.add('hidden');
-        });
-
-        qtyMinus.addEventListener('click', () => {
-            if (currentQuantity > 1) {
-                currentQuantity -= 1;
-                detailQuantity.textContent = currentQuantity;
-            }
-        });
-
-        qtyPlus.addEventListener('click', () => {
-            currentQuantity += 1;
-            detailQuantity.textContent = currentQuantity;
-        });
-
-    renderProducts();
+        renderProducts();
 
         // =======================
         // Map View Implementation
@@ -1937,8 +1692,6 @@
                 });
             });
 
-            // No need to delegate click; anchor navigates to the new detail page
-
             function highlightSelected(el){
                 resultsList.querySelectorAll('.results-item.is-active').forEach(n => n.classList.remove('is-active'));
                 el.classList.add('is-active');
@@ -2020,45 +1773,45 @@
             locateUser();
         });
 
-                // Action buttons delegation
-                document.addEventListener('click', (e) => {
-                    // View detail (eye button)
-                    const viewBtn = e.target.closest('[data-view-detail]');
-                    if (viewBtn) {
-                        e.stopPropagation();
-                        const id = viewBtn.getAttribute('data-view-detail');
-                        if (id) location.href = `dashboard-product.html?id=${id}`;
-                        return;
-                    }
-                });
+        // Action buttons delegation
+        document.addEventListener('click', (e) => {
+            // View detail (eye button)
+            const viewBtn = e.target.closest('[data-view-detail]');
+            if (viewBtn) {
+                e.stopPropagation();
+                const id = viewBtn.getAttribute('data-view-detail');
+                if (id) location.href = `dashboard-product.html?id=${id}`;
+                return;
+            }
+        });
 
-                // Wishlist toggle delegation (grid/list hearts)
-                document.addEventListener('click', (e) => {
-                        const btn = e.target.closest('[data-wish-id]');
-                        if (!btn) return;
-                        e.stopPropagation();
-                        const id = btn.getAttribute('data-wish-id');
-                        const name = btn.getAttribute('data-wish-name') || 'Produk';
-                        try {
-                                const active = window.TMWishlist?.toggle?.(id, name);
-                                const icon = btn.querySelector('ion-icon');
-                                if (icon) icon.setAttribute('name', active ? 'heart' : 'heart-outline');
-                        } catch {}
-                });
+        // Wishlist toggle delegation (grid/list hearts)
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-wish-id]');
+            if (!btn) return;
+            e.stopPropagation();
+            const id = btn.getAttribute('data-wish-id');
+            const name = btn.getAttribute('data-wish-name') || 'Produk';
+            try {
+                const active = window.TMWishlist?.toggle?.(id, name);
+                const icon = btn.querySelector('ion-icon');
+                if (icon) icon.setAttribute('name', active ? 'heart' : 'heart-outline');
+            } catch {}
+        });
 
         function renderFilterPills(filters){
             const wrap = document.getElementById('activeFilters');
             if (!wrap) return;
             if (!filters || filters.length === 0){ wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
             wrap.classList.remove('hidden');
-                        wrap.innerHTML = filters.map(f => `
-                            <span class="chip">
-                                 <i class="fas fa-filter"></i>
-                                 ${f}
-                            </span>
-                        `).join('') + `
-                            <button id="btnClearFilters" type="button">Bersihkan</button>
-                        `;
+            wrap.innerHTML = filters.map(f => `
+                <span class="chip">
+                     <i class="fas fa-filter"></i>
+                     ${f}
+                </span>
+            `).join('') + `
+                <button id="btnClearFilters" type="button">Bersihkan</button>
+            `;
             const clearBtn = document.getElementById('btnClearFilters');
             if (clearBtn){
                 clearBtn.addEventListener('click', () => {
@@ -2071,8 +1824,5 @@
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Ionicons for index-style UI -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

@@ -2684,7 +2684,39 @@ footer {
     position: relative;
     font-size: 35px;
     color: var(--onyx);
+    width: 44px;
+    height: 44px;
     padding: 5px;
+    background: hsl(0, 0%, 96%);
+    border-radius: 9999px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  -webkit-transition: background var(--transition-timing), color var(--transition-timing), -webkit-transform var(--transition-timing);
+  -o-transition: background var(--transition-timing), color var(--transition-timing), transform var(--transition-timing);
+  transition: background var(--transition-timing), color var(--transition-timing), transform var(--transition-timing);
+  }
+
+  .header-user-actions .action-btn:hover,
+  .header-user-actions .action-btn:focus-visible {
+    background: rgba(24, 85, 25, 0.16);
+    color: var(--green);
+    outline: none;
+  }
+
+  .header-user-actions .action-btn:active {
+    -webkit-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+            transform: scale(0.95);
   }
 
   .header-user-actions .count {
@@ -2974,7 +3006,7 @@ footer {
 
   .product-featured .countdown-content { padding: 5px 10px; }
 
-  .product-grid { -ms-grid-columns: (1fr)[3]; grid-template-columns: repeat(3, 1fr); }
+  .product-grid { -ms-grid-columns: 1fr 1fr 1fr; grid-template-columns: repeat(3, 1fr); }
 
 
 
@@ -3102,7 +3134,7 @@ footer {
 
   .product-featured .display-number { --fs-5: 1.125rem; }
 
-  .product-grid { -ms-grid-columns: (1fr)[4]; grid-template-columns: repeat(4, 1fr); }
+  .product-grid { -ms-grid-columns: 1fr 1fr 1fr 1fr; grid-template-columns: repeat(4, 1fr); }
 
 
 

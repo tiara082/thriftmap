@@ -102,11 +102,15 @@
             border-radius: 50%;
             width: 18px;
             height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             font-size: 11px;
             font-weight: 700;
+        }
+
+        .showcase:hover .showcase-actions .btn-action {
+            width: min(200px, 72vw);
+            padding-inline: 0.85rem;
         }
 
         .tm-nav-dropdown { position: relative; }
@@ -116,53 +120,41 @@
             left: auto;
         }
 
-        .view-toolbar {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .toggle-btn {
+        .showcase-category {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.65rem 1.3rem;
-            border-radius: var(--tm-radius-sm);
-            border: 1px solid transparent;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--tm-muted);
+            gap: 0.4rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.12);
+            color: #0369a1;
             font-weight: 600;
-            transition: all 0.25s ease;
-            box-shadow: 0 10px 24px rgba(15, 118, 110, 0.12);
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
         }
 
-        .toggle-btn:hover,
-        .toggle-btn:focus-visible {
-            color: var(--tm-primary-dark);
-            border-color: rgba(15, 118, 110, 0.16);
+        .showcase-title {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #0f172a;
+            margin: 0.7rem 0 0.4rem;
         }
 
-        .toggle-btn.is-active {
-            background: linear-gradient(135deg, rgba(22, 163, 74, 0.14), rgba(22, 163, 74, 0.24));
-            border-color: rgba(22, 163, 74, 0.4);
-            color: var(--tm-primary-dark);
-            box-shadow: 0 14px 32px rgba(22, 163, 74, 0.24);
-        }
-
-        .filters-wrap {
+        .showcase-meta {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            justify-content: space-between;
             flex-wrap: wrap;
+        }
+
+        .map-popup-store {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--tm-primary-dark);
+            margin-bottom: 0.15rem;
         }
 
         .filters-wrap .chip {
@@ -375,6 +367,14 @@
         .results-item .stats {
             font-size: 13px;
             color: var(--tm-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .results-item .stats i {
+            color: var(--tm-primary-dark);
         }
 
         .results-item .price-row {
@@ -500,38 +500,115 @@
             width: 100%;
             aspect-ratio: 4 / 3;
             object-fit: cover;
+            display: block;
+            height: auto !important;
             box-shadow: 0 22px 35px rgba(14, 116, 144, 0.18);
-            transition: transform 0.35s ease;
+            transition: transform 0.35s ease, opacity 0.35s ease;
         }
 
         .showcase:hover .showcase-banner img {
             transform: translateY(-6px) scale(1.01);
+            opacity: 0.08;
         }
 
         .showcase-actions {
             position: absolute;
-            top: 18px;
-            right: 18px;
+            top: 50%;
+            left: 50%;
             display: grid;
-            gap: 0.6rem;
+            gap: 0.65rem;
+            justify-items: stretch;
+            padding: 0.55rem;
+            border-radius: 24px;
+            background: linear-gradient(160deg, rgba(15, 118, 110, 0.28), rgba(14, 165, 233, 0.12));
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(16px) saturate(160%);
+            box-shadow: 0 20px 38px rgba(15, 118, 110, 0.22);
+            transform: translate3d(-52%, -54%, 0) scale(0.9);
             z-index: 2;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease, padding 0.35s ease, gap 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .showcase:hover .showcase-actions {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translate3d(-52%, -52%, 0) scale(1);
+            padding: 1.15rem 1.25rem;
+            gap: 0.85rem;
+            box-shadow: 0 28px 52px rgba(15, 118, 110, 0.3);
         }
 
         .showcase-actions .btn-action {
+            position: relative;
             width: 44px;
             height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.92);
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.75), rgba(241, 253, 249, 0.58));
             color: #0f172a;
-            border: 1px solid rgba(15, 118, 110, 0.08);
-            box-shadow: 0 14px 24px rgba(15, 118, 110, 0.12);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
+            border: 1px solid rgba(15, 118, 110, 0.16);
+            box-shadow: 0 12px 24px rgba(15, 118, 110, 0.16);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.2s ease, background 0.2s ease, border-color 0.25s ease, width 0.35s ease, padding 0.35s ease;
+            backdrop-filter: blur(6px);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .showcase-actions .btn-action::after {
+            content: "";
+            position: absolute;
+            inset: -9px;
+            border-radius: 22px;
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.32), transparent 68%);
+            opacity: 0;
+            transition: opacity 0.32s ease;
+            z-index: -1;
+        }
+
+        .showcase-actions .btn-action ion-icon {
+            font-size: 1.05rem;
+            color: inherit;
+            flex-shrink: 0;
+            transition: transform 0.35s ease;
+        }
+
+        .showcase-actions .btn-action span {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #0f172a;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: opacity 0.2s ease 0.06s, transform 0.3s ease 0.06s, color 0.2s ease;
         }
 
         .showcase-actions .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 32px rgba(15, 118, 110, 0.18);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 24px 38px rgba(15, 118, 110, 0.28);
             color: var(--tm-primary-dark);
+            background: linear-gradient(140deg, rgba(16, 185, 129, 0.25), rgba(14, 165, 233, 0.16));
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .showcase:hover .showcase-actions .btn-action ion-icon {
+            transform: translateX(0);
+        }
+
+        .showcase:hover .showcase-actions .btn-action span {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--tm-primary-dark);
+        }
+
+        .showcase-actions .btn-action:hover::after {
+            opacity: 1;
         }
 
         .showcase-content {
@@ -574,11 +651,33 @@
             gap: 0.35rem;
         }
 
+        .showcase-meta .store-indicator {
+            color: var(--tm-primary-dark);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .detail-store-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border-radius: 999px;
+            padding: 0.4rem 0.8rem;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--tm-primary-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
         .price-box {
+            position: relative;
             display: flex;
             align-items: baseline;
             justify-content: space-between;
             gap: 0.85rem;
+            z-index: 2;
         }
 
         .price-box .price {
@@ -589,6 +688,10 @@
 
         .price-box del {
             color: rgba(15, 23, 42, 0.35);
+        }
+
+        .showcase-footer-accent {
+            display: none;
         }
 
         .detail-panel {
@@ -853,6 +956,16 @@
             font-size: 0.98rem;
             color: #0f172a;
             margin-bottom: 0.1rem;
+        }
+
+        .map-popup-store {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--tm-primary-dark);
+            margin-bottom: 0.15rem;
         }
 
         .map-popup-price {
@@ -1156,9 +1269,12 @@
                         </div>
 
                         <div class="space-y-6">
-                            <div class="flex items-center gap-2">
-                                <div id="detailRating" class="flex text-yellow-400"></div>
-                                <span id="detailRatingValue" class="geo-status"></span>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span id="detailStore" class="detail-store-tag">
+                                    <i class="fas fa-store"></i>
+                                    <span class="detail-store-text">ThriftMap Store</span>
+                                </span>
+                                <span id="detailStoreInfo" class="geo-status">Partner preloved pilihan</span>
                             </div>
 
                             <div class="detail-price-group">
@@ -1353,9 +1469,10 @@
         const productDetail = document.getElementById('productDetail');
         const detailTitle = document.getElementById('detailTitle');
         const detailImage = document.getElementById('detailImage');
-        const detailThumbnails = document.getElementById('detailThumbnails');
-        const detailRating = document.getElementById('detailRating');
-        const detailRatingValue = document.getElementById('detailRatingValue');
+    const detailThumbnails = document.getElementById('detailThumbnails');
+    const detailStore = document.getElementById('detailStore');
+    const detailStoreText = detailStore ? detailStore.querySelector('.detail-store-text') : null;
+    const detailStoreInfo = document.getElementById('detailStoreInfo');
         const detailPrice = document.getElementById('detailPrice');
         const detailOriginalPrice = document.getElementById('detailOriginalPrice');
         const detailDiscount = document.getElementById('detailDiscount');
@@ -1383,6 +1500,7 @@
                 ],
                 category: "Pria",
                 condition: "Sangat Baik",
+                store: "Vintage Locker",
                 rating: 4.5,
                 description: "Jaket kulit pria berkualitas tinggi dengan desain klasik yang timeless. Cocok untuk musim dingin dengan bahan yang hangat dan nyaman. Kondisi masih sangat baik dengan sedikit tanda pakai.",
                 specs: [
@@ -1407,6 +1525,7 @@
                 ],
                 category: "Pria",
                 condition: "Baik",
+                store: "Urban Threads Outlet",
                 rating: 4.2,
                 description: "Kemeja katun premium dengan tekstur halus dan nyaman dipakai sepanjang hari. Cutting slim fit membuat penampilan lebih rapi.",
                 specs: [
@@ -1431,6 +1550,7 @@
                 ],
                 category: "Wanita",
                 condition: "Seperti Baru",
+                store: "Bloom & Co. Boutique",
                 rating: 4.8,
                 description: "Dress floral midi yang feminin dengan bahan adem dan jatuh. Cocok untuk acara semi formal maupun casual brunch.",
                 specs: [
@@ -1454,6 +1574,7 @@
                 ],
                 category: "Aksesoris",
                 condition: "Baik",
+                store: "Minimalist Finds",
                 rating: 4.3,
                 description: "Tas mini wanita dengan desain chic yang mudah dipadupadankan. Tersedia tali panjang dan pendek sekaligus.",
                 specs: [
@@ -1478,6 +1599,7 @@
                 ],
                 category: "Sepatu",
                 condition: "Cukup",
+                store: "Street Step Hub",
                 rating: 4.0,
                 description: "Sneakers kasual yang nyaman untuk aktivitas sehari-hari. Sol masih tebal dan upper dalam kondisi baik.",
                 specs: [
@@ -1501,6 +1623,7 @@
                 ],
                 category: "Unisex",
                 condition: "Baik",
+                store: "Cozy Club Collective",
                 rating: 4.6,
                 description: "Sweater hoodie unisex dengan bahan fleece lembut yang hangat namun tetap ringan dipakai.",
                 specs: [
@@ -1513,6 +1636,14 @@
                 ]
             }
         ];
+
+        const getStoreName = (product) => {
+            if (!product) return 'Toko ThriftMap';
+            if (product.store) return product.store;
+            if (product.seller) return product.seller;
+            const brandSpec = (product.specs || []).find(spec => (spec.label || '').toLowerCase() === 'brand');
+            return brandSpec?.value || 'Toko ThriftMap';
+        };
 
         function renderProducts(filterInput) {
             productsGrid.innerHTML = '';
@@ -1529,18 +1660,22 @@
                             const card = document.createElement('div');
                             card.className = 'showcase';
                             const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
+                            const storeName = getStoreName(product);
                             card.innerHTML = `
                                 <div class="showcase-banner">
                                     <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
                                     <div class="showcase-actions">
                                         <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
                                             <ion-icon name="heart-outline"></ion-icon>
+                                            <span>Tambah Wishlist</span>
                                         </button>
                                         <button class="btn-action" type="button" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
                                             <ion-icon name="eye-outline"></ion-icon>
+                                            <span>Lihat Produk</span>
                                         </button>
                                         <button class="btn-action" type="button" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
                                             <ion-icon name="bag-add-outline"></ion-icon>
+                                            <span>Masukkan Keranjang</span>
                                         </button>
                                     </div>
                                 </div>
@@ -1548,14 +1683,15 @@
                                     <a href="#" class="showcase-category"><ion-icon name="pricetag-outline"></ion-icon>${product.category}</a>
                                     <a href="#"><h3 class="showcase-title">${product.name}</h3></a>
                                     <div class="showcase-meta">
-                                        <span><i class="fas fa-star text-yellow-400"></i>${product.rating.toFixed(1)}</span>
-                                        <span><i class="fas fa-clock"></i>Last update</span>
+                                        <span class="store-indicator"><i class="fas fa-store"></i>${storeName}</span>
+                                        <span><i class="fas fa-recycle"></i>Preloved premium</span>
                                     </div>
-                                    <span class="condition-badge ${condClass}">${product.condition}</span>
+                                    <span class="condition-badge ${condClass}" style="position:relative; z-index:3;">${product.condition}</span>
                                     <div class="price-box">
                                         <p class="price">Rp ${product.price.toLocaleString('id-ID')}</p>
                                         <del>Rp ${product.originalPrice.toLocaleString('id-ID')}</del>
                                     </div>
+                                    <span class="showcase-footer-accent"></span>
                                 </div>
                             `;
                             // Card click navigates to detail when clicking content area
@@ -1578,7 +1714,7 @@
 
         function matchProduct(product, keywords){
             if (!keywords || keywords.length === 0) return true;
-            const hay = (product.name + ' ' + product.category + ' ' + product.condition).toLowerCase();
+            const hay = (product.name + ' ' + product.category + ' ' + product.condition + ' ' + getStoreName(product)).toLowerCase();
             return keywords.some(k => hay.includes(k.toLowerCase()));
         }
 
@@ -1615,8 +1751,16 @@
         function showProductDetail(product) {
             detailTitle.textContent = product.name;
             detailImage.src = product.image;
-            detailRating.innerHTML = '<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating)) + (product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : '');
-            detailRatingValue.textContent = `${product.rating.toFixed(1)} (ulasan pelanggan)`;
+            const storeName = getStoreName(product);
+            if (detailStoreText) {
+                detailStoreText.textContent = storeName;
+            }
+            if (detailStore) {
+                detailStore.setAttribute('title', `Toko: ${storeName}`);
+            }
+            if (detailStoreInfo) {
+                detailStoreInfo.textContent = `Dijual oleh ${storeName}`;
+            }
             detailPrice.textContent = `Rp ${product.price.toLocaleString('id-ID')}`;
             detailOriginalPrice.textContent = `Rp ${product.originalPrice.toLocaleString('id-ID')}`;
             const discountPercent = Math.round((1 - product.price / product.originalPrice) * 100);
@@ -1732,6 +1876,7 @@
 
             filtered.forEach(product => {
                 const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
+                const storeName = getStoreName(product);
                 const marker = L.marker([product.lat, product.lng]).addTo(markersLayer);
                 marker.bindPopup(`
                     <div class="map-popup-card">
@@ -1739,6 +1884,7 @@
                             <img src="${product.image}" alt="${product.name}" class="map-popup-image" />
                             <div>
                                 <div class="map-popup-title">${product.name}</div>
+                                <div class="map-popup-store"><i class='fas fa-store'></i>${storeName}</div>
                                 ${product.distance !== null ? `<span class="map-popup-distance"><i class='fas fa-location-dot'></i>${product.distance.toFixed(2)} km dari Anda</span>` : ''}
                                 <div class="map-popup-price">Rp ${product.price.toLocaleString('id-ID')}</div>
                             </div>
@@ -1766,7 +1912,10 @@
                                 <p>${product.name}</p>
                                 <span class='condition-badge ${condClass}'>${product.condition}</span>
                             </div>
-                            <div class='stats'>${product.category} • ${product.rating.toFixed(1)}★</div>
+                            <div class='stats'>
+                                <span class='inline-flex items-center gap-1 text-emerald-600 font-semibold'><i class='fas fa-store'></i>${storeName}</span>
+                                <span>• ${product.category}</span>
+                            </div>
                             <div class='price-row'>
                                 <div>
                                     <span class='price'>Rp ${product.price.toLocaleString('id-ID')}</span>

@@ -14,6 +14,7 @@ window.TM_PRODUCTS = [
     ],
     category: "Jacket & Sweater",
     condition: "Sangat Baik",
+  store: "Vintage Locker",
     rating: 4.5,
     description: "Jaket kulit pria berkualitas tinggi dengan desain klasik yang timeless. Cocok untuk musim dingin dengan bahan yang hangat dan nyaman. Kondisi masih sangat baik dengan sedikit tanda pakai.",
     specs: [
@@ -34,10 +35,11 @@ window.TM_PRODUCTS = [
     gallery: [
       "./assets/images/products/shirt-1.jpg",
       "./assets/images/products/clothes-4.jpg",
-      "./assets/images/products/clothes-5.jpg"
+      "./assets/images/products/3.jpg"
     ],
     category: "Kemeja",
     condition: "Baik",
+  store: "Urban Threads Outlet",
     rating: 4.2,
     description: "Kemeja katun premium dengan tekstur halus dan nyaman dipakai sepanjang hari. Cutting slim fit membuat penampilan lebih rapi.",
     specs: [
@@ -62,6 +64,7 @@ window.TM_PRODUCTS = [
     ],
     category: "Dress &Rok",
     condition: "Seperti Baru",
+  store: "Bloom & Co. Boutique",
     rating: 4.8,
     description: "Dress floral midi yang feminin dengan bahan adem dan jatuh. Cocok untuk acara semi formal maupun casual brunch.",
     specs: [
@@ -86,6 +89,7 @@ window.TM_PRODUCTS = [
     ],
     category: "Aksesoris",
     condition: "Baik",
+  store: "Minimalist Finds",
     rating: 4.3,
     description: "Tas mini wanita dengan desain chic yang mudah dipadupadankan. Tersedia tali panjang dan pendek sekaligus.",
     specs: [
@@ -110,6 +114,7 @@ window.TM_PRODUCTS = [
     ],
     category: "Sepatu",
     condition: "Cukup",
+  store: "Street Step Hub",
     rating: 4.0,
     description: "Sepatu yang nyaman untuk aktivitas diluar ruangan. Sol masih tebal dan upper dalam kondisi baik.",
     specs: [
@@ -133,6 +138,7 @@ window.TM_PRODUCTS = [
     ],
     category: "Jaket & Sweater",
     condition: "Baik",
+  store: "Cozy Club Collective",
     rating: 4.6,
     description: "Sweater hoodie unisex dengan bahan fleece lembut yang hangat namun tetap ringan dipakai.",
     specs: [

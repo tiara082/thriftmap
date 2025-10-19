@@ -11,6 +11,9 @@
     localStorage.setItem(ITEMS_KEY, JSON.stringify(uniq));
     localStorage.setItem(COUNT_KEY, String(uniq.length));
     updateBadges();
+    try {
+      window.dispatchEvent(new CustomEvent('tmWishlist:changed', { detail: { ids: uniq } }));
+    } catch {}
     return uniq;
   }
   function get(){ return load(); }
@@ -18,6 +21,7 @@
   function has(id){ if (id==null) return false; return get().includes(String(id)); }
   function add(id){ if (id==null) return get(); const arr = get(); if (!arr.includes(String(id))) arr.push(String(id)); return save(arr); }
   function remove(id){ if (id==null) return get(); const arr = get().filter(x => x !== String(id)); return save(arr); }
+  function clear(){ return save([]); }
   function toggle(id, name){
     if (has(id)){
       remove(id);
@@ -38,5 +42,5 @@
   }
   document.addEventListener('DOMContentLoaded', updateBadges);
 
-  window.TMWishlist = { get, count, has, add, remove, toggle, updateBadges };
+  window.TMWishlist = { get, count, has, add, remove, clear, toggle, updateBadges };
 })();

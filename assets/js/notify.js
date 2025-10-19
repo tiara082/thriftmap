@@ -14,6 +14,20 @@
     };
     return;
   }
+  const TOAST_Z = 1600;
+  function adjustToastPosition(toast){
+    try {
+      const container = toast?.parentElement;
+      if (!container) return;
+  const header = document.querySelector('header.tm-auto-hide-header') || document.querySelector('header.tm-checkout-header');
+      const headerHeight = header ? Math.round(header.getBoundingClientRect().height) : 0;
+      const offset = Math.max(headerHeight + 16, 16);
+      container.style.zIndex = String(TOAST_Z);
+      container.style.top = offset + 'px';
+      container.style.right = '16px';
+    } catch {}
+  }
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -21,6 +35,7 @@
     timer: 2000,
     timerProgressBar: true,
     didOpen: (toast) => {
+      adjustToastPosition(toast);
       toast.addEventListener('mouseenter', Swal.stopTimer);
       toast.addEventListener('mouseleave', Swal.resumeTimer);
     }

@@ -37,7 +37,18 @@
             <ion-icon name="search-outline"></ion-icon>
           </button>
         </div>
-        <div class="header-user-actions">
+        <div class="header-user-actions" style="margin-left:auto">
+          <a href="dashboard-profile.html" class="action-btn" title="Akun">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+          <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count cart-count" style="display:none">0</span>
+          </a>
+          <button type="button" class="action-btn" data-open-wishlist title="Wishlist">
+            <ion-icon name="heart-outline"></ion-icon>
+            <span class="count wish-count" style="display:none">0</span>
+          </button>
           <div class="tm-nav-dropdown">
             <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
               <ion-icon name="menu-outline"></ion-icon>
@@ -49,16 +60,9 @@
               <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
               <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
               <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-              <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
+              <a href="#" data-open-wishlist><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
             </div>
           </div>
-          <a href="dashboard-profile.html" class="action-btn" title="Akun">
-            <ion-icon name="person-outline"></ion-icon>
-          </a>
-          <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-            <ion-icon name="bag-handle-outline"></ion-icon>
-            <span class="count cart-count" style="display:none">0</span>
-          </a>
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -86,7 +86,18 @@
         .banner-gradient-1 { background: linear-gradient(135deg,#d1fae5,#a7f3d0); }
         .banner-gradient-2 { background: linear-gradient(135deg,#e0e7ff,#c7d2fe); }
         .banner-gradient-3 { background: linear-gradient(135deg,#fee2e2,#fecaca); }
-        .badge-sale { background: #fee2e2; color: #b91c1c; }
+        .badge-sale {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 0.35rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.18);
+        }
         .btn { transition: all .25s ease; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
     .h-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
@@ -215,22 +226,48 @@
         }
 
         .condition-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
             margin-bottom: 10px;
+            width: fit-content;
+            max-width: 100%;
         }
 
-        .condition-excellent {
-            background: #d1f2eb;
-            color: #00695c;
+        .condition-excellent,
+        .condition-very-good {
+            background: #dcfce7;
+            color: #166534;
         }
 
         .condition-good {
-            background: #fff3cd;
-            color: #856404;
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .condition-like-new {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .condition-fair {
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .wishlist-btn.is-active {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .wishlist-btn.is-active:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         .price-box {
@@ -421,6 +458,308 @@
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
         }
 
+        /* Leaderboard bespoke styling */
+        .tm-leaderboard {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            color: #f9fafb;
+            background: radial-gradient(120% 160% at 50% -20%, rgba(124, 58, 237, 0.4) 0%, rgba(12, 74, 110, 0.35) 25%, rgba(8, 47, 73, 0.92) 60%, #030712 100%);
+            box-shadow: 0 32px 60px -25px rgba(6, 95, 70, 0.75);
+        }
+        .tm-leaderboard::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(70% 90% at 20% 0%, rgba(250, 204, 21, 0.35), transparent 70%);
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .tm-leaderboard::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.1), rgba(16, 185, 129, 0.08));
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+        .tm-leaderboard__content {
+            position: relative;
+            padding: 2rem 2.5rem 2.5rem;
+        }
+        .tm-leaderboard-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .tm-leaderboard-subtitle {
+            margin-top: 0.2rem;
+            color: rgba(255, 255, 255, 0.88);
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+        .tm-leaderboard-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+        .tm-leaderboard-header p {
+            color: rgba(226, 232, 240, 0.75);
+            font-size: 0.9rem;
+        }
+        .tm-leaderboard-topbar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        @media (min-width: 640px) {
+            .tm-leaderboard-topbar {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        .tm-leaderboard-tabs {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 9999px;
+            padding: 0.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 0.35rem;
+        }
+        .tm-leaderboard-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 9999px;
+            padding: 0.45rem 1.1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(226, 232, 240, 0.8);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .tm-leaderboard-tab:hover {
+            color: #f8fafc;
+        }
+        .tm-leaderboard-tab.tm-active {
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+        }
+        .tm-leaderboard-showall {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.85rem;
+            border-radius: 9999px;
+            background: rgba(148, 163, 184, 0.16);
+            color: rgba(226, 232, 240, 0.85);
+            font-size: 0.75rem;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .tm-leaderboard-showall:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -12px rgba(148, 163, 184, 0.45);
+        }
+        .tm-podium {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.2rem;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+        .tm-podium-slot {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .tm-podium-card {
+            position: relative;
+            width: 100%;
+            max-width: 210px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(15,23,42,0.65));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px 24px 18px 18px;
+            padding: 1.6rem 1rem 2.8rem;
+            text-align: center;
+            box-shadow: 0 30px 50px -35px rgba(8, 47, 73, 0.95);
+            overflow: hidden;
+        }
+        .tm-podium-card--1 {
+            max-width: 240px;
+            transform: translateY(-12px);
+            background: linear-gradient(145deg, rgba(234, 179, 8, 0.25), rgba(14, 116, 144, 0.6));
+            border-color: rgba(250, 204, 21, 0.4);
+        }
+        .tm-podium-card--2 {
+            background: linear-gradient(145deg, rgba(226, 232, 240, 0.2), rgba(30, 41, 59, 0.7));
+            border-color: rgba(148, 163, 184, 0.35);
+        }
+        .tm-podium-card--3 {
+            background: linear-gradient(145deg, rgba(251, 191, 36, 0.18), rgba(21, 94, 117, 0.6));
+            border-color: rgba(249, 115, 22, 0.35);
+        }
+        .tm-podium-card--empty {
+            opacity: 0.55;
+        }
+        .tm-podium-medal {
+            font-size: 1.5rem;
+        }
+        .tm-podium-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+        }
+        .tm-podium-level {
+            font-size: 0.78rem;
+            color: rgba(226, 232, 240, 0.7);
+        }
+        .tm-podium-xp {
+            margin-top: 0.75rem;
+            font-weight: 700;
+            color: #fde68a;
+        }
+        .tm-podium-rank {
+            position: absolute;
+        bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: rgba(255, 255, 255, 0.85);
+        }
+        .tm-podium-base {
+            position: absolute;
+            bottom: 0;
+            left: 12%;
+            right: 12%;
+            height: 55px;
+            border-radius: 20px 20px 0 0;
+            background: rgba(15, 23, 42, 0.75);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .tm-podium-base--1 { background: rgba(250, 204, 21, 0.18); }
+        .tm-podium-base--2 { background: rgba(148, 163, 184, 0.18); }
+        .tm-podium-base--3 { background: rgba(249, 115, 22, 0.18); }
+        .tm-podium-empty {
+            margin-top: 1.25rem;
+            font-size: 0.85rem;
+            color: rgba(226, 232, 240, 0.55);
+        }
+        .tm-podium-slot img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 1.4rem auto 0;
+            display: block;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .tm-leaderboard-table-wrap {
+            background: rgba(15, 23, 42, 0.45);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.2rem 0.6rem;
+        }
+        .tm-leaderboard-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        .tm-leaderboard-table thead th {
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(226, 232, 240, 0.55);
+            padding-bottom: 0.6rem;
+        }
+        .tm-leaderboard-table tbody tr {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            transition: transform .2s ease, background .2s ease;
+        }
+        .tm-leaderboard-table tbody td {
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+            color: rgba(226, 232, 240, 0.92);
+        }
+        .tm-leaderboard-table tbody tr:hover {
+            transform: translateY(-2px);
+            background: rgba(148, 163, 184, 0.12);
+        }
+        .tm-leaderboard-row--top {
+            background: rgba(250, 204, 21, 0.12) !important;
+        }
+        .tm-leaderboard-row--me {
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.7), 0 12px 28px -18px rgba(16, 185, 129, 0.55);
+        }
+        .tm-leaderboard-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .tm-leaderboard-user img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 9999px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        .tm-leaderboard-user .name {
+            font-weight: 600;
+        }
+        .tm-leaderboard-user .meta {
+            font-size: 0.72rem;
+            color: rgba(226, 232, 240, 0.6);
+        }
+        .tm-leaderboard-empty {
+            margin-top: 1rem;
+            background: rgba(148, 163, 184, 0.12);
+            border-radius: 16px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.85rem;
+            color: rgba(226, 232, 240, 0.72);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .tm-leaderboard-rank {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: rgba(226, 232, 240, 0.7);
+        }
+        .tm-leaderboard-score {
+            font-weight: 700;
+            color: #fde68a;
+        }
+        @media (max-width: 768px) {
+            .tm-leaderboard__content {
+                padding: 1.6rem 1.4rem 2rem;
+            }
+            .tm-podium {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                justify-items: center;
+            }
+            .tm-podium-slot {
+                width: 100%;
+            }
+            .tm-podium-card {
+                max-width: 100%;
+            }
+            .tm-leaderboard-table-wrap {
+                padding: 0.75rem;
+            }
+            .tm-leaderboard-table tbody td {
+                padding: 0.7rem 0.75rem;
+            }
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -506,6 +845,10 @@
                                                         <ion-icon name="bag-handle-outline"></ion-icon>
                                                         <span class="count cart-count" style="display:none">0</span>
                                                 </a>
+                                                <button type="button" class="action-btn" data-open-wishlist title="Wishlist">
+                                                        <ion-icon name="heart-outline"></ion-icon>
+                                                        <span class="count wish-count" style="display:none">0</span>
+                                                </button>
                                                 <div class="tm-nav-dropdown">
                                                     <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
                                                         <ion-icon name="menu-outline"></ion-icon>
@@ -517,7 +860,7 @@
                                                         <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
                                                         <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
                                                         <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                                                        <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
+                                                        <a href="#" data-open-wishlist><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
                                                     </div>
                                                 </div>
                                         </div>
@@ -620,355 +963,67 @@
                     <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Flash Sale</h3>
                     <div class="text-sm text-gray-600">Berakhir dalam <span id="fsTimer" class="font-semibold text-gray-900">--:--:--</span></div>
                 </div>
-                <div class="product-grid">
-                    <!-- Product 1 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/jacket-1.png" alt="Jaket Denim Vintage" class="showcase-img">
-                            <span class="condition-badge condition-excellent">-50%</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">jaket</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Jaket Denim Vintage</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Jaket denim preloved dengan gaya klasik yang timeless.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 85.000</p>
-                                <del>Rp 170.000</del>
-                                <span class="discount-percentage">50% OFF</span>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/shirt-1.png" alt="Kemeja Katun" class="showcase-img">
-                            <span class="condition-badge condition-good">-35%</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">kemeja</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Kemeja Katun Premium</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Kemeja katun preloved dengan bahan nyaman dan desain klasik.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 55.000</p>
-                                <del>Rp 85.000</del>
-                                <span class="discount-percentage">35% OFF</span>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/bag-1.png" alt="Tas Kulit" class="showcase-img">
-                            <span class="condition-badge condition-excellent">-40%</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">tas</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Tas Kulit Authentic</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Tas kulit preloved dengan desain klasik yang elegan.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 150.000</p>
-                                <del>Rp 250.000</del>
-                                <span class="discount-percentage">40% OFF</span>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/shoe-1.jpg" alt="Sepatu Sneakers" class="showcase-img">
-                            <span class="condition-badge condition-good">-30%</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">sepatu</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Sepatu Sneakers Vintage</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Sepatu sneakers preloved dengan gaya retro yang trendy.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 120.000</p>
-                                <del>Rp 170.000</del>
-                                <span class="discount-percentage">30% OFF</span>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Popular Near You / Trending -->
-            <section class="mb-8">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xl font-bold text-gray-800">Trending</h3>
-                    <a href="dashboard-products.html" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
-                </div>
-                <div class="product-grid">
-                    <!-- Product 1 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/jacket-3.png" alt="Sweater Hoodie" class="showcase-img">
-                            <span class="condition-badge condition-excellent">Like New</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">sweater</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Sweater Hoodie Casual</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Sweater hoodie preloved dengan bahan hangat dan nyaman.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 75.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/shirt-2.png" alt="Kemeja Linen" class="showcase-img">
-                            <span class="condition-badge condition-good">Good Condition</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">kemeja</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Kemeja Linen Modern</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Kemeja linen preloved dengan desain modern dan bahan sejuk.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 65.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 (replaced: Rok A-Line) -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/skirt-2.png" alt="Rok A-Line Floral" class="showcase-img">
-                            <span class="condition-badge condition-excellent">Like New</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">rok</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Rok A-Line Floral</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Rok midi A-Line motif bunga, bahan jatuh dan nyaman dipakai.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 89.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/pants-1.png" alt="Celana Chino" class="showcase-img">
-                            <span class="condition-badge condition-good">Good Condition</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">celana</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Celana Chino Slim</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Celana chino preloved dengan potongan slim fit yang trendy.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 59.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="product-grid" id="flashSaleGrid"></div>
             </section>
 
             <!-- Recommendation Horizontal -->
             <section class="mb-8">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xl font-bold text-gray-800">Untuk Kamu</h3>
-                    <a href="#" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
+                    <a href="dashboard-products.html" class="text-green-600 hover:text-green-800 text-sm font-medium">Lihat Semua</a>
                 </div>
-                <div class="product-grid">
-                    <!-- Product 1 (replaced: Ikat Pinggang Kulit) -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/belt.jpg" alt="Ikat Pinggang Kulit" class="showcase-img">
-                            <span class="condition-badge condition-excellent">Like New</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">aksesoris</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Ikat Pinggang Kulit</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Ikat pinggang kulit klasik, cocok untuk gaya kasual maupun formal.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 45.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="showcase">
-                        <div class="showcase-banner">
-                            <img src="./assets/images/products/watch-1.jpg" alt="Jam Tangan" class="showcase-img">
-                            <span class="condition-badge condition-good">Good Condition</span>
-                            <div class="showcase-actions">
-                                <button class="btn-action">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="eye-outline"></ion-icon>
-                                </button>
-                                <button class="btn-action">
-                                    <ion-icon name="bag-add-outline"></ion-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="showcase-content">
-                            <a href="#" class="showcase-category">aksesoris</a>
-                            <a href="#">
-                                <h3 class="showcase-title">Jam Tangan Classic</h3>
-                            </a>
-                            <p class="showcase-desc">
-                                Jam tangan preloved dengan desain timeless dan functional.
-                            </p>
-                            <div class="price-box">
-                                <p class="price">Rp 95.000</p>
-                            </div>
-                            <button class="add-cart-btn">Tambah ke Keranjang</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="product-grid" id="recommendationGrid"></div>
             </section>
         </main>
+
+                        <!-- Leaderboard Section -->
+                                <section class="max-w-7xl mx-auto px-4 pb-10">
+                                    <div class="tm-leaderboard">
+                                        <div class="tm-leaderboard__content">
+                                            <div class="tm-leaderboard-topbar">
+                                                <div class="tm-leaderboard-header">
+                                                    <h3><i class="fas fa-trophy text-amber-400"></i> Leaderboard – Rise to the Top</h3>
+                                                    <p class="tm-leaderboard-subtitle">Kompetisi ramah lingkungan: kumpulkan XP dari pembelian preloved dan capai peringkat teratas.</p>
+                                                <br>
+                                                <br>
+    
+                                                </div>
+                                             
+                                                <div class="flex items-center gap-3">
+                                                    <div class="tm-leaderboard-tabs">
+                                                        <button id="lbTabLevel" class="tm-leaderboard-tab tm-active"><i class="fas fa-users"></i><span>Top Level</span></button>
+                                                        <button id="lbTabDaily" class="tm-leaderboard-tab"><i class="fas fa-bolt"></i><span>XP Hari Ini</span></button>
+                                                    </div>
+                                                    <button type="button" class="tm-leaderboard-showall" disabled><span>Lihat semua</span><i class="fas fa-arrow-right"></i></button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Podium top 3 -->
+                                            <div id="lbPodium" class="tm-podium">
+                                                <!-- filled by JS -->
+                                            </div>
+
+                                            <!-- Leaderboard table -->
+                                            <div class="tm-leaderboard-table-wrap">
+                                                <table class="tm-leaderboard-table" aria-label="Leaderboard pengguna">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-left">Rank</th>
+                                                            <th class="text-left">Pengguna</th>
+                                                            <th class="text-center">Level</th>
+                                                            <th id="tmLeaderboardScoreHead" class="text-right">Total XP</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tmLeaderboardBody"></tbody>
+                                                </table>
+                                            </div>
+
+                                            <div id="tmLeaderboardEmpty" class="tm-leaderboard-empty hidden">
+                                                Masuk untuk melihat leaderboard global secara real-time. Saat ini ditampilkan data dari perangkatmu.
+                                            </div>
+                                        </div>
+                                    </div>
+                        </section>
 
         <!-- FOOTER EXACTLY LIKE index.html -->
         <footer>
@@ -1065,6 +1120,11 @@
                 <i class="fas fa-shopping-bag text-base"></i>
                 <span>Pesanan</span>
             </a>
+            <a href="#" data-open-wishlist class="flex flex-col items-center text-gray-600 hover:text-green-600">
+                <i class="fas fa-heart text-base"></i>
+                <span>Wishlist</span>
+                <span class="count wish-count" style="display:none">0</span>
+            </a>
             <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
                 <i class="fas fa-map-marker-alt text-base"></i>
                 <span>Lacak</span>
@@ -1079,7 +1139,12 @@
     <script src="./assets/js/cart.js"></script>
     <script src="./assets/js/notify.js"></script>
     <script src="./assets/js/wishlist.js"></script>
+    <script src="./assets/js/wishlist-panel.js"></script>
     <script src="./assets/js/products-data.js"></script>
+    <script src="./assets/js/gamification.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.45.3/dist/umd/supabase.js" integrity="sha384-VHW9FPrfFFS9R48OeoQNxhcthu3tNdWLbpSql9IH+hbuL3SOHnBRoiSOP+npNYBu" crossorigin="anonymous"></script>
+    <script src="./assets/js/supabase-client.js"></script>
+    <script src="./assets/js/supabase-init.js"></script>
     <!-- Ionicons for index-style UI -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -1102,23 +1167,153 @@
         })();
     </script>
     <script>
-        // Wishlist badge persistence
-        (function(){
-            const KEY = 'tm_wishlist_count';
-            function update(){
-                const c = parseInt(localStorage.getItem(KEY)||'0',10)||0;
-                document.querySelectorAll('.wish-count').forEach(b=>{
-                    if (c>0){ b.textContent = String(c); b.style.display=''; }
-                    else { b.textContent='0'; b.style.display='none'; }
-                });
+        // Ensure wishlist badges reflect stored data once page is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => window.TMWishlist?.updateBadges?.());
+        } else {
+            window.TMWishlist?.updateBadges?.();
+        }
+        // Home product renderer utilities
+        const TM_HOME_CONDITIONS = {
+            'sangat baik': { cls: 'condition-very-good', label: 'Kondisi Sangat Baik' },
+            'baik': { cls: 'condition-good', label: 'Kondisi Baik' },
+            'seperti baru': { cls: 'condition-like-new', label: 'Kondisi Seperti Baru' },
+            'cukup': { cls: 'condition-fair', label: 'Kondisi Cukup' }
+        };
+
+        const TM_HOME_SAFE = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        function tmHomeEscape(value){
+            return String(value ?? '').replace(/[&<>"']/g, ch => TM_HOME_SAFE[ch] || ch);
+        }
+
+        function tmHomeFormatCurrency(amount){
+            try {
+                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(amount) || 0);
+            } catch {
+                return `Rp ${Number(amount || 0).toLocaleString('id-ID')}`;
             }
-            document.addEventListener('DOMContentLoaded', update);
-            window.TMWishlist = {
-                set(n){ localStorage.setItem(KEY, String(Math.max(0, Number(n)||0))); update(); },
-                increment(){ const v=(parseInt(localStorage.getItem(KEY)||'0',10)||0)+1; localStorage.setItem(KEY, String(v)); update(); },
-                decrement(){ const v=Math.max(0,(parseInt(localStorage.getItem(KEY)||'0',10)||0)-1); localStorage.setItem(KEY, String(v)); update(); }
-            };
-        })();
+        }
+
+        function tmHomeDiscountInfo(product){
+            const price = Number(product?.price) || 0;
+            const original = Number(product?.originalPrice) || 0;
+            if (!original || original <= price) return null;
+            const pct = Math.round((1 - (price / original)) * 100);
+            return { pct, original };
+        }
+
+        function tmHomeConditionInfo(condition){
+            const key = String(condition || '').trim().toLowerCase();
+            return TM_HOME_CONDITIONS[key] || TM_HOME_CONDITIONS['baik'];
+        }
+
+        function tmHomeShortDesc(text, maxLength = 110){
+            const value = String(text || '').trim();
+            if (!value) return '';
+            return value.length > maxLength ? `${value.slice(0, maxLength - 3).trim()}...` : value;
+        }
+
+        function tmHomeRenderCard(product){
+            const id = tmHomeEscape(product?.id ?? '');
+            const name = tmHomeEscape(product?.name || 'Produk Preloved');
+            const category = tmHomeEscape(product?.category || 'Produk');
+            const image = tmHomeEscape(product?.image || './assets/images/products/jacket-3.jpg');
+            const detailUrl = tmHomeEscape(`dashboard-product.html?id=${encodeURIComponent(product?.id ?? '')}`);
+            const categoryParam = product?.category ? `?category=${encodeURIComponent(product.category)}` : '';
+            const categoryUrl = tmHomeEscape(`dashboard-products.html${categoryParam}`);
+            const discount = tmHomeDiscountInfo(product);
+            const conditionInfo = tmHomeConditionInfo(product?.condition);
+            const conditionLabel = tmHomeEscape(conditionInfo.label);
+            const priceLabel = tmHomeFormatCurrency(product?.price);
+            const originalLabel = discount ? tmHomeFormatCurrency(discount.original) : '';
+            const description = tmHomeEscape(tmHomeShortDesc(product?.description));
+            const inWishlist = !!window.TMWishlist?.has?.(String(product?.id));
+            const wishClass = inWishlist ? ' wishlist-btn is-active' : ' wishlist-btn';
+            const wishIcon = inWishlist ? 'heart' : 'heart-outline';
+            const priceAttr = Number(product?.price) || 0;
+            const imageAttr = tmHomeEscape(product?.image || './assets/images/products/jacket-3.jpg');
+
+            return `
+                <div class="showcase" data-product-id="${id}">
+                    <div class="showcase-banner">
+                        <a href="${detailUrl}" class="block">
+                            <img src="${image}" alt="${name}" class="showcase-img">
+                        </a>
+                        ${discount ? `<span class="badge-sale">-${discount.pct}%</span>` : ''}
+                        <div class="showcase-actions">
+                            <button type="button" class="btn-action${wishClass}" data-wish-id="${id}" data-wish-name="${name}" aria-pressed="${inWishlist ? 'true' : 'false'}" title="Tambah ke Wishlist">
+                                <ion-icon name="${wishIcon}"></ion-icon>
+                            </button>
+                            <a class="btn-action" href="${detailUrl}" title="Lihat Detail Produk">
+                                <ion-icon name="eye-outline"></ion-icon>
+                            </a>
+                            <button type="button" class="btn-action add-cart" data-add-cart data-id="${id}" data-name="${name}" data-price="${priceAttr}" data-image="${imageAttr}" title="Tambah ke Keranjang">
+                                <ion-icon name="bag-add-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <a href="${categoryUrl}" class="showcase-category">${category}</a>
+                        <a href="${detailUrl}">
+                            <h3 class="showcase-title">${name}</h3>
+                        </a>
+                        <span class="condition-badge ${conditionInfo.cls}">${conditionLabel}</span>
+                        ${description ? `<p class="showcase-desc">${description}</p>` : ''}
+                        <div class="price-box">
+                            <p class="price">${priceLabel}</p>
+                            ${discount ? `<del>${originalLabel}</del><span class="discount-percentage">${discount.pct}% OFF</span>` : ''}
+                        </div>
+                        <button type="button" class="add-cart-btn" data-add-cart data-id="${id}" data-name="${name}" data-price="${priceAttr}" data-image="${imageAttr}">Tambah ke Keranjang</button>
+                    </div>
+                </div>`;
+        }
+
+        function tmHomeRenderSection(targetId, products){
+            const container = document.getElementById(targetId);
+            if (!container) return;
+            if (!products.length){
+                container.innerHTML = '<div class="text-sm text-gray-500">Produk akan segera hadir.</div>';
+                return;
+            }
+            container.innerHTML = products.map(tmHomeRenderCard).join('');
+        }
+
+        function tmHomeCollectProducts(){
+            const all = Array.isArray(window.TM_PRODUCTS) ? window.TM_PRODUCTS.slice() : [];
+            if (!all.length) return { flash: [], recommend: [] };
+
+            const withDiscount = all.filter(p => tmHomeDiscountInfo(p));
+            withDiscount.sort((a, b) => (tmHomeDiscountInfo(b)?.pct || 0) - (tmHomeDiscountInfo(a)?.pct || 0));
+            const flash = withDiscount.slice(0, 3);
+            const used = new Set(flash.map(p => String(p.id)));
+            const rest = all.filter(p => !used.has(String(p.id)));
+            const recommend = rest.slice(0, 4);
+            return { flash, recommend };
+        }
+
+        function tmHomeApplyWishlistState(){
+            document.querySelectorAll('[data-wish-id]').forEach(btn => {
+                const id = btn.getAttribute('data-wish-id');
+                const active = !!window.TMWishlist?.has?.(id);
+                btn.classList.toggle('is-active', active);
+                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+                const icon = btn.querySelector('ion-icon');
+                if (icon) icon.setAttribute('name', active ? 'heart' : 'heart-outline');
+            });
+        }
+
+        function tmHomeInitProducts(){
+            const { flash, recommend } = tmHomeCollectProducts();
+            tmHomeRenderSection('flashSaleGrid', flash);
+            tmHomeRenderSection('recommendationGrid', recommend);
+            tmHomeApplyWishlistState();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', tmHomeInitProducts);
+        } else {
+            tmHomeInitProducts();
+        }
         // Global menu dropdown
         const globalMenuBtn = document.getElementById('globalMenuBtn');
         const globalMenu = document.getElementById('globalMenu');
@@ -1277,47 +1472,17 @@
         document.addEventListener('click', (e) => {
             const btn = e.target.closest('[data-wish-id]');
             if (!btn) return;
+            e.preventDefault();
             const id = btn.getAttribute('data-wish-id');
             const name = btn.getAttribute('data-wish-name') || 'Produk';
-            const active = window.TMWishlist?.toggle?.(id, name);
-            btn.classList.toggle('text-red-500', !!active);
+            window.TMWishlist?.toggle?.(id, name);
+            tmHomeApplyWishlistState();
         });
 
-        // Add to cart micro interaction
-        function showToast(message, type='success'){
-            if (type==='success') return Notify.toastSuccess(message);
-            if (type==='error') return Notify.toastError(message);
-            if (type==='warning') return Notify.toastWarn(message);
-            return Notify.toastInfo(message);
-        }
-
-        // Add cart functionality to new showcase buttons
-        document.querySelectorAll('.add-cart-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const productName = this.closest('.showcase').querySelector('.showcase-title').textContent;
-                showToast(`${productName} ditambahkan ke keranjang`);
-                
-                // Update cart count
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) {
-                    let currentCount = parseInt(cartCount.textContent) || 0;
-                    currentCount++;
-                    cartCount.textContent = currentCount;
-                    cartCount.style.display = currentCount > 0 ? '' : 'none';
-                }
-            });
-        });
-
-        // Add wishlist functionality to heart buttons
-        document.querySelectorAll('.btn-action').forEach(btn => {
-            if (btn.querySelector('ion-icon[name="heart-outline"]')) {
-                btn.addEventListener('click', function() {
-                    const productName = this.closest('.showcase').querySelector('.showcase-title').textContent;
-                    showToast(`${productName} ditambahkan ke wishlist`, 'success');
-                    
-                    // Update wishlist count
-                    window.TMWishlist?.increment?.();
-                });
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'tm_wishlist_items' || event.key === 'tm_wishlist_count') {
+                tmHomeApplyWishlistState();
+                window.TMWishlist?.updateBadges?.();
             }
         });
 
@@ -1381,5 +1546,301 @@
             }, { passive: true });
         })();
     </script>
+        <script>
+            // Leaderboard renderer (Supabase-backed with graceful fallback)
+            (async function(){
+                const tableBody = document.getElementById('tmLeaderboardBody');
+                const scoreHead = document.getElementById('tmLeaderboardScoreHead');
+                const emptyEl = document.getElementById('tmLeaderboardEmpty');
+                const podiumEl = document.getElementById('lbPodium');
+                const tabLevel = document.getElementById('lbTabLevel');
+                const tabDaily = document.getElementById('lbTabDaily');
+                if (!tableBody) return;
+
+                const ACTIVE_USER_KEY = 'tm_active_user';
+                const AVATAR_MALE = 'https://avatar.iran.liara.run/public/boy';
+                const AVATAR_FEMALE = 'https://avatar.iran.liara.run/public/girl';
+                const SAMPLE_LEADERS = [
+                    { id: 'lb-eco-1', full_name: 'Rani Arista', username: 'rani.eco', level: 4, exp: 1860, daily: 240, gender: 'female' },
+                    { id: 'lb-eco-2', full_name: 'Dimas Rahadian', username: 'dimas.resell', level: 3, exp: 1120, daily: 180, gender: 'male' },
+                    { id: 'lb-eco-3', full_name: 'Salsa Anindya', username: 'salvage.salsa', level: 5, exp: 2350, daily: 320, gender: 'female' },
+                    { id: 'lb-eco-4', full_name: 'Maya Putri', username: 'maya.green', level: 3, exp: 980, daily: 150, gender: 'female' },
+                    { id: 'lb-eco-5', full_name: 'Bagas Firmansyah', username: 'bagascycle', level: 2, exp: 610, daily: 120, gender: 'male' }
+                ];
+
+                const LEVEL_NAMES = {1:'Pemula Hijau',2:'Sahabat Bumi',3:'Pahlawan Daur Ulang',4:'Guardian Keberlanjutan',5:'Top 1% Penyelamat Lingkungan'};
+
+                function levelNameById(id){
+                    try {
+                        const match = (window.TMGami?.LEVELS||[]).find(l=>l.id===id);
+                        if (match) return match.name;
+                    } catch {}
+                    return LEVEL_NAMES[id] || `Level ${id}`;
+                }
+                function guessGenderFromName(name){
+                    const lookupName = (name || '').trim().toLowerCase();
+                    if (!lookupName) return 'male';
+                    const femaleEndings = ['a','i','y','e'];
+                    if (femaleEndings.some(end => lookupName.endsWith(end))) return 'female';
+                    return 'male';
+                }
+                function placeholderAvatar(name, gender){
+                    const safeName = encodeURIComponent((name || 'User').trim() || 'User');
+                    const normalizedGender = gender === 'female' ? 'female' : (gender === 'male' ? 'male' : guessGenderFromName(name));
+                    const base = normalizedGender === 'female' ? AVATAR_FEMALE : AVATAR_MALE;
+                    return `${base}?name=${safeName}`;
+                }
+                function avatarUrl(name, custom, gender){
+                    if (custom) return custom;
+                    return placeholderAvatar(name, gender);
+                }
+                function formatNumber(v){
+                    return (Number(v)||0).toLocaleString('id-ID');
+                }
+                function scoreDisplay(mode, value){
+                    const formatted = formatNumber(value);
+                    return mode === 'daily' ? `+${formatted} XP` : `${formatted} XP`;
+                }
+                function rowTpl(user, rank, mode){
+                    const score = Number(mode === 'daily' ? user?.score : user?.exp);
+                    const topClass = rank <= 3 ? ' tm-leaderboard-row--top' : '';
+                    return `
+                        <tr data-user-id="${user?.id||''}" class="tm-leaderboard-row${topClass}">
+                            <td class="tm-leaderboard-rank">#${String(rank).padStart(2,'0')}</td>
+                            <td>
+                                <div class="tm-leaderboard-user">
+                                    <img src="${avatarUrl(user?.full_name||user?.username||'User', user?.avatar_url, user?.gender)}" alt="${user?.full_name||user?.username||'User'}">
+                                    <div>
+                                        <div class="name">${user?.full_name||user?.username||'User'}</div>
+                                        <div class="meta">${levelNameById(Number(user?.level)||1)}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">Lv ${Number(user?.level)||1}</td>
+                            <td class="text-right tm-leaderboard-score">${scoreDisplay(mode, score)}</td>
+                        </tr>`;
+                }
+                function podiumTpl(user, rank, slot, mode){
+                    const medal = slot==='1' ? '🥇' : (slot==='2' ? '🥈' : '🥉');
+                    if (!user){
+                        return `
+                            <div class="tm-podium-slot tm-podium-slot--${slot}">
+                                <div class="tm-podium-card tm-podium-card--${slot} tm-podium-card--empty">
+                                    <div class="tm-podium-medal">${medal}</div>
+                                    <div class="tm-podium-empty">Menunggu Pahlawan</div>
+                                    <div class="tm-podium-rank">#${String(rank).padStart(2,'0')}</div>
+                                    <div class="tm-podium-base tm-podium-base--${slot}"></div>
+                                </div>
+                            </div>`;
+                    }
+                    const score = Number(mode==='daily' ? user.score : user.exp)||0;
+                    return `
+                        <div class="tm-podium-slot tm-podium-slot--${slot}">
+                            <div class="tm-podium-card tm-podium-card--${slot}">
+                                <div class="tm-podium-medal">${medal}</div>
+                                <img src="${avatarUrl(user.full_name||user.username||'User', user.avatar_url, user.gender)}" alt="${user.full_name||user.username||'User'}">
+                                <div class="tm-podium-name">${user.full_name||user.username||'User'}</div>
+                                <div class="tm-podium-level">${levelNameById(Number(user.level)||1)}</div>
+                                <div class="tm-podium-xp">${scoreDisplay(mode, score)}</div>
+                                <div class="tm-podium-rank">#${String(rank).padStart(2,'0')}</div>
+                                <div class="tm-podium-base tm-podium-base--${slot}"></div>
+                            </div>
+                        </div>`;
+                }
+
+                function draw(mode, data, highlightId, { forceEmptyMessage=false } = {}){
+                    const items = Array.isArray(data) ? data.slice(0,10) : [];
+                    if (scoreHead) scoreHead.textContent = mode === 'daily' ? 'XP Hari Ini' : 'Total XP';
+
+                    if (podiumEl){
+                        const slots = [
+                            { user: items[1] || null, rank: 2, slot: '2' },
+                            { user: items[0] || null, rank: 1, slot: '1' },
+                            { user: items[2] || null, rank: 3, slot: '3' }
+                        ];
+                        podiumEl.innerHTML = slots.map(s => podiumTpl(s.user, s.rank, s.slot, mode)).join('');
+                    }
+
+                    const rows = items.map((u, i)=> rowTpl(u, i+1, mode)).join('');
+                    tableBody.innerHTML = rows;
+
+                    if (highlightId){
+                        const row = tableBody.querySelector(`[data-user-id="${highlightId}"]`);
+                        if (row) row.classList.add('tm-leaderboard-row--me');
+                    }
+
+                    if (emptyEl){
+                        if (items.length === 0 || forceEmptyMessage){
+                            emptyEl.classList.remove('hidden');
+                        } else {
+                            emptyEl.classList.add('hidden');
+                        }
+                    }
+                }
+
+                function getActiveUserSnapshot(){
+                    const sources = [];
+                    try { sources.push(sessionStorage.getItem(ACTIVE_USER_KEY)); } catch {}
+                    try { sources.push(localStorage.getItem(ACTIVE_USER_KEY)); } catch {}
+                    for (const raw of sources){
+                        if (!raw) continue;
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (parsed && typeof parsed === 'object') return parsed;
+                        } catch {}
+                    }
+                    return null;
+                }
+
+                function buildCurrentUser(){
+                    const snapshot = getActiveUserSnapshot();
+                    const name = (snapshot?.fullname || snapshot?.full_name || '').trim() || 'Sobat Thrift';
+                    const email = snapshot?.email || '';
+                    const username = email ? email.split('@')[0] : name.toLowerCase().split(/\s+/)[0] || 'guest';
+                    const totalXp = Number(window.TMGami?.getXP ? window.TMGami.getXP() : 0) || 0;
+                    const lvlInfo = window.TMGami?.getLevel ? window.TMGami.getLevel(totalXp) : null;
+                    const level = Number(lvlInfo?.id || lvlInfo?.level || 1) || 1;
+                    return {
+                        id: snapshot?.id || 'local-user',
+                        full_name: name,
+                        username,
+                        email,
+                        exp: totalXp,
+                        level,
+                        avatar_url: snapshot?.avatar_url || placeholderAvatar(name, snapshot?.gender),
+                        gender: snapshot?.gender || guessGenderFromName(name)
+                    };
+                }
+
+                function buildSamplePlayers(mode){
+                    return SAMPLE_LEADERS.map(player => ({
+                        id: player.id,
+                        full_name: player.full_name,
+                        username: player.username,
+                        level: player.level,
+                        exp: player.exp,
+                        score: player.daily,
+                        gender: player.gender,
+                        avatar_url: placeholderAvatar(player.full_name, player.gender)
+                    })).map(player => {
+                        if (mode === 'daily') return { ...player, score: Number(player.score)||0 };
+                        return { ...player, exp: Number(player.exp)||0 };
+                    });
+                }
+
+                function computeDailyXp(){
+                    const key = 'tm_orders_history_v1';
+                    const today = new Date();
+                    today.setHours(0,0,0,0);
+                    let orders = [];
+                    try { orders = JSON.parse(localStorage.getItem(key)||'[]'); } catch { orders = []; }
+                    return orders.filter(order => {
+                        if (!order?.ts) return false;
+                        const ts = new Date(order.ts);
+                        if (Number.isNaN(ts.getTime())) return false;
+                        ts.setHours(0,0,0,0);
+                        return ts.getTime() === today.getTime();
+                    }).reduce((sum, order) => sum + (Number(order?.xpEarned)||0), 0);
+                }
+
+                async function renderSupabase(mode){
+                    try {
+                        if (!window.TMSupa || !TMSupa.getClient || !TMSupa.getClient()) return false;
+                        const me = await TMSupa.getCurrentUser().catch(()=>null);
+                        const client = TMSupa.getClient();
+                        let data = [];
+                        if (mode === 'daily'){
+                            const since = new Date(); since.setHours(0,0,0,0);
+                            const { data: orders, error } = await client
+                                .from('orders')
+                                .select('user_id, shipping_address, created_at')
+                                .gte('created_at', since.toISOString());
+                            if (error) throw error;
+                            const aggregate = new Map();
+                            (orders||[]).forEach(order => {
+                                const xp = Number(order?.shipping_address?.xp_earned)||0;
+                                if (!order.user_id || xp <= 0) return;
+                                aggregate.set(order.user_id, (aggregate.get(order.user_id)||0) + xp);
+                            });
+                            const ids = Array.from(aggregate.keys());
+                            if (ids.length){
+                                const { data: profiles, error: e2 } = await client
+                                    .from('profiles')
+                                    .select('id, full_name, username, avatar_url, level, exp')
+                                    .in('id', ids);
+                                if (e2) throw e2;
+                                data = profiles.map(p => ({ ...p, score: aggregate.get(p.id)||0 }))
+                                    .filter(p => (p.score||0) > 0)
+                                    .sort((a,b)=> (b.score||0) - (a.score||0));
+                            }
+                        } else {
+                            const { data: profiles, error } = await client
+                                .from('profiles')
+                                .select('id, full_name, username, avatar_url, exp, level')
+                                .order('level', { ascending: false })
+                                .order('exp', { ascending: false })
+                                .limit(10);
+                            if (error) throw error;
+                            data = profiles || [];
+                        }
+                        draw(mode, data, me?.user?.id || null);
+                        return true;
+                    } catch(e){
+                        console.warn('Leaderboard Supabase error:', e?.message||e);
+                        return false;
+                    }
+                }
+
+                function renderLocal(mode){
+                    let dataset = [];
+                    const me = buildCurrentUser();
+                    try {
+                        if (mode === 'daily'){
+                            const todayXp = computeDailyXp();
+                            const myDaily = { ...me, score: todayXp };
+                            const sample = buildSamplePlayers('daily');
+                            dataset = [...sample, myDaily]
+                                .filter(entry => typeof entry.score === 'number')
+                                .map(entry => ({ ...entry, score: Number(entry.score)||0 }))
+                                .sort((a,b) => (b.score||0) - (a.score||0));
+                            draw(mode, dataset, myDaily.id, { forceEmptyMessage: dataset.length === 0 });
+                        } else {
+                            const sample = buildSamplePlayers('level');
+                            const myTotal = { ...me, exp: Number(me.exp)||0 };
+                            dataset = [...sample, myTotal]
+                                .filter(entry => typeof entry.exp === 'number')
+                                .map(entry => ({ ...entry, exp: Number(entry.exp)||0, level: Number(entry.level)||1 }))
+                                .sort((a,b) => (b.level||0) === (a.level||0)
+                                    ? (b.exp||0) - (a.exp||0)
+                                    : (b.level||0) - (a.level||0));
+                            draw(mode, dataset, myTotal.id, { forceEmptyMessage: dataset.length === 0 });
+                        }
+                    } catch {
+                        dataset = [];
+                        draw(mode, dataset, me.id, { forceEmptyMessage: true });
+                    }
+
+                    if (!emptyEl) return;
+                    if (!dataset.length){
+                        emptyEl.classList.remove('hidden');
+                        emptyEl.textContent = 'Masuk untuk melihat leaderboard global secara real-time. Saat ini ditampilkan data dari perangkatmu.';
+                    } else {
+                        emptyEl.classList.add('hidden');
+                        emptyEl.textContent = '';
+                    }
+                }
+
+                async function render(mode){
+                    tabLevel?.classList.toggle('tm-active', mode !== 'daily');
+                    tabDaily?.classList.toggle('tm-active', mode === 'daily');
+                    const ok = await renderSupabase(mode);
+                    if (!ok) renderLocal(mode);
+                }
+
+                tabLevel?.addEventListener('click', ()=> render('level'));
+                tabDaily?.addEventListener('click', ()=> render('daily'));
+                render('level');
+            })();
+        </script>
 </body>
 </html>

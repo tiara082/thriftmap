@@ -292,7 +292,8 @@
         .desktop-navigation-menu, .desktop-navigation-menu * {
             border: none !important;
         }
-        .header-main { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+        /* Give the header a little breathing space top & bottom */
+        .header-main { padding: 12px 0 12px !important; margin-bottom: 0 !important; }
         .desktop-navigation-menu { padding-top: 0 !important; margin-top: 0 !important; }
         header { background: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; }
         .header-user-actions {
@@ -300,6 +301,9 @@
             align-items: center;
             gap: 15px;
         }
+
+        /* Kill global margin coming from style-prefix.css (main { margin-top: 180px }) */
+        main { margin-top: 0 !important; }
 
         .action-btn {
             position: relative;
@@ -342,6 +346,10 @@
             gap: 25px;
             margin-top: 30px;
         }
+        /* Ensure inner content has bottom breathing room (override theme rule) */
+        .product-grid .showcase-content { padding: 15px 16px 16px !important; }
+        /* Keep the CTA button from touching the card edge */
+        .add-cart-btn { margin-bottom: 4px; }
 
         /* Align dropdown panel to right in header */
         .tm-nav-dropdown { position: relative; }

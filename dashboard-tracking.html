@@ -10,8 +10,6 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfB+BeIVHeY5x9JyvqB+1bpkfz0QG8T5nUrpHK7aC+7pCwT6U2Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Index page global styles to match navbar -->
-    <link rel="stylesheet" href="./assets/css/style-prefix.css">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -22,211 +20,631 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-        }
-        
-        .sidebar {
-            transition: all 0.3s ease;
-        }
-        
-        .sidebar-collapsed {
-            width: 70px;
-        }
-        
-        .sidebar-collapsed .sidebar-text {
-            display: none;
-        }
-        
-        .main-content {
-            transition: all 0.3s ease;
-        }
-        
-        .main-content-expanded {
-            margin-left: 70px;
+        :root {
+            --tm-primary: #16a34a;
+            --tm-primary-dark: #15803d;
+            --tm-secondary: #0f766e;
+            --tm-bg: #f1f5f9;
+            --tm-page: linear-gradient(180deg, #f8fafc 0%, #eefdf6 45%, #f8fafc 100%);
+            --tm-surface: rgba(255, 255, 255, 0.94);
+            --tm-border: rgba(15, 118, 110, 0.14);
+            --tm-muted: #64748b;
+            --tm-text: #0f172a;
+            --tm-radius-lg: 22px;
+            --tm-radius-md: 16px;
+            --tm-radius-sm: 12px;
         }
 
-        #tracking-map {
-            height: 400px;
-            border-radius: 16px;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--tm-page);
+            color: var(--tm-text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1300;
+            background: #fff !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .header-main { padding: 12px 0 !important; margin-bottom: 0 !important; }
+
+        .header-main .container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .action-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus-visible {
+            background: #27ae60;
+            color: #fff;
+        }
+
+        .action-btn .count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
+            color: #fff;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tm-nav-dropdown { position: relative; }
+
+        .tm-nav-dropdown .tm-dropdown-panel {
+            right: 0;
+            left: auto;
+        }
+
+        .tracking-card {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
+            transition: all 0.3s ease;
             overflow: hidden;
+        }
+
+        .tracking-card:hover {
+            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.16);
+            transform: translateY(-2px);
+        }
+
+        .tracking-header {
+            background: linear-gradient(120deg, rgba(22, 163, 74, 0.05), rgba(20, 184, 166, 0.03));
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+        }
+
+        .tracking-map {
+            height: 400px;
+            border-radius: var(--tm-radius-lg);
+            overflow: hidden;
+            margin: 1.5rem;
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 8px 24px rgba(15, 118, 110, 0.12);
+        }
+
+        .tracking-timeline {
+            padding: 1.5rem;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            width: 2px;
+            background: var(--tm-primary);
+            z-index: 2;
+            transition: height 0.5s ease;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            z-index: 3;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 0.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--tm-primary);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+        }
+
+        .timeline-item.completed .timeline-dot {
+            background: var(--tm-primary);
+            color: white;
+        }
+
+        .timeline-content {
+            background: rgba(248, 250, 252, 0.7);
+            border-radius: var(--tm-radius-md);
+            padding: 1rem 1.25rem;
+            border: 1px solid rgba(15, 118, 110, 0.08);
+        }
+
+        .timeline-item.active .timeline-content {
+            background: rgba(22, 163, 74, 0.05);
+            border-color: rgba(22, 163, 74, 0.2);
+        }
+
+        .timeline-time {
+            font-size: 0.8rem;
+            color: var(--tm-muted);
+            margin-top: 0.25rem;
+        }
+
+        .search-section {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.03), rgba(20, 184, 166, 0.05));
+            border-radius: var(--tm-radius-lg);
+            padding: 1.5rem;
+            border: 1px solid rgba(15, 118, 110, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border-radius: var(--tm-radius-md);
+            border: 1px solid var(--tm-border);
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            border-color: rgba(22, 163, 74, 0.5);
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+        }
+
+        .search-btn {
+            padding: 1rem 1.5rem;
+            border-radius: var(--tm-radius-md);
+            background: var(--tm-primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-btn:hover {
+            background: var(--tm-primary-dark);
+            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+        }
+
+        .order-info-card {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--tm-muted);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--tm-text);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-dikirim {
+            background: rgba(59, 130, 246, 0.15);
+            color: #1d4ed8;
+        }
+
+        .status-diproses {
+            background: rgba(234, 179, 8, 0.15);
+            color: #d97706;
+        }
+
+        .status-selesai {
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
+        }
+
+        .status-dibatalkan {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        .estimated-arrival {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.1), rgba(20, 184, 166, 0.08));
+            border-radius: var(--tm-radius-md);
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .estimated-arrival i {
+            font-size: 1.25rem;
+            color: var(--tm-primary);
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: var(--tm-radius-md);
+            margin: 1.5rem;
+            border: 1px solid rgba(15, 118, 110, 0.1);
+        }
+
+        .driver-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #16a34a, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .driver-details {
+            flex: 1;
+        }
+
+        .driver-name {
+            font-weight: 600;
+            color: var(--tm-text);
+        }
+
+        .driver-contact {
+            font-size: 0.85rem;
+            color: var(--tm-muted);
+            margin-top: 0.25rem;
+        }
+
+        .contact-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--tm-radius-sm);
+            background: transparent;
+            border: 1px solid var(--tm-primary);
+            color: var(--tm-primary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .contact-btn:hover {
+            background: rgba(22, 163, 74, 0.05);
+        }
+
+        .tm-bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid var(--tm-border);
+            box-shadow: 0 -18px 32px rgba(15, 118, 110, 0.12);
+        }
+
+        .tm-bottom-nav a {
+            color: var(--tm-muted);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .tm-bottom-nav a.active,
+        .tm-bottom-nav a:hover {
+            color: var(--tm-primary-dark);
+        }
+
+        .recent-orders {
+            margin-top: 1.5rem;
+        }
+
+        .order-card-small {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-md);
+            border: 1px solid var(--tm-border);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-card-small:hover {
+            background: rgba(22, 163, 74, 0.03);
+            border-color: rgba(22, 163, 74, 0.2);
+        }
+
+        .order-card-small.active {
+            background: rgba(22, 163, 74, 0.05);
+            border-color: rgba(22, 163, 74, 0.3);
         }
 
         * {
             outline: none !important;
         }
-        
+
         button:focus,
         button:hover,
         button:active {
             outline: none !important;
         }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .driver-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .search-section .flex {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Sidebar -->
-    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed hidden">
-        <div class="flex items-center justify-between p-4 border-b border-green-700">
-            <div class="flex items-center space-x-3">
-                <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
-            </div>
-            <button id="toggleSidebar" class="text-white hover:text-green-200">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <nav class="mt-6">
-            <div class="px-4 space-y-2">
-                <a href="dashboard-home.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-home mr-3"></i>
-                    <span class="sidebar-text">Dashboard</span>
+<body>
+    <!-- Header/Navbar -->
+    <header>
+        <div class="header-main">
+            <div class="container">
+                <a href="dashboard-home.html" class="header-logo">
+                    <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
                 </a>
-                
-                <a href="dashboard-profile.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-user mr-3"></i>
-                    <span class="sidebar-text">Profil</span>
-                </a>
-                
-                <a href="dashboard-products.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-tshirt mr-3"></i>
-                    <span class="sidebar-text">Produk</span>
-                </a>
-                
-                <a href="dashboard-orders.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-shopping-bag mr-3"></i>
-                    <span class="sidebar-text">Pesanan</span>
-                </a>
-                
-                <a href="dashboard-tracking.html" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white">
-                    <i class="fas fa-map-marker-alt mr-3"></i>
-                    <span class="sidebar-text">Lacak Pesanan</span>
-                </a>
-                
-                <a href="dashboard-settings.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-cog mr-3"></i>
-                    <span class="sidebar-text">Pengaturan</span>
-                </a>
-            </div>
-        </nav>
-        
-        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
-            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="sidebar-text">Keluar</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content ml-0">
-                <!-- Index-style Header/Navbar -->
-                <header style="position:sticky;top:0;z-index:1300;background:#fff">
-                    <div class="header-main">
-                        <div class="container">
-                            <a href="dashboard-home.html" class="header-logo">
-                                <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
-                            </a>
-                            <div class="header-search-container">
-                                <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari resi atau pesanan...">
-                                <button class="search-btn" id="globalSearchBtn">
-                                    <ion-icon name="search-outline"></ion-icon>
-                                </button>
-                            </div>
-                                                        <div class="header-user-actions" style="margin-left:auto">
-                                                                <a href="dashboard-profile.html" class="action-btn" title="Akun">
-                                                                        <ion-icon name="person-outline"></ion-icon>
-                                                                </a>
-                                                                <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-                                                                        <ion-icon name="bag-handle-outline"></ion-icon>
-                                                                        <span class="count cart-count" style="display:none">0</span>
-                                                                </a>
-                                                                <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
-                                                                                    <ion-icon name="heart-outline"></ion-icon>
-                                                                    <span class="count wish-count" style="display:none">0</span>
-                                                                </a>
-                                                                <div class="tm-nav-dropdown">
-                                                                    <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
-                                                                                                        <ion-icon name="menu-outline"></ion-icon>
-                                                                    </button>
-                                                                    <div class="tm-dropdown-panel hidden" id="globalMenu">
-                                                                                                        <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
-                                                                                                        <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
-                                                                                                        <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
-                                                                                                        <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-                                                                                                        <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                                                                    </div>
-                                                                </div>
-                                                        </div>
+                <div class="header-search-container">
+                    <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari resi atau pesanan...">
+                    <button class="search-btn" id="globalSearchBtn">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </div>
+                <div class="header-user-actions">
+                    <a href="dashboard-profile.html" class="action-btn" title="Akun">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </a>
+                    <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+                        <ion-icon name="bag-handle-outline"></ion-icon>
+                        <span class="count cart-count" style="display:none">0</span>
+                    </a>
+                    <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span class="count wish-count" style="display:none">0</span>
+                    </a>
+                    <div class="tm-nav-dropdown">
+                        <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
+                            <ion-icon name="menu-outline"></ion-icon>
+                        </button>
+                        <div class="tm-dropdown-panel hidden" id="globalMenu">
+                            <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
+                            <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
+                            <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
+                            <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
+                            <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
                         </div>
                     </div>
-                </header>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <!-- Page Content -->
-        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
-            <div class="max-w-4xl mx-auto space-y-6">
-                <section class="bg-white rounded-xl shadow-sm p-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Cari Pesanan</h2>
-                    <p class="text-sm text-gray-500 mb-4">Masukkan kode pesanan untuk melihat status terbaru.
-                        Contoh format: <span class="font-semibold text-gray-700">#ORD-001234</span>
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="text" id="orderCode" placeholder="Contoh: #ORD-001234" 
-                               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                        <button id="trackButton" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Lacak</button>
+    <!-- Page Content -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 pb-24 mt-3">
+        <div class="max-w-5xl mx-auto space-y-6">
+            <!-- Search Section -->
+            <section class="search-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Lacak Pesanan ThriftMap</h2>
+                <p class="text-gray-600 mb-4">Masukkan kode pesanan untuk melihat status terbaru dan lokasi paket Anda</p>
+                
+                <div class="flex gap-4">
+                    <input type="text" id="orderCode" placeholder="Contoh: TM-2023-00125" 
+                           class="search-input flex-1">
+                    <button id="trackButton" class="search-btn">
+                        <i class="fas fa-search-location"></i> Lacak Pesanan
+                    </button>
+                </div>
+                <p id="orderHint" class="mt-3 text-sm text-gray-500 hidden"></p>
+                
+                <!-- Recent Orders -->
+                <div class="recent-orders">
+                    <h3 class="font-semibold text-gray-700 mb-3">Pesanan Terbaru</h3>
+                    <div id="recentOrdersList" class="space-y-2">
+                        <!-- Recent orders will be injected here -->
                     </div>
-                    <p id="orderHint" class="mt-2 text-sm text-gray-500 hidden"></p>
-                </section>
+                </div>
+            </section>
 
-                <section class="bg-white rounded-xl shadow-sm p-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Lokasi Paket Saat Ini</h2>
-                    <div id="tracking-map" class="mb-4"></div>
-                    <p class="text-sm text-gray-500">
-                        Lokasi di-update setiap 15 menit berdasarkan data real-time dari mitra logistik.
-                    </p>
-                </section>
-
-                <section class="bg-white rounded-xl shadow-sm p-6">
-                    <div class="flex items-center justify-between mb-6">
+            <!-- Active Tracking Section -->
+            <div id="activeTracking" class="hidden">
+                <!-- Order Info Card -->
+                <section class="order-info-card">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                         <div>
-                            <h2 class="text-xl font-bold text-gray-800">Status Pengiriman</h2>
-                            <p class="text-sm text-gray-500">Perkembangan pengiriman dari gudang hingga sampai tujuan</p>
+                            <h3 class="text-xl font-bold text-gray-800" id="orderId">TM-2023-00125</h3>
+                            <p class="text-gray-600">Pesanan Thrift • <span id="orderDate">15 Nov 2023</span></p>
                         </div>
-                        <span id="estimatedArrival" class="text-sm font-medium text-green-600"></span>
+                        <span class="status-badge status-dikirim" id="orderStatus">
+                            <i class="fas fa-shipping-fast"></i> Dalam Pengiriman
+                        </span>
                     </div>
 
-                    <div class="relative pl-10">
-                        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-green-200"></div>
-                        <div id="timeline" class="space-y-8">
-                            <!-- Timeline steps injected here -->
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Kurir</span>
+                            <span class="info-value" id="courierName">ThriftExpress</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">No. Resi</span>
+                            <span class="info-value" id="trackingNumber">TM-987654321</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Layanan</span>
+                            <span class="info-value" id="serviceType">Reguler</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Berat</span>
+                            <span class="info-value" id="packageWeight">1.2 kg</span>
+                        </div>
+                    </div>
+
+                    <div class="estimated-arrival">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800">Estimasi Sampai</p>
+                            <p class="text-sm text-gray-600" id="estimatedDate">17 Jan 2024 • 2-3 hari lagi</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tracking Card -->
+                <section class="tracking-card">
+                    <div class="tracking-header">
+                        <h2 class="text-xl font-bold text-gray-800">Lokasi Paket Saat Ini</h2>
+                        <p class="text-sm text-gray-600">Diperbarui <span id="lastUpdate">15 menit lalu</span></p>
+                    </div>
+
+                    <!-- Map -->
+                    <div id="tracking-map" class="tracking-map"></div>
+
+                    <!-- Driver Info -->
+                    <div class="driver-info">
+                        <div class="driver-avatar" id="driverInitials">AS</div>
+                        <div class="driver-details">
+                            <p class="driver-name" id="driverName">Ahmad Surya</p>
+                            <p class="driver-contact" id="driverStatus">Kurir ThriftExpress • Sedang mengantar paket Anda</p>
+                        </div>
+                        <button class="contact-btn">
+                            <i class="fas fa-phone"></i> Hubungi
+                        </button>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="tracking-timeline">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Status Pengiriman</h3>
+                        <div class="timeline-container">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-progress" id="timelineProgress" style="height: 60%;"></div>
+                            <div id="timeline" class="space-y-6">
+                                <!-- Timeline items injected here -->
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
-        </main>
-    </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-12">
+                <div class="max-w-md mx-auto">
+                    <i class="fas fa-search-location text-5xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-700 mb-2">Lacak Pesanan Anda</h3>
+                    <p class="text-gray-500 mb-6">Masukkan kode pesanan untuk melihat status pengiriman terbaru dan lokasi paket Anda</p>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-left">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                            <div>
+                                <p class="font-medium text-yellow-800">Tips</p>
+                                <p class="text-sm text-yellow-700 mt-1">Kode pesanan dapat ditemukan di email konfirmasi atau halaman detail pesanan. Format: TM-YYYY-NNNNN</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- Mobile Bottom Navigation -->
-    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+    <nav class="tm-bottom-nav fixed bottom-0 inset-x-0 z-40 md:hidden">
         <div class="flex justify-around py-2 text-xs">
-            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-home text-base"></i>
                 <span>Home</span>
             </a>
-            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-tags text-base"></i>
                 <span>Produk</span>
             </a>
-            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-shopping-bag text-base"></i>
                 <span>Pesanan</span>
             </a>
-            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center gap-1 active">
                 <i class="fas fa-map-marker-alt text-base"></i>
                 <span>Lacak</span>
             </a>
-            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-user text-base"></i>
                 <span>Profil</span>
             </a>
@@ -235,27 +653,10 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Ionicons for index-style UI -->
+    <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        <script>
-            // Orders badge sync
-            (function(){
-                const KEY='tm_orders_count';
-                function update(){
-                    const c = parseInt(localStorage.getItem(KEY)||'0',10)||0;
-                    document.querySelectorAll('.orders-count').forEach(el=>{
-                        if (c>0){ el.textContent=String(c); el.style.display=''; }
-                        else { el.textContent='0'; el.style.display='none'; }
-                    });
-                }
-                document.addEventListener('DOMContentLoaded', update);
-                window.TMOrdersBadge = {
-                    set(n){ localStorage.setItem(KEY, String(Math.max(0, Number(n)||0))); update(); },
-                    get(){ return parseInt(localStorage.getItem(KEY)||'0',10)||0; }
-                };
-            })();
-        </script>
+    
     <script>
         // Global menu dropdown & bottom nav active
         (function(){
@@ -276,7 +677,10 @@
             }
             document.querySelectorAll('a[data-nav]').forEach(a => {
                 const href = a.getAttribute('href') || '';
-                if (location.pathname.endsWith(href)) a.classList.add('text-green-600');
+                if (location.pathname.endsWith(href)) {
+                    a.classList.add('active');
+                    a.setAttribute('aria-current', 'page');
+                }
             });
         })();
 
@@ -290,120 +694,527 @@
                 const wCount = Array.isArray(wishList) ? wishList.length : (parseInt(localStorage.getItem('tm_wishlist_count')||'0',10) || 0);
                 const oEl = menu.querySelector('.orders-count');
                 const wEl = menu.querySelector('.wish-count');
-                if (oEl) { if (orders>0){ oEl.style.display='inline-block'; oEl.textContent=String(orders);} else { oEl.style.display='none'; } }
-                if (wEl) { if (wCount>0){ wEl.style.display='inline-block'; wEl.textContent=String(wCount);} else { wEl.style.display='none'; } }
+                if (oEl) { 
+                    if (orders>0){ 
+                        oEl.style.display='inline-block'; 
+                        oEl.textContent=String(orders);
+                    } else { 
+                        oEl.style.display='none'; 
+                    } 
+                }
+                if (wEl) { 
+                    if (wCount>0){ 
+                        wEl.style.display='inline-block'; 
+                        wEl.textContent=String(wCount);
+                    } else { 
+                        wEl.style.display='none'; 
+                    } 
+                }
             } catch {}
         })();
 
-        const timeline = document.getElementById('timeline');
-        const estimatedArrival = document.getElementById('estimatedArrival');
-        const orderHint = document.getElementById('orderHint');
-
-        const trackingSteps = [
-            {
-                title: "Pesanan Diterima",
-                time: "15 Jan 2024, 10:30 WIB",
-                description: "Pesanan Anda telah diterima dan sedang diproses",
-                icon: "fa-check",
-                state: "done"
-            },
-            {
-                title: "Pesanan Diproses",
-                time: "15 Jan 2024, 14:15 WIB",
-                description: "Pesanan sedang dikemas oleh tim warehouse ThriftMap",
-                icon: "fa-check",
-                state: "done"
-            },
-            {
-                title: "Pesanan Dikirim",
-                time: "16 Jan 2024, 09:00 WIB",
-                description: "Pesanan telah diambil oleh kurir dari mitra logistik",
-                icon: "fa-check",
-                state: "done"
-            },
-            {
-                title: "Dalam Pengiriman",
-                time: "Estimasi: 17 Jan 2024",
-                description: "Kurir sedang menuju alamat Anda",
-                icon: "fa-truck",
-                state: "progress"
-            },
-            {
-                title: "Terkirim",
-                time: "-",
-                description: "Menunggu konfirmasi penerimaan pesanan",
-                icon: "fa-home",
-                state: "pending"
+        // Orders badge sync
+        (function(){
+            const KEY='tm_orders_count';
+            function update(){
+                const c = parseInt(localStorage.getItem(KEY)||'0',10)||0;
+                document.querySelectorAll('.orders-count').forEach(el=>{
+                    if (c>0){ el.textContent=String(c); el.style.display=''; }
+                    else { el.textContent='0'; el.style.display='none'; }
+                });
             }
-        ];
+            document.addEventListener('DOMContentLoaded', update);
+            window.TMOrdersBadge = {
+                set(n){ localStorage.setItem(KEY, String(Math.max(0, Number(n)||0))); update(); },
+                get(){ return parseInt(localStorage.getItem(KEY)||'0',10)||0; }
+            };
+        })();
 
-        function renderTimeline() {
-            timeline.innerHTML = trackingSteps.map(step => {
-                const stateClasses = {
-                    done: 'bg-green-600 text-white',
-                    progress: 'bg-green-200 text-green-700',
-                    pending: 'bg-gray-200 text-gray-400'
-                };
-                const iconClass = stateClasses[step.state] || 'bg-gray-200 text-gray-400';
-                const titleClass = step.state === 'pending' ? 'text-gray-400' : 'text-gray-800';
-                const timeClass = step.state === 'pending' ? 'text-gray-400' : 'text-gray-600';
-                const descClass = step.state === 'pending' ? 'text-gray-400' : 'text-gray-500';
-                return `
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${iconClass}">
-                            <i class="fas ${step.icon} text-sm"></i>
-                        </div>
-                        <div class="ml-6">
-                            <p class="font-semibold ${titleClass}">${step.title}</p>
-                            <p class="text-sm ${timeClass}">${step.time}</p>
-                            <p class="text-sm mt-1 ${descClass}">${step.description}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+        // Tracking data
+        const trackingSteps = {
+            "TM-2023-00125": [
+                {
+                    title: "Pesanan Diterima",
+                    time: "15 Jan 2024, 10:30 WIB",
+                    description: "Pesanan Anda telah diterima dan sedang diproses",
+                    icon: "fa-clipboard-check",
+                    state: "completed"
+                },
+                {
+                    title: "Pesanan Diproses",
+                    time: "15 Jan 2024, 14:15 WIB",
+                    description: "Pesanan sedang dikemas oleh tim warehouse ThriftMap",
+                    icon: "fa-box",
+                    state: "completed"
+                },
+                {
+                    title: "Pesanan Dikirim",
+                    time: "16 Jan 2024, 09:00 WIB",
+                    description: "Pesanan telah diambil oleh kurir dari mitra logistik",
+                    icon: "fa-shipping-fast",
+                    state: "completed"
+                },
+                {
+                    title: "Dalam Pengiriman",
+                    time: "Sekarang",
+                    description: "Kurir sedang menuju alamat Anda. Paket berada di Jakarta Pusat",
+                    icon: "fa-truck",
+                    state: "active"
+                },
+                {
+                    title: "Terkirim",
+                    time: "Estimasi: 17 Jan 2024",
+                    description: "Paket akan diserahkan kepada penerima",
+                    icon: "fa-home",
+                    state: "pending"
+                }
+            ],
+            "TM-2023-00124": [
+                {
+                    title: "Pesanan Diterima",
+                    time: "12 Jan 2024, 11:15 WIB",
+                    description: "Pesanan Anda telah diterima dan sedang diproses",
+                    icon: "fa-clipboard-check",
+                    state: "completed"
+                },
+                {
+                    title: "Pesanan Diproses",
+                    time: "12 Jan 2024, 16:45 WIB",
+                    description: "Pesanan sedang dikemas oleh tim warehouse ThriftMap",
+                    icon: "fa-box",
+                    state: "completed"
+                },
+                {
+                    title: "Pesanan Dikirim",
+                    time: "13 Jan 2024, 08:30 WIB",
+                    description: "Pesanan telah diambil oleh kurir dari mitra logistik",
+                    icon: "fa-shipping-fast",
+                    state: "completed"
+                },
+                {
+                    title: "Dalam Pengiriman",
+                    time: "14 Jan 2024, 10:20 WIB",
+                    description: "Kurir sedang menuju alamat Anda",
+                    icon: "fa-truck",
+                    state: "completed"
+                },
+                {
+                    title: "Terkirim",
+                    time: "14 Jan 2024, 14:45 WIB",
+                    description: "Paket telah diserahkan kepada penerima",
+                    icon: "fa-home",
+                    state: "completed"
+                }
+            ],
+            "TM-2023-00123": [
+                {
+                    title: "Pesanan Diterima",
+                    time: "18 Jan 2024, 09:20 WIB",
+                    description: "Pesanan Anda telah diterima dan sedang diproses",
+                    icon: "fa-clipboard-check",
+                    state: "completed"
+                },
+                {
+                    title: "Pesanan Diproses",
+                    time: "Sekarang",
+                    description: "Pesanan sedang dikemas oleh tim warehouse ThriftMap",
+                    icon: "fa-box",
+                    state: "active"
+                },
+                {
+                    title: "Pesanan Dikirim",
+                    time: "Estimasi: 19 Jan 2024",
+                    description: "Pesanan akan diambil oleh kurir",
+                    icon: "fa-shipping-fast",
+                    state: "pending"
+                },
+                {
+                    title: "Dalam Pengiriman",
+                    time: "-",
+                    description: "Paket akan dikirim ke alamat Anda",
+                    icon: "fa-truck",
+                    state: "pending"
+                },
+                {
+                    title: "Terkirim",
+                    time: "Estimasi: 20 Jan 2024",
+                    description: "Paket akan diserahkan kepada penerima",
+                    icon: "fa-home",
+                    state: "pending"
+                }
+            ]
+        };
 
-        renderTimeline();
-        estimatedArrival.textContent = 'Estimasi sampai: 17 Jan 2024';
+        // Sample orders data
+        const sampleOrders = {
+            "TM-2023-00125": {
+                id: "TM-2023-00125",
+                date: "15 Jan 2024",
+                status: "dikirim",
+                progress: 3, // 0-4 steps
+                total: 185000,
+                products: [
+                    {
+                        name: "Jaket Kulit Pria Vintage",
+                        price: 125000,
+                        quantity: 1
+                    },
+                    {
+                        name: "Kaos Graphic Limited Edition",
+                        price: 60000,
+                        quantity: 1
+                    }
+                ],
+                shipping: {
+                    method: "Reguler",
+                    tracking: "TM-987654321",
+                    address: "Jl. Merdeka No. 123, Jakarta",
+                    courier: "ThriftExpress",
+                    weight: "1.2 kg",
+                    estimatedArrival: "17 Jan 2024",
+                    lastUpdate: "15 menit lalu",
+                    driver: {
+                        name: "Ahmad Surya",
+                        initials: "AS",
+                        status: "Sedang mengantar paket Anda"
+                    },
+                    map: {
+                        currentLocation: [-6.2088, 106.8456],
+                        destination: [-6.1352, 106.8133],
+                        route: [
+                            [-6.1352, 106.8133],
+                            [-6.1754, 106.8272],
+                            [-6.2088, 106.8456]
+                        ]
+                    }
+                }
+            },
+            "TM-2023-00124": {
+                id: "TM-2023-00124",
+                date: "12 Jan 2024",
+                status: "selesai",
+                progress: 4, // 0-4 steps
+                total: 275000,
+                products: [
+                    {
+                        name: "Sepatu Sneakers Casual",
+                        price: 275000,
+                        quantity: 1
+                    }
+                ],
+                shipping: {
+                    method: "Express",
+                    tracking: "TM-123456789",
+                    address: "Jl. Sudirman No. 456, Bandung",
+                    courier: "ThriftExpress",
+                    weight: "0.8 kg",
+                    estimatedArrival: "14 Jan 2024",
+                    lastUpdate: "2 hari lalu",
+                    driver: {
+                        name: "Budi Santoso",
+                        initials: "BS",
+                        status: "Paket telah diterima"
+                    },
+                    map: {
+                        currentLocation: [-6.1352, 106.8133],
+                        destination: [-6.1352, 106.8133],
+                        route: [
+                            [-6.2088, 106.8456],
+                            [-6.1754, 106.8272],
+                            [-6.1352, 106.8133]
+                        ]
+                    }
+                }
+            },
+            "TM-2023-00123": {
+                id: "TM-2023-00123",
+                date: "18 Jan 2024",
+                status: "diproses",
+                progress: 1, // 0-4 steps
+                total: 89000,
+                products: [
+                    {
+                        name: "Tas Mini Wanita",
+                        price: 89000,
+                        quantity: 1
+                    }
+                ],
+                shipping: {
+                    method: "Reguler",
+                    tracking: "TM-456789123",
+                    address: "Jl. Asia Afrika No. 789, Surabaya",
+                    courier: "ThriftExpress",
+                    weight: "0.5 kg",
+                    estimatedArrival: "20 Jan 2024",
+                    lastUpdate: "1 jam lalu",
+                    driver: {
+                        name: "Siti Rahayu",
+                        initials: "SR",
+                        status: "Menunggu pengambilan paket"
+                    },
+                    map: {
+                        currentLocation: [-7.2504, 112.7688],
+                        destination: [-7.2891, 112.7344],
+                        route: [
+                            [-7.2504, 112.7688],
+                            [-7.2701, 112.7516],
+                            [-7.2891, 112.7344]
+                        ]
+                    }
+                }
+            }
+        };
 
+        // DOM Elements
+        const timeline = document.getElementById('timeline');
+        const orderHint = document.getElementById('orderHint');
+        const activeTracking = document.getElementById('activeTracking');
+        const emptyState = document.getElementById('emptyState');
+        const trackButton = document.getElementById('trackButton');
+        const orderCodeInput = document.getElementById('orderCode');
+        const timelineProgress = document.getElementById('timelineProgress');
+        const orderIdEl = document.getElementById('orderId');
+        const orderDateEl = document.getElementById('orderDate');
+        const orderStatusEl = document.getElementById('orderStatus');
+        const estimatedDateEl = document.getElementById('estimatedDate');
+        const courierNameEl = document.getElementById('courierName');
+        const trackingNumberEl = document.getElementById('trackingNumber');
+        const serviceTypeEl = document.getElementById('serviceType');
+        const packageWeightEl = document.getElementById('packageWeight');
+        const lastUpdateEl = document.getElementById('lastUpdate');
+        const driverInitialsEl = document.getElementById('driverInitials');
+        const driverNameEl = document.getElementById('driverName');
+        const driverStatusEl = document.getElementById('driverStatus');
+        const recentOrdersList = document.getElementById('recentOrdersList');
+
+        // Tracking map
         let trackingMap;
-        function initTrackingMap() {
-            trackingMap = L.map('tracking-map').setView([-6.2088, 106.8456], 12);
+
+        // Initialize tracking map
+        function initTrackingMap(order) {
+            if (trackingMap) {
+                trackingMap.remove();
+            }
+            
+            trackingMap = L.map('tracking-map').setView(order.shipping.map.currentLocation, 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(trackingMap);
 
-            L.marker([-6.2088, 106.8456])
+            // Add current location marker
+            L.marker(order.shipping.map.currentLocation)
                 .addTo(trackingMap)
-                .bindPopup('Lokasi Paket Saat Ini')
+                .bindPopup('Lokasi Paket Saat Ini<br>' + (order.status === 'dikirim' ? 'Sedang dalam perjalanan' : 'Gudang ThriftMap'))
                 .openPopup();
 
-            const routeCoordinates = [
-                [-6.1352, 106.8133],
-                [-6.1754, 106.8272],
-                [-6.2088, 106.8456]
-            ];
-            L.polyline(routeCoordinates, { color: '#10b981', weight: 4, dashArray: '8, 12' }).addTo(trackingMap);
+            // Add destination marker
+            L.marker(order.shipping.map.destination)
+                .addTo(trackingMap)
+                .bindPopup('Tujuan Pengiriman<br>' + order.shipping.address);
+
+            // Add route
+            L.polyline(order.shipping.map.route, { 
+                color: '#16a34a', 
+                weight: 4, 
+                dashArray: '8, 12',
+                opacity: 0.7 
+            }).addTo(trackingMap);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initTrackingMap();
-        });
+        // Render timeline
+        function renderTimeline(steps) {
+            timeline.innerHTML = steps.map((step, index) => {
+                const stateClass = step.state === 'completed' ? 'completed' : 
+                                 step.state === 'active' ? 'active' : '';
+                
+                return `
+                    <div class="timeline-item ${stateClass}">
+                        <div class="timeline-dot">
+                            <i class="fas ${step.icon}"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold text-gray-800">${step.title}</h4>
+                            <p class="text-sm text-gray-600 mt-1">${step.description}</p>
+                            <p class="timeline-time">${step.time}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Update progress bar
+            const activeIndex = steps.findIndex(step => step.state === 'active');
+            const completedCount = steps.filter(step => step.state === 'completed').length;
+            const progressPercentage = activeIndex >= 0 ? 
+                (completedCount / (steps.length - 1)) * 100 : 100;
+            timelineProgress.style.height = `${progressPercentage}%`;
+        }
 
-        const trackButton = document.getElementById('trackButton');
-        const orderCodeInput = document.getElementById('orderCode');
-
-        trackButton.addEventListener('click', () => {
-            const value = orderCodeInput.value.trim();
-            if (!value) {
-                orderHint.textContent = 'Masukkan kode pesanan terlebih dahulu.';
-                orderHint.classList.remove('hidden');
+        // Show tracking information
+        function showTracking(orderCode) {
+            const order = sampleOrders[orderCode];
+            if (!order) {
+                orderHint.textContent = 'Kode pesanan tidak ditemukan. Pastikan kode pesanan benar.';
+                orderHint.classList.remove('hidden', 'text-green-600');
                 orderHint.classList.add('text-red-500');
                 return;
             }
+
+            // Update order info
+            orderIdEl.textContent = order.id;
+            orderDateEl.textContent = order.date;
+            estimatedDateEl.textContent = `${order.shipping.estimatedArrival} • ${getDaysRemaining(order.shipping.estimatedArrival)}`;
+            courierNameEl.textContent = order.shipping.courier;
+            trackingNumberEl.textContent = order.shipping.tracking;
+            serviceTypeEl.textContent = order.shipping.method;
+            packageWeightEl.textContent = order.shipping.weight;
+            lastUpdateEl.textContent = order.shipping.lastUpdate;
+            
+            // Update driver info
+            driverInitialsEl.textContent = order.shipping.driver.initials;
+            driverNameEl.textContent = order.shipping.driver.name;
+            driverStatusEl.textContent = `${order.shipping.courier} • ${order.shipping.driver.status}`;
+            
+            // Update status badge
+            updateStatusBadge(order.status);
+            
+            // Show tracking section
+            activeTracking.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            // Render timeline
+            renderTimeline(trackingSteps[orderCode]);
+            
+            // Initialize map
+            initTrackingMap(order);
+            
+            // Success message
+            orderHint.textContent = `Pesanan ${orderCode} ditemukan. Status: ${getStatusText(order.status)}.`;
             orderHint.classList.remove('hidden', 'text-red-500');
             orderHint.classList.add('text-green-600');
-            orderHint.textContent = `Kode pesanan ${value} ditemukan. Status terakhir: Dalam Pengiriman.`;
+            
+            // Update recent orders list
+            updateRecentOrders(orderCode);
+        }
+
+        // Update status badge
+        function updateStatusBadge(status) {
+            if (status === 'dikirim') {
+                orderStatusEl.innerHTML = '<i class="fas fa-shipping-fast"></i> Dalam Pengiriman';
+                orderStatusEl.className = 'status-badge status-dikirim';
+            } else if (status === 'selesai') {
+                orderStatusEl.innerHTML = '<i class="fas fa-check-circle"></i> Selesai';
+                orderStatusEl.className = 'status-badge status-selesai';
+            } else if (status === 'diproses') {
+                orderStatusEl.innerHTML = '<i class="fas fa-cog"></i> Diproses';
+                orderStatusEl.className = 'status-badge status-diproses';
+            }
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const statusMap = {
+                'dikirim': 'Dalam Pengiriman',
+                'selesai': 'Selesai',
+                'diproses': 'Diproses'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Get days remaining
+        function getDaysRemaining(estimatedDate) {
+            const today = new Date();
+            const estimated = new Date(estimatedDate);
+            const diffTime = estimated - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Hari ini';
+            if (diffDays === 1) return '1 hari lagi';
+            return `${diffDays} hari lagi`;
+        }
+
+        // Update recent orders list
+        function updateRecentOrders(activeOrderCode) {
+            recentOrdersList.innerHTML = '';
+            
+            Object.keys(sampleOrders).forEach(orderCode => {
+                const order = sampleOrders[orderCode];
+                const orderCard = document.createElement('div');
+                orderCard.className = `order-card-small ${orderCode === activeOrderCode ? 'active' : ''}`;
+                orderCard.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold text-gray-800">${order.id}</p>
+                            <p class="text-sm text-gray-500">${order.date} • ${order.products[0].name}</p>
+                        </div>
+                        <span class="text-sm font-medium ${order.status === 'dikirim' ? 'text-blue-600' : order.status === 'selesai' ? 'text-green-600' : 'text-yellow-600'}">
+                            ${getStatusText(order.status)}
+                        </span>
+                    </div>
+                `;
+                orderCard.addEventListener('click', () => {
+                    orderCodeInput.value = orderCode;
+                    showTracking(orderCode);
+                });
+                recentOrdersList.appendChild(orderCard);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add event listeners
+            trackButton.addEventListener('click', () => {
+                const value = orderCodeInput.value.trim();
+                if (!value) {
+                    orderHint.textContent = 'Masukkan kode pesanan terlebih dahulu.';
+                    orderHint.classList.remove('hidden', 'text-green-600');
+                    orderHint.classList.add('text-red-500');
+                    return;
+                }
+                showTracking(value);
+            });
+
+            orderCodeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    trackButton.click();
+                }
+            });
+
+            // Check if there's an order code in URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderCode = urlParams.get('order');
+            if (orderCode) {
+                orderCodeInput.value = orderCode;
+                showTracking(orderCode);
+            } else {
+                // Show recent orders by default
+                updateRecentOrders();
+            }
+
+            // Global search functionality
+            const globalSearch = document.getElementById('globalSearch');
+            const globalSearchBtn = document.getElementById('globalSearchBtn');
+            
+            if (globalSearch && globalSearchBtn) {
+                globalSearchBtn.addEventListener('click', () => {
+                    const query = globalSearch.value.toLowerCase();
+                    if (query) {
+                        // Check if it's an order code
+                        if (query.startsWith('tm-')) {
+                            orderCodeInput.value = query;
+                            showTracking(query);
+                        } else {
+                            // In a real app, this would search orders by query
+                            alert(`Mencari: ${query}`);
+                        }
+                    }
+                });
+                
+                globalSearch.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        globalSearchBtn.click();
+                    }
+                });
+            }
         });
     </script>
 </body>

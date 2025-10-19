@@ -46,6 +46,133 @@
             color: var(--tm-text);
         }
 
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1300;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--tm-border);
+            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.08);
+        }
+
+        .header-main .container {
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            padding: 0.95rem 0;
+        }
+
+        .header-search-container {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--tm-radius-md);
+            border: 1px solid var(--tm-border);
+            background: rgba(255, 255, 255, 0.92);
+            min-width: clamp(240px, 32vw, 360px);
+            box-shadow: 0 18px 32px rgba(15, 118, 110, 0.08);
+        }
+
+        .header-search-container .search-field {
+            border: none;
+            background: transparent;
+            padding: 0.35rem 0.25rem;
+            color: var(--tm-text);
+            font-weight: 500;
+        }
+
+        .header-search-container .search-field::placeholder {
+            color: rgba(100, 116, 139, 0.75);
+        }
+
+        .header-search-container .search-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--tm-primary);
+            color: #fff;
+            transition: all 0.25s ease;
+        }
+
+        .header-search-container .search-btn:hover {
+            background: var(--tm-primary-dark);
+            box-shadow: 0 10px 24px rgba(22, 163, 74, 0.3);
+        }
+
+        .header-user-actions {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.35rem 0.5rem;
+            border-radius: var(--tm-radius-md);
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 20px 40px rgba(15, 118, 110, 0.12);
+        }
+
+        .action-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(240, 253, 244, 0.85);
+            color: var(--tm-muted);
+            display: grid;
+            place-items: center;
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus-visible {
+            color: var(--tm-primary-dark);
+            background: rgba(209, 250, 229, 0.8);
+            border-color: rgba(22, 163, 74, 0.35);
+            box-shadow: 0 14px 28px rgba(22, 163, 74, 0.22);
+        }
+
+        .action-btn .count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            border-radius: 999px;
+            background: #ef4444;
+            padding: 2px 6px;
+            font-size: 11px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+        }
+
+        .tm-dropdown-panel {
+            border-radius: var(--tm-radius-md);
+            border: 1px solid var(--tm-border);
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 20px 44px rgba(15, 118, 110, 0.18);
+            padding: 0.75rem;
+            min-width: 220px;
+        }
+
+        .tm-dropdown-panel a {
+            border-radius: 12px;
+            padding: 0.55rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--tm-muted);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .tm-dropdown-panel a:hover {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--tm-primary-dark);
+        }
 
         .view-toolbar {
             display: flex;
@@ -132,19 +259,12 @@
         .map-layout {
             display: grid;
             gap: 1.5rem;
-            grid-auto-rows: minmax(0, 1fr);
         }
 
         @media (min-width: 1024px) {
             .map-layout {
-                grid-template-columns: minmax(0, 360px) 1fr;
-                align-items: stretch;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
-        }
-
-        .map-layout > * {
-            min-height: 520px;
-            height: 100%;
         }
 
         .glass-panel {
@@ -158,13 +278,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            height: 100%;
-        }
-
-        .map-shell {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
         }
 
         .map-results-header {
@@ -251,92 +364,12 @@
         }
 
         .map-container {
-            flex: 1;
-            height: 100%;
-            min-height: clamp(420px, 52vh, 620px);
+            height: 72vh;
+            min-height: 520px;
             border-radius: var(--tm-radius-lg);
             overflow: hidden;
             border: 1px solid var(--tm-border);
             box-shadow: 0 30px 55px rgba(15, 118, 110, 0.18);
-        }
-
-        .tm-map-pin-wrapper {
-            background: transparent;
-            border: none;
-        }
-
-        .tm-map-pin {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            filter: drop-shadow(0 16px 24px rgba(15, 118, 110, 0.25));
-        }
-
-        .tm-map-pin__bubble {
-            position: relative;
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 32px;
-            background: linear-gradient(160deg, rgba(16, 185, 129, 0.92), rgba(59, 130, 246, 0.92));
-            border: 3px solid #ecfdf5;
-        }
-
-        .tm-map-pin__bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            width: 22px;
-            height: 22px;
-            background: inherit;
-            border-bottom: 3px solid #bbf7d0;
-            border-right: 3px solid #bfdbfe;
-            transform: translateX(-50%) rotate(45deg);
-            border-bottom-right-radius: 8px;
-        }
-
-        .tm-map-pin__bubble img {
-            width: 42px;
-            height: 42px;
-            object-fit: cover;
-            border-radius: 999px;
-            border: 2px solid #ffffff;
-            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
-        }
-
-        .tm-map-pin__dot {
-            display: block;
-            width: 18px;
-            height: 18px;
-            border-radius: 999px;
-            background: #ffffff;
-            border: 4px solid rgba(14, 165, 233, 0.85);
-            box-shadow: 0 6px 14px rgba(14, 165, 233, 0.45);
-        }
-
-        .tm-map-pin__price {
-            padding: 2px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 700;
-            background: #ffffff;
-            color: var(--tm-primary-dark);
-            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.18);
-        }
-
-        .tm-map-pin--user .tm-map-pin__bubble {
-            background: linear-gradient(160deg, rgba(59, 130, 246, 0.95), rgba(14, 165, 233, 0.95));
-        }
-
-        .tm-map-pin--user .tm-map-pin__price {
-            background: rgba(14, 165, 233, 0.12);
-            color: rgba(14, 116, 224, 1);
-            border: 1px solid rgba(14, 165, 233, 0.35);
         }
 
         .results-scroll {
@@ -355,27 +388,19 @@
         }
 
         .results-item {
-            position: relative;
             padding: 1rem 1.25rem;
             border-left: 3px solid transparent;
-            border-radius: 20px;
+            transition: all 0.2s ease;
             display: block;
-            background: rgba(240, 253, 250, 0.55);
-            transform: translateY(0);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-            animation: fadeInUp 0.4s ease both;
         }
 
         .results-item:hover {
-            background: rgba(22, 163, 74, 0.18);
-            transform: translateY(-4px);
-            box-shadow: 0 18px 32px rgba(15, 118, 110, 0.18);
+            background: rgba(22, 163, 74, 0.08);
         }
 
         .results-item.is-active {
-            background: rgba(22, 163, 74, 0.24);
+            background: rgba(22, 163, 74, 0.16);
             border-left-color: var(--tm-primary);
-            box-shadow: 0 20px 38px rgba(15, 118, 110, 0.24);
         }
 
         .results-item .card-top {
@@ -390,17 +415,6 @@
             border-radius: 16px;
             object-fit: cover;
             box-shadow: 0 14px 24px rgba(15, 118, 110, 0.18);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .results-item .title-row {
@@ -506,37 +520,14 @@
         }
 
         .showcase-banner {
-            position: relative;
             padding: 1rem;
             background: linear-gradient(160deg, rgba(45, 212, 191, 0.18), rgba(16, 185, 129, 0.16));
-            overflow: hidden;
         }
 
         .showcase-banner img {
             border-radius: 18px;
             width: 100%;
             object-fit: cover;
-        }
-
-        .showcase-banner .product-img.default {
-            position: relative;
-            z-index: 1;
-            transition: opacity 0.35s ease;
-        }
-
-        .showcase-banner .product-img.hover {
-            position: absolute;
-            inset: 1rem;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-
-        .showcase:hover .showcase-banner .product-img.hover {
-            opacity: 1;
-        }
-
-        .showcase:hover .showcase-banner .product-img.default {
-            opacity: 0;
         }
 
         .showcase-actions {
@@ -891,7 +882,7 @@
 </head>
 <body>
         <!-- Index-style Header/Navbar -->
-    <header class="tm-auto-hide-header">
+        <header>
             <div class="header-main">
                 <div class="container">
                     <a href="dashboard-home.html" class="header-logo">
@@ -903,7 +894,7 @@
                             <ion-icon name="search-outline"></ion-icon>
                         </button>
                     </div>
-                                        <div class="header-user-actions" style="margin-left:auto">
+                                        <div class="header-user-actions">
                                                 <a href="dashboard-profile.html" class="action-btn" title="Akun">
                                                     <ion-icon name="person-outline"></ion-icon>
                                                 </a>
@@ -934,7 +925,7 @@
         </header>
 
     <!-- Page Content -->
-    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10 pb-28 space-y-10">
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10 pb-28 space-y-10 mt-3">
             <!-- View Toggle + Filter Summary -->
             <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
                 <div class="flex items-center gap-2">
@@ -979,7 +970,7 @@
                 </aside>
 
                 <!-- Right: Map -->
-                <section class="glass-panel map-shell lg:col-span-2">
+                <section class="lg:col-span-2">
                     <div id="productsMap" class="map-container bg-gray-100"></div>
                 </section>
             </div>
@@ -1394,11 +1385,9 @@
                             const card = document.createElement('div');
                             card.className = 'showcase';
                             const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
-                            const hoverImage = Array.isArray(product.gallery) && product.gallery.length > 1 ? product.gallery[1] : product.image;
                             card.innerHTML = `
                                 <div class="showcase-banner">
                                     <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
-                                    <img src="${hoverImage}" alt="${product.name}" class="product-img hover" width="300" aria-hidden="true">
                                     <div class="showcase-actions">
                                         <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
                                             <ion-icon name="heart-outline"></ion-icon>
@@ -1535,49 +1524,6 @@
         const geoStatus = document.getElementById('geoStatus');
 
         let userLatLng = null;
-        const productIconCache = new Map();
-        let userLocationIcon;
-
-        function getProductIcon(product){
-            if (!product || typeof L === 'undefined') return null;
-            const key = String(product.id || product.name || Math.random());
-            if (productIconCache.has(key)) return productIconCache.get(key);
-            const icon = L.divIcon({
-                html: `
-                    <div class="tm-map-pin">
-                        <div class="tm-map-pin__bubble">
-                            <img src="${product.image}" alt="${product.name}">
-                        </div>
-                        <span class="tm-map-pin__price">Rp ${product.price.toLocaleString('id-ID')}</span>
-                    </div>
-                `,
-                className: 'tm-map-pin-wrapper',
-                iconSize: [64, 86],
-                iconAnchor: [32, 78],
-                popupAnchor: [0, -72]
-            });
-            productIconCache.set(key, icon);
-            return icon;
-        }
-
-        function getUserIcon(){
-            if (userLocationIcon || typeof L === 'undefined') return userLocationIcon;
-            userLocationIcon = L.divIcon({
-                html: `
-                    <div class="tm-map-pin tm-map-pin--user">
-                        <div class="tm-map-pin__bubble">
-                            <span class="tm-map-pin__dot"></span>
-                        </div>
-                        <span class="tm-map-pin__price">Lokasimu</span>
-                    </div>
-                `,
-                className: 'tm-map-pin-wrapper',
-                iconSize: [64, 86],
-                iconAnchor: [32, 78],
-                popupAnchor: [0, -72]
-            });
-            return userLocationIcon;
-        }
 
         function kmToDegLat(km){ return km/110.574; }
         function kmToDegLng(km, lat){ return km/(111.320*Math.cos(lat*Math.PI/180)); }
@@ -1637,10 +1583,7 @@
             }
 
             filtered.forEach(product => {
-                const marker = L.marker([product.lat, product.lng], {
-                    icon: getProductIcon(product),
-                    riseOnHover: true
-                }).addTo(markersLayer);
+                const marker = L.marker([product.lat, product.lng]).addTo(markersLayer);
                 marker.bindPopup(`
                     <div class='min-w-[240px]'>
                         <div class='flex items-center gap-3'>
@@ -1698,12 +1641,6 @@
                 el.classList.add('is-active');
                 el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-
-            setTimeout(() => {
-                if (productsMap) {
-                    productsMap.invalidateSize();
-                }
-            }, 150);
         }
 
         function initMap(center){
@@ -1718,7 +1655,7 @@
 
             // user marker
             if (userMarker) { productsMap.removeLayer(userMarker); }
-            userMarker = L.marker([center.lat, center.lng], { title: 'Lokasi Anda', icon: getUserIcon(), zIndexOffset: 1200 }).addTo(productsMap);
+            userMarker = L.marker([center.lat, center.lng], { title: 'Lokasi Anda' }).addTo(productsMap);
             userMarker.bindPopup('Lokasi Anda');
 
             ensureProductCoords(center);

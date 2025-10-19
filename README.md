@@ -1,78 +1,75 @@
 # ThriftMap
 
-ThriftMap is a front-end prototype for a circular-fashion marketplace that helps shoppers discover second-hand items, track orders, and stay engaged through light gamification. The project is built with vanilla HTML, CSS, and JavaScript so it can run on any static web server, while optional integrations (Supabase, Leaflet, SweetAlert2) unlock richer experiences.
+ThriftMap adalah prototipe front-end marketplace fashion sirkular yang menghadirkan pengalaman belanja barang preloved secara modern. Semua halaman memanfaatkan HTML, CSS, dan JavaScript murni sehingga dapat dijalankan pada server statis tanpa proses build tambahan.
 
-## Features
-- **Marketing landing page** with product highlights, category callouts, animations, and scroll-triggered reveals.
-- **Customer dashboard suite** (`dashboard-*.html`) covering products, orders, tracking, wishlist, cart, profile, and settings.
-- **Order tracking experience** featuring a map powered by Leaflet, delivery timeline, and driver contact details.
-- **Wishlist & cart interactions** backed by local storage helpers plus optional Supabase persistence.
-- **Gamification hooks** (experience levels, streaks, missions) described in `README-gamification.md` and exposed through dedicated dashboard modules.
-- **Notification layer** via `assets/js/notify.js` that wraps SweetAlert2-style toasts for consistent feedback.
-- **Responsive design system** shared through `assets/css/style-prefix.css`, Tailwind-like utilities, and reusable dashboard header patterns.
+## Fitur Utama
+- **Landing page interaktif** dengan highlight produk, kategori populer, animasi scroll, dan CTA koleksi.
+- **Dashboard pelanggan lengkap** (`dashboard-*.html`) untuk produk, pesanan, pelacakan, keranjang, wishlist, profil, hingga pengaturan.
+- **Pelacakan pesanan** dengan peta Leaflet, garis waktu pengiriman, dan detail kurir untuk pengalaman pasca-checkout.
+- **Wishlist & keranjang lokal** berbasis helper JavaScript yang menyimpan data langsung di browser.
+- **Lapisan gamifikasi** (XP, misi, streak) yang dijelaskan di `README-gamification.md` dan mudah dikembangkan.
+- **Badge koleksi prestasi** yang memotivasi pengguna melalui level dan pencapaian berjenjang berdasarkan aktivitas di platform.
+- **Antarmuka marketplace berbasis peta/GIS** yang menonjolkan konteks lokasi produk dan pengiriman untuk pengalaman belanja yang lebih imersif.
+- **Notifikasi modern** memakai `assets/js/notify.js` yang membungkus SweetAlert2 untuk toast dan alert seragam.
+- **Sistem desain responsif** yang dibagikan lewat `assets/css/style-prefix.css` dan utilitas mirip Tailwind.
 
-## Project Structure
+## Struktur Proyek
 ```
 assets/
   css/
-    style.css              # Landing page styling & component overrides
-    style-prefix.css       # Shared utility classes + dashboard styling
-  images/                  # Logos, icons, and product imagery
+    style.css              # Styling landing page & penyesuaian komponen
+    style-prefix.css       # Utilitas bersama + styling dashboard
+  images/                  # Logo, ikon, dan aset produk
   js/
-    cart.js                # Local cart state helpers + checkout flow glue
-    gamification.js        # XP, missions, and streak widgets
-    notify.js              # Lightweight toast/notification helper
-    products-data.js       # Sample product catalog seed data
-    script.js              # Landing page interactions & animations
-    supabase-client.js     # Thin wrapper around @supabase/supabase-js
-    supabase-init.js       # Bootstraps Supabase client (replace keys!)
-    wishlist.js            # Wishlist panel logic + local persistence
-    wishlist-panel.js      # Slide-over wishlist UI controls
+    cart.js                # Helper keranjang & alur checkout contoh
+    gamification.js        # Modul XP, misi, streak
+    notify.js              # Helper toast/alert
+    products-data.js       # Data produk dummy untuk demonstrasi
+    script.js              # Interaksi landing page
+    supabase-client.js     # Wrapper opsional untuk Supabase (saat ini nonaktif)
+    supabase-init.js       # Contoh inisialisasi Supabase (ganti jika digunakan)
+    wishlist.js            # Logika wishlist + penyimpanan lokal
+    wishlist-panel.js      # Kontrol panel slide-over wishlist
 
-dashboard-*.html           # Individual dashboard screens (orders, products, tracking, etc.)
-index.html                 # Public landing page
-login.html / register.html # Auth mockups
-README-gamification.md     # Extended documentation for XP & missions
+dashboard-*.html           # Halaman dashboard (produk, pesanan, tracking, dll.)
+index.html                 # Landing page utama
+login.html / register.html # Mockup autentikasi
+README-gamification.md     # Dokumentasi fitur gamifikasi
 ```
 
-## Getting Started
-1. **Clone or download** this repository.
-2. **Serve the files** with any static server:
-   - Using XAMPP: move the folder under `htdocs` (already configured in this workspace) and browse to `http://localhost/thrift-store1/index.html`.
-   - Using Node.js: run `npx serve` (or any static server) from the project root and open the provided URL.
-3. **Explore the dashboards** by navigating directly to the HTML pages (e.g., `dashboard-products.html`, `dashboard-tracking.html`).
+## Cara Menjalankan
+1. **Clone atau unduh** repositori ini.
+2. **Jalankan melalui server statis** favorit Anda:
+   - XAMPP: letakkan folder di `htdocs`, lalu akses `http://localhost/thrift-store1/index.html`.
+   - Node.js: jalankan `npx serve` (atau server statis lain) dari root proyek, kemudian buka URL yang diberikan.
+3. **Kunjungi halaman dashboard** dengan membuka file HTML terkait (misal `dashboard-products.html`, `dashboard-tracking.html`).
 
-> ℹ️ The site works without any backend. Supabase-powered features fall back gracefully when credentials are missing.
+> Seluruh fitur berjalan secara statis. Modul Supabase belum dipakai; helper disiapkan bila Anda ingin menambahkan backend di kemudian hari.
 
-## Supabase Configuration (Optional)
-Real data persistence is wired through Supabase. To connect your project:
-1. Create a Supabase project and enable the required tables (`profiles`, `products`, `wishlists`, `orders`, `order_items`, etc.).
-2. Update `assets/js/supabase-init.js` with your own `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
-3. Ensure `@supabase/supabase-js` is loaded via CDN before `supabase-client.js` and `supabase-init.js` on any page that needs it.
-4. Review `supabase-client.js` for helper functions you can extend (authentication, XP tracking, wishlist, checkout).
+## Integrasi Supabase (Opsional)
+Untuk mengaktifkan Supabase sebagai backend:
+1. Buat project Supabase dan sediakan tabel seperti `profiles`, `products`, `wishlists`, `orders`, `order_items`, dll.
+2. Perbarui `SUPABASE_URL` dan `SUPABASE_ANON_KEY` di `assets/js/supabase-init.js` dengan kredensial Anda sendiri.
+3. Pastikan CDN `@supabase/supabase-js` dimuat sebelum `supabase-client.js` dan `supabase-init.js` pada halaman yang membutuhkan koneksi.
+4. Kembangkan fungsi di `supabase-client.js` sesuai kebutuhan (auth, wishlist tersinkron, XP, checkout, dll.).
 
-## External Dependencies
-- **Ionicons** and **Font Awesome** for iconography.
-- **Leaflet** (`dashboard-tracking.html`) for map rendering.
-- **SweetAlert2** (used by `notify.js`) for toast notifications.
-- **Supabase JS SDK** (optional) for data persistence and authentication.
+## Dependensi Eksternal
+- **Ionicons** & **Font Awesome** untuk ikon.
+- **Leaflet** (khusus `dashboard-tracking.html`) guna menampilkan peta.
+- **SweetAlert2** melalui `notify.js` sebagai sistem notifikasi.
+- **Supabase JS SDK** (opsional) bila backend Supabase diaktifkan.
 
-Most dependencies are referenced via CDN links in the HTML files, so no build tooling is required.
+Semua dependensi dipanggil via CDN sehingga tidak diperlukan instalasi bundler.
 
-## Development Tips
-- Keep shared UI components consistent by reusing classes from `style-prefix.css`.
-- When adding new dashboard pages, copy the header block from an existing `dashboard-*.html` file to maintain layout parity.
-- Store any reusable JavaScript helpers in `assets/js/` and load them where needed to avoid duplicated inline scripts.
-- For custom gamification mechanics, extend `assets/js/gamification.js` and document the behavior in `README-gamification.md`.
+## Tips Pengembangan
+- Gunakan kelas pada `style-prefix.css` agar UI tetap konsisten di seluruh halaman.
+- Salin struktur header dari halaman dashboard yang ada ketika membuat halaman baru untuk menjaga keseragaman.
+- Tempatkan helper JavaScript reusable di `assets/js/` dan panggil hanya di halaman yang membutuhkannya.
+- Dokumentasikan perubahan gamifikasi di `README-gamification.md` ketika menambah level, misi, atau hadiah baru.
 
-## Roadmap Ideas
-- Replace static product data with live Supabase queries (see `listProducts` in `supabase-client.js`).
-- Wire the login/register pages to real authentication flows.
-- Add automated tests or linting for JavaScript modules.
-- Containerize the project for deployment or integrate with a CI/CD pipeline.
+## Rencana Pengembangan
+- Mengganti data mock dengan sumber live (Supabase atau API custom).
+- Menyambungkan halaman login/register dengan autentikasi nyata.
+- Menambahkan linting atau pengujian otomatis untuk modul JavaScript.
+- Menyusun pipeline deploy (misal GitHub Actions) atau menyiapkan container untuk hosting.
 
-## Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests with improvements. If you add new gamification flows or dashboards, include screenshots and updates to the documentation so others can follow along.
-
-## License
-Specify your preferred license here (e.g., MIT, Apache-2.0). If unsure, start with [MIT](https://opensource.org/licenses/MIT) for a permissive option.

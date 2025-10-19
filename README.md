@@ -2,6 +2,10 @@
 
 ThriftMap adalah prototipe front-end marketplace fashion sirkular yang menghadirkan pengalaman belanja barang preloved secara modern. Semua halaman memanfaatkan HTML, CSS, dan JavaScript murni sehingga dapat dijalankan pada server statis tanpa proses build tambahan.
 
+Website ini diarahkan menjadi solusi ekonomi berkelanjutan dan ramah lingkungan karena memfasilitasi sirkulasi ulang fashion preloved, mengurangi limbah tekstil melalui kurasi transparan, serta memberdayakan komunitas untuk memilih produk yang sejalan dengan nilai keberlanjutan mereka.
+
+Meskipun berjalan tanpa backend, pengalaman tetap dinamis karena status keranjang, wishlist, dan progres gamifikasi disimpan melalui `localStorage`, sehingga interaksi pengguna terasa real-time di setiap halaman.
+
 ## Fitur Utama
 - **Landing page interaktif** dengan highlight produk, kategori populer, animasi scroll, dan CTA koleksi.
 - **Dashboard pelanggan lengkap** (`dashboard-*.html`) untuk produk, pesanan, pelacakan, keranjang, wishlist, profil, hingga pengaturan.
@@ -53,12 +57,6 @@ README-gamification.md     # Dokumentasi fitur gamifikasi
 - **Supabase JS SDK** (opsional) bila backend Supabase diaktifkan.
 
 Semua dependensi dipanggil via CDN sehingga tidak diperlukan instalasi bundler.
-
-## Tips Pengembangan
-- Gunakan kelas pada `style-prefix.css` agar UI tetap konsisten di seluruh halaman.
-- Salin struktur header dari halaman dashboard yang ada ketika membuat halaman baru untuk menjaga keseragaman.
-- Tempatkan helper JavaScript reusable di `assets/js/` dan panggil hanya di halaman yang membutuhkannya.
-- Dokumentasikan perubahan gamifikasi di `README-gamification.md` ketika menambah level, misi, atau hadiah baru.
 
 ## Rencana Pengembangan
 - Mengganti data mock dengan sumber live (Supabase atau API custom).

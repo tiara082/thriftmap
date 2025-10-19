@@ -19,11 +19,28 @@
   <style>
     body { font-family: 'Poppins', sans-serif; }
     /* Minimal custom style: gallery thumbnails only */
-    .thumb { width: 4rem; height: 4rem; border-radius: 0.5rem; object-fit: cover; cursor: pointer; border: 2px solid transparent; }
-    .thumb.active { border-color: #16a34a; }
+    #thumbs { scrollbar-width: thin; scrollbar-color: #16a34a33 transparent; }
+    #thumbs::-webkit-scrollbar { height: 6px; }
+    #thumbs::-webkit-scrollbar-thumb { background: linear-gradient(90deg,#34d399,#16a34a); border-radius: 9999px; }
+    .thumb {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 0.75rem;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .thumb:hover { transform: translateY(-2px); border-color: rgba(22, 163, 74, 0.4); }
+    .thumb.active {
+      border-color: #16a34a;
+      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.18);
+    }
   </style>
 </head>
-<body class="bg-white min-h-screen">
+<body class="bg-gray-50 min-h-screen text-gray-900">
   <!-- Index-style Header/Navbar -->
   <header style="position:sticky;top:0;z-index:1300;background:#fff">
     <div class="header-main">
@@ -68,40 +85,72 @@
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-6">
-    <nav class="text-sm text-gray-500 mb-4">
+  <main class="max-w-7xl mx-auto px-4 pt-6 pb-24 mt-3">
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
       <a href="dashboard-products.html" class="hover:underline">Produk</a>
-      <span class="mx-1">/</span>
-      <span id="breadcrumbName">Detail</span>
+      <span class="text-gray-400">/</span>
+      <span id="breadcrumbName" class="text-gray-700 font-medium">Detail</span>
     </nav>
 
     <div id="content" class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Gallery -->
       <section>
-        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
           <img id="mainImage" src="" alt="Detail Produk" class="w-full aspect-square object-cover" />
         </div>
-        <div id="thumbs" class="mt-4 flex gap-2 overflow-x-auto"></div>
+        <div id="thumbs" class="mt-4 flex flex-wrap items-center justify-center gap-3 overflow-x-auto py-2"></div>
+    
       </section>
 
       <!-- Info -->
       <section>
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
             <h1 id="productName" class="text-3xl font-bold text-gray-900 mb-1">Nama Produk</h1>
             <p class="text-gray-500">Informasi lengkap produk pilihan Anda</p>
           </div>
-          <button id="btnWishTop" class="hidden md:inline-flex w-11 h-11 rounded-xl border border-gray-300 text-red-500 hover:bg-red-50 items-center justify-center mt-1" title="Tambah ke Wishlist">
-            <i class="fa-solid fa-heart"></i>
+          <button id="btnWishTop" class="hidden md:inline-flex w-11 h-11 rounded-xl border border-gray-200 text-rose-500 hover:bg-rose-50 items-center justify-center mt-1 transition-colors duration-150" title="Tambah ke Wishlist" aria-pressed="false">
+            <i class="fa-regular fa-heart"></i>
           </button>
         </div>
         <div class="h-4"></div>
 
-        <div class="flex items-center gap-3 mb-3">
-          <span id="productRating" class="text-yellow-500 text-sm flex items-center gap-1"></span>
-          <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700" id="productCondition">Sangat Baik</span>
-          <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700" id="productCategory">Pria</span>
+        <div class="flex flex-col gap-3 mb-5">
+          <div class="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex items-center gap-4">
+                <a href="https://www.pexels.com" target="_blank" rel="noopener" class="flex-shrink-0">
+                  <img src="https://images.pexels.com/photos/12293506/pexels-photo-12293506.jpeg" alt="Toko Thrift" class="h-14 w-14 rounded-full border border-emerald-100 object-cover shadow-sm">
+                </a>
+                <div>
+                  <p class="text-[11px] uppercase tracking-[0.3em] text-emerald-600">Toko Resmi</p>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <p id="productStoreName" class="text-xl font-semibold text-gray-900">ThriftMap Store</p>
+                    <span class="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-emerald-600 shadow-sm">
+                      <i class="fa-solid fa-shield-heart"></i>
+                      <span>Trusted Seller</span>
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-500">Kurasi fashion preloved dengan kondisi terbaik.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button id="btnWishPrimary" class="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-white px-4 py-2 text-sm font-medium text-rose-500 hover:bg-rose-50 transition" aria-pressed="false">
+                  <i class="fa-regular fa-heart"></i>
+                  <span>Simpan Wishlist</span>
+                </button>
+                <button id="btnShareProduct" class="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-white px-4 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition">
+                  <i class="fa-solid fa-share-nodes"></i>
+                  <span>Bagikan</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-full bg-white border border-gray-200 text-gray-700" id="productCondition">Sangat Baik</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-white border border-gray-200 text-gray-700" id="productCategory">Pria</span>
+          </div>
         </div>
 
         <div class="flex items-center flex-wrap gap-3 mb-5">
@@ -110,8 +159,10 @@
           <span id="productDiscount" class="hidden inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-rose-100 text-rose-600">0% OFF</span>
         </div>
 
-        <h3 class="font-semibold text-gray-900 mb-2">Deskripsi</h3>
-        <p id="productDesc" class="text-gray-700 leading-relaxed mb-5"></p>
+        <div class="rounded-3xl border border-emerald-100 bg-white p-5 mb-5 shadow-sm">
+          <h3 class="text-lg font-semibold text-emerald-700 mb-2">Deskripsi Produk</h3>
+          <p id="productDesc" class="text-gray-700 leading-relaxed"></p>
+        </div>
 
         <div class="bg-white rounded-xl p-4 border mb-4">
           <h3 class="font-semibold text-gray-900 mb-3">Spesifikasi</h3>
@@ -120,16 +171,16 @@
           </dl>
         </div>
 
-        <div class="flex items-center gap-3">
-          <div class="flex items-center border border-gray-300 rounded-xl overflow-hidden">
-            <button id="qtyMinus" class="px-3 py-2 text-gray-600 hover:bg-gray-50">-</button>
-            <span id="qtyValue" class="px-4 py-2 min-w-[2.5rem] text-center">1</span>
-            <button id="qtyPlus" class="px-3 py-2 text-gray-600 hover:bg-gray-50">+</button>
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+            <button id="qtyMinus" class="px-3 py-2 text-gray-600 hover:bg-gray-100 transition">-</button>
+            <span id="qtyValue" class="px-4 py-2 min-w-[2.5rem] text-center font-semibold">1</span>
+            <button id="qtyPlus" class="px-3 py-2 text-gray-600 hover:bg-gray-100 transition">+</button>
           </div>
-          <button id="btnAddCart" class="px-4 py-3 rounded-xl border border-green-600 text-green-600 hover:bg-green-50 flex-1 flex items-center justify-center gap-2"><i class="fa-solid fa-cart-plus"></i><span>Tambah ke Keranjang</span></button>
-          <button id="btnBuyNow" class="px-4 py-3 rounded-xl border border-green-600 text-green-600 hover:bg-green-50">Beli Sekarang</button>
-          <button id="btnWish" class="w-11 h-11 rounded-xl border border-gray-300 text-red-500 hover:bg-red-50 flex items-center justify-center md:hidden" title="Tambah ke Wishlist">
-            <i class="fa-solid fa-heart"></i>
+          <button id="btnAddCart" class="px-4 py-3 rounded-xl bg-green-600 text-white hover:bg-green-700 focus:ring-2 focus:ring-green-200 flex-1 min-w-[12rem] flex items-center justify-center gap-2 transition"><i class="fa-solid fa-cart-plus"></i><span>Tambah ke Keranjang</span></button>
+          <button id="btnBuyNow" class="px-4 py-3 rounded-xl border border-green-500 text-green-700 bg-emerald-50 hover:bg-emerald-100 focus:ring-2 focus:ring-emerald-100 transition">Beli Sekarang</button>
+          <button id="btnWish" class="w-11 h-11 rounded-xl border border-gray-200 text-rose-500 hover:bg-rose-50 flex items-center justify-center md:hidden transition" title="Tambah ke Wishlist" aria-pressed="false">
+            <i class="fa-regular fa-heart"></i>
           </button>
         </div>
         </div>
@@ -183,16 +234,12 @@
 
     function renderProduct(p) {
       document.getElementById('breadcrumbName').textContent = p.name;
-  document.getElementById('productName').textContent = p.name;
-  // Rating stars + value
-  const pr = document.getElementById('productRating');
-  const rating = Number(p.rating || 0);
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5;
-  let stars = '';
-  for (let i=0;i<full;i++){ stars += '<i class="fa-solid fa-star"></i>'; }
-  if (half) stars += '<i class="fa-solid fa-star-half-stroke"></i>';
-  pr.innerHTML = `${stars} <span class="text-gray-600 ml-1">${rating.toFixed(1)} <span class="text-gray-400">(ulasan pelanggan)</span></span>`;
+      document.getElementById('productName').textContent = p.name;
+      const storeNameEl = document.getElementById('productStoreName');
+      if (storeNameEl) {
+        const brandSpec = (p.specs || []).find(spec => spec.label?.toLowerCase() === 'brand');
+        storeNameEl.textContent = brandSpec?.value || p.store || 'ThriftMap Store';
+      }
       document.getElementById('productCondition').textContent = p.condition ?? '-';
       document.getElementById('productCategory').textContent = p.category ?? '-';
       document.getElementById('productPrice').textContent = formatRupiah(p.price);
@@ -210,10 +257,11 @@
       }
       document.getElementById('productDesc').textContent = p.description ?? '';
 
-      const mainImage = document.getElementById('mainImage');
-      const thumbs = document.getElementById('thumbs');
-      const images = p.gallery && p.gallery.length ? p.gallery : [p.image];
-      mainImage.src = images[0];
+  const mainImage = document.getElementById('mainImage');
+  const thumbs = document.getElementById('thumbs');
+  const images = p.gallery && p.gallery.length ? p.gallery : [p.image];
+  const primaryImage = images[0] || p.image || '';
+  mainImage.src = primaryImage;
       thumbs.innerHTML = '';
       images.forEach((src, idx) => {
         const im = document.createElement('img');
@@ -243,38 +291,108 @@
       const qtyMinus = document.getElementById('qtyMinus');
       const qtyPlus = document.getElementById('qtyPlus');
       const qtyValue = document.getElementById('qtyValue');
-      qtyMinus?.addEventListener('click', ()=>{ qty = Math.max(1, qty-1); qtyValue.textContent = qty; });
-      qtyPlus?.addEventListener('click', ()=>{ qty = Math.min(99, qty+1); qtyValue.textContent = qty; });
+      const addBtn = document.getElementById('btnAddCart');
+      const buyBtn = document.getElementById('btnBuyNow');
 
-      // Actions
-      document.getElementById('btnAddCart').addEventListener('click', () => {
-        const item = { id: p.id, name: p.name, price: p.price, image: p.image, qty };
-        window.TMCart?.addItem(item, qty);
+      const syncQtyDisplay = () => {
+        if (qtyValue) qtyValue.textContent = qty;
+      };
+
+      qtyMinus?.addEventListener('click', () => {
+        qty = Math.max(1, qty - 1);
+        syncQtyDisplay();
       });
-      document.getElementById('btnBuyNow').addEventListener('click', async () => {
-        const ok = await Notify.confirm('Beli Sekarang', `Tambahkan ${qty} item ke keranjang dan pergi ke Checkout?`, 'Ya, lanjut');
-        if (ok) {
-          const item = { id: p.id, name: p.name, price: p.price, image: p.image, qty };
-          window.TMCart?.addItem(item, qty);
+
+      qtyPlus?.addEventListener('click', () => {
+        qty = Math.min(99, qty + 1);
+        syncQtyDisplay();
+      });
+
+      syncQtyDisplay();
+
+      const pushToCart = (count, showToast = true) => {
+  const payload = { id: p.id, name: p.name, price: Number(p.price) || 0, image: primaryImage };
+        if (!window.TMCart || typeof window.TMCart.addItem !== 'function') {
+          if (window.Notify?.toastWarn) {
+            Notify.toastWarn('Keranjang belum siap, coba lagi sebentar lagi.');
+          }
+          return false;
+        }
+        window.TMCart.addItem(payload, count);
+        if (showToast && window.Notify?.toastSuccess) {
+          Notify.toastSuccess(`${p.name} berhasil ditambahkan ke keranjang`);
+        }
+        return true;
+      };
+
+      addBtn?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (pushToCart(qty, true)) {
+          addBtn.classList.add('ring-2', 'ring-green-200');
+          setTimeout(() => addBtn.classList.remove('ring-2', 'ring-green-200'), 220);
+        }
+      });
+
+      buyBtn?.addEventListener('click', async (event) => {
+        event.preventDefault();
+        let confirmed = true;
+        if (window.Notify?.confirm) {
+          const result = await Notify.confirm('Beli Sekarang', `Tambahkan ${qty} item ke keranjang dan lanjut ke checkout?`, 'Ya, lanjut');
+          confirmed = Boolean(result?.isConfirmed);
+        } else {
+          confirmed = window.confirm(`Tambahkan ${qty} item ke keranjang dan lanjut ke checkout?`);
+        }
+        if (!confirmed) return;
+        if (pushToCart(qty, false)) {
+          if (window.Notify?.toastSuccess) {
+            Notify.toastSuccess('Item siap di checkout');
+          }
           location.href = 'dashboard-checkout.html';
         }
       });
       // Wishlist toggle
       const wishBtn = document.getElementById('btnWish');
       const wishTop = document.getElementById('btnWishTop');
+      const wishPrimary = document.getElementById('btnWishPrimary');
+      const productId = String(p.id ?? p.name ?? '');
       const setWishActive = (active) => {
-        [wishBtn, wishTop].forEach(btn => {
+        [wishBtn, wishTop, wishPrimary].forEach(btn => {
           if (!btn) return;
-          if (active) { btn.classList.add('bg-red-50','border-red-300'); }
-          else { btn.classList.remove('bg-red-50','border-red-300'); }
+          if (active) {
+            btn.classList.remove('border-gray-200','text-rose-500');
+            btn.classList.add('bg-rose-100','border-rose-400','text-rose-600','shadow-sm');
+          } else {
+            btn.classList.remove('bg-rose-100','border-rose-400','text-rose-600','shadow-sm');
+            btn.classList.add('border-gray-200','text-rose-500');
+          }
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          const icon = btn.querySelector('i');
+          if (icon) {
+            icon.classList.toggle('fa-solid', active);
+            icon.classList.toggle('fa-regular', !active);
+          }
         });
       };
-      try { setWishActive(window.TMWishlist?.has?.(p.id)); } catch {}
+      try { setWishActive(window.TMWishlist?.has?.(productId)); } catch {}
       const toggleWish = () => {
-        try { const state = window.TMWishlist?.toggle?.(p.id, p.name); setWishActive(!!state); } catch {}
+        try {
+          const state = window.TMWishlist?.toggle?.(productId, p.name);
+          setWishActive(!!state);
+        } catch {}
       };
-      wishBtn?.addEventListener('click', toggleWish);
-      wishTop?.addEventListener('click', toggleWish);
+      const handleWishClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleWish();
+      };
+      wishBtn?.addEventListener('click', handleWishClick);
+      wishTop?.addEventListener('click', handleWishClick);
+      wishPrimary?.addEventListener('click', handleWishClick);
+      window.addEventListener('tmWishlist:changed', (evt) => {
+        const ids = evt?.detail?.ids || [];
+        setWishActive(ids.includes(productId));
+      });
     }
 
     function init() {

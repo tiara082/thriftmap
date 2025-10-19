@@ -49,6 +49,61 @@
             background: #fff;
         }
 
+        .header-main { padding: 12px 0; margin-bottom: 0; }
+
+        .header-main .container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus-visible {
+            background: #27ae60;
+            color: #fff;
+        }
+
+        .action-btn .count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
+            color: #fff;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tm-nav-dropdown { position: relative; }
+
+        .tm-nav-dropdown .tm-dropdown-panel {
+            right: 0;
+            left: auto;
+        }
+
         .order-card {
             background: var(--tm-surface);
             border-radius: var(--tm-radius-lg);
@@ -402,7 +457,7 @@
 </head>
 <body>
     <!-- Header/Navbar -->
-    <header>
+    <header class="tm-auto-hide-header">
         <div class="header-main">
             <div class="container">
                 <a href="dashboard-home.html" class="header-logo">
@@ -414,7 +469,7 @@
                         <ion-icon name="search-outline"></ion-icon>
                     </button>
                 </div>
-                <div class="header-user-actions">
+                <div class="header-user-actions" style="margin-left:auto">
                     <a href="dashboard-profile.html" class="action-btn" title="Akun">
                         <ion-icon name="person-outline"></ion-icon>
                     </a>
@@ -422,10 +477,10 @@
                         <ion-icon name="bag-handle-outline"></ion-icon>
                         <span class="count cart-count" style="display:none">0</span>
                     </a>
-                    <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                    <button type="button" class="action-btn" data-open-wishlist title="Wishlist">
                         <ion-icon name="heart-outline"></ion-icon>
                         <span class="count wish-count" style="display:none">0</span>
-                    </a>
+                    </button>
                     <div class="tm-nav-dropdown">
                         <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
                             <ion-icon name="menu-outline"></ion-icon>
@@ -520,6 +575,8 @@
     <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Notify helper -->
+    <script src="./assets/js/notify.js"></script>
     
     <script>
         // Global menu dropdown & bottom nav active
@@ -881,12 +938,14 @@
         }
 
         // Filter orders by status
-        function filterOrders(status) {
+        function filterOrders(status, triggerEl) {
             // Update active tab
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            event.target.classList.add('active');
+            if (triggerEl) {
+                triggerEl.classList.add('active');
+            }
             
             // Render filtered orders
             renderOrders(status);
@@ -894,17 +953,29 @@
 
         // Order actions
         function viewOrderDetail(orderId) {
-            alert(`Menampilkan detail pesanan: ${orderId}`);
+            if (window.Notify && typeof Notify.alertInfo === 'function') {
+                Notify.alertInfo('Detail Pesanan', `Menampilkan detail pesanan ${orderId}`);
+            } else {
+                alert(`Menampilkan detail pesanan: ${orderId}`);
+            }
             // In a real app, this would navigate to order detail page
         }
 
         function trackOrder(orderId) {
-            alert(`Melacak pesanan: ${orderId}`);
+            if (window.Notify && typeof Notify.toastInfo === 'function') {
+                Notify.toastInfo(`Melacak pesanan ${orderId}`);
+            } else {
+                alert(`Melacak pesanan: ${orderId}`);
+            }
             // In a real app, this would navigate to tracking page
         }
 
         function downloadInvoice(orderId) {
-            alert(`Mengunduh invoice untuk: ${orderId}`);
+            if (window.Notify && typeof Notify.toastSuccess === 'function') {
+                Notify.toastSuccess(`Invoice ${orderId} sedang disiapkan`);
+            } else {
+                alert(`Mengunduh invoice untuk: ${orderId}`);
+            }
             // In a real app, this would download the invoice
         }
 
@@ -916,8 +987,8 @@
             
             // Add event listeners to filter tabs
             document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    filterOrders(tab.dataset.status);
+                tab.addEventListener('click', (evt) => {
+                    filterOrders(tab.dataset.status, evt.currentTarget);
                 });
             });
             

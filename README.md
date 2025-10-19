@@ -46,13 +46,6 @@ README-gamification.md     # Dokumentasi fitur gamifikasi
 
 > Seluruh fitur berjalan secara statis. Modul Supabase belum dipakai; helper disiapkan bila Anda ingin menambahkan backend di kemudian hari.
 
-## Integrasi Supabase (Opsional)
-Untuk mengaktifkan Supabase sebagai backend:
-1. Buat project Supabase dan sediakan tabel seperti `profiles`, `products`, `wishlists`, `orders`, `order_items`, dll.
-2. Perbarui `SUPABASE_URL` dan `SUPABASE_ANON_KEY` di `assets/js/supabase-init.js` dengan kredensial Anda sendiri.
-3. Pastikan CDN `@supabase/supabase-js` dimuat sebelum `supabase-client.js` dan `supabase-init.js` pada halaman yang membutuhkan koneksi.
-4. Kembangkan fungsi di `supabase-client.js` sesuai kebutuhan (auth, wishlist tersinkron, XP, checkout, dll.).
-
 ## Dependensi Eksternal
 - **Ionicons** & **Font Awesome** untuk ikon.
 - **Leaflet** (khusus `dashboard-tracking.html`) guna menampilkan peta.

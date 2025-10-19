@@ -10,6 +10,8 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Index page global styles to match navbar -->
+    <link rel="stylesheet" href="./assets/css/style-prefix.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -43,61 +45,11 @@
             color: var(--tm-text);
         }
 
-        header {
+        .tm-auto-hide-header {
             position: sticky;
             top: 0;
             z-index: 1300;
-            background: #fff !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        .header-main { padding: 12px 0 !important; margin-bottom: 0 !important; }
-
-        .header-main .container {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .header-user-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-left: auto;
-        }
-
-        .action-btn {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f8f9fa;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover,
-        .action-btn:focus-visible {
-            background: #27ae60;
-            color: #fff;
-        }
-
-        .action-btn .count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff6b6b;
-            color: #fff;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: grid;
-            place-items: center;
-            font-size: 11px;
-            font-weight: 700;
+            background: #fff;
         }
 
         .showcase:hover .showcase-actions .btn-action {
@@ -1138,7 +1090,7 @@
 </head>
 <body>
         <!-- Header/Navbar -->
-        <header>
+        <header class="tm-auto-hide-header">
             <div class="header-main">
                 <div class="container">
                     <a href="dashboard-home.html" class="header-logo">
@@ -1150,7 +1102,7 @@
                             <ion-icon name="search-outline"></ion-icon>
                         </button>
                     </div>
-                    <div class="header-user-actions">
+                    <div class="header-user-actions" style="margin-left:auto">
                         <a href="dashboard-profile.html" class="action-btn" title="Akun">
                             <ion-icon name="person-outline"></ion-icon>
                         </a>
@@ -1158,10 +1110,10 @@
                             <ion-icon name="bag-handle-outline"></ion-icon>
                             <span class="count cart-count" style="display:none">0</span>
                         </a>
-                        <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                        <button type="button" class="action-btn" data-open-wishlist title="Wishlist">
                             <ion-icon name="heart-outline"></ion-icon>
                             <span class="count wish-count" style="display:none">0</span>
-                        </a>
+                        </button>
                         <div class="tm-nav-dropdown">
                             <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
                                 <ion-icon name="menu-outline"></ion-icon>
@@ -1470,18 +1422,18 @@
                     <div class="showcase-banner">
                         <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
                         <div class="showcase-actions">
-                            <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
+                            <a class="btn-action" href="dashboard-wishlist.html" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
                                 <ion-icon name="heart-outline"></ion-icon>
                                 <span>Tambah Wishlist</span>
-                            </button>
-                            <button class="btn-action" type="button" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
+                            </a>
+                            <a class="btn-action" href="dashboard-product.html?id=${product.id}" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
                                 <ion-icon name="eye-outline"></ion-icon>
                                 <span>Lihat Produk</span>
-                            </button>
-                            <button class="btn-action" type="button" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
+                            </a>
+                            <a class="btn-action" href="dashboard-cart.html" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
                                 <ion-icon name="bag-add-outline"></ion-icon>
                                 <span>Masukkan Keranjang</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <div class="showcase-content">

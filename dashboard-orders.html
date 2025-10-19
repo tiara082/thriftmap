@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Index page global styles to match navbar -->
     <link rel="stylesheet" href="./assets/css/style-prefix.css">
+    <!-- SweetAlert2 for Notify utility -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -19,210 +21,506 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --tm-primary: #16a34a;
+            --tm-primary-dark: #15803d;
+            --tm-secondary: #0f766e;
+            --tm-bg: #f1f5f9;
+            --tm-page: linear-gradient(180deg, #f8fafc 0%, #eefdf6 45%, #f8fafc 100%);
+            --tm-surface: rgba(255, 255, 255, 0.94);
+            --tm-border: rgba(15, 118, 110, 0.14);
+            --tm-muted: #64748b;
+            --tm-text: #0f172a;
+            --tm-radius-lg: 22px;
+            --tm-radius-md: 16px;
+            --tm-radius-sm: 12px;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
+            background: var(--tm-page);
+            color: var(--tm-text);
         }
-        
-        .sidebar {
+
+        .tm-auto-hide-header {
+            position: sticky;
+            top: 0;
+            z-index: 1300;
+            background: #fff;
+        }
+
+        .order-card {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
             transition: all 0.3s ease;
+            overflow: hidden;
         }
-        
-        .sidebar-collapsed {
-            width: 70px;
+
+        .order-card:hover {
+            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.16);
+            transform: translateY(-2px);
         }
-        
-        .sidebar-collapsed .sidebar-text {
-            display: none;
+
+        .order-header {
+            background: linear-gradient(120deg, rgba(22, 163, 74, 0.05), rgba(20, 184, 166, 0.03));
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(15, 118, 110, 0.1);
         }
-        
-        .main-content {
-            transition: all 0.3s ease;
+
+        .order-body {
+            padding: 1.5rem;
         }
-        
-        .main-content-expanded {
-            margin-left: 70px;
+
+        .product-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(15, 118, 110, 0.08);
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 8px 16px rgba(15, 118, 110, 0.12);
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .order-footer {
+            padding: 1rem 1.5rem;
+            background: rgba(248, 250, 252, 0.8);
+            border-top: 1px solid rgba(15, 118, 110, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-diproses {
+            background: rgba(234, 179, 8, 0.15);
+            color: #d97706;
+        }
+
+        .status-dikirim {
+            background: rgba(59, 130, 246, 0.15);
+            color: #1d4ed8;
+        }
+
+        .status-selesai {
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
+        }
+
+        .status-dibatalkan {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(241, 245, 249, 0.7);
+            border-radius: var(--tm-radius-sm);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            height: 4px;
+            background: var(--tm-primary);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-active .step-icon {
+            background: var(--tm-primary);
+            color: white;
+        }
+
+        .step-completed .step-icon {
+            background: var(--tm-primary);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .step-active .step-label {
+            color: var(--tm-primary);
+            font-weight: 600;
+        }
+
+        .step-completed .step-label {
+            color: var(--tm-primary);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background: rgba(248, 250, 252, 0.8);
+            border: 1px solid rgba(15, 118, 110, 0.1);
+            color: var(--tm-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .filter-tab:hover {
+            background: rgba(22, 163, 74, 0.05);
+            color: var(--tm-primary-dark);
+        }
+
+        .filter-tab.active {
+            background: var(--tm-primary);
+            color: white;
+            border-color: var(--tm-primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--tm-muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .stats-card {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stats-icon.orders {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--tm-primary);
+        }
+
+        .stats-icon.xp {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .stats-icon.spent {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+
+        .stats-content {
+            flex: 1;
+        }
+
+        .stats-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--tm-text);
+            line-height: 1.2;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            color: var(--tm-muted);
+        }
+
+        .btn-primary {
+            background: var(--tm-primary);
+            color: white;
+            border-radius: var(--tm-radius-sm);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--tm-primary-dark);
+            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--tm-primary);
+            border: 1px solid var(--tm-primary);
+            border-radius: var(--tm-radius-sm);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: rgba(22, 163, 74, 0.05);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+        }
+
+        .tm-bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid var(--tm-border);
+            box-shadow: 0 -18px 32px rgba(15, 118, 110, 0.12);
+        }
+
+        .tm-bottom-nav a {
+            color: var(--tm-muted);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .tm-bottom-nav a.active,
+        .tm-bottom-nav a:hover {
+            color: var(--tm-primary-dark);
         }
 
         * {
             outline: none !important;
         }
-        
+
         button:focus,
         button:hover,
         button:active {
             outline: none !important;
         }
+
+        @media (max-width: 768px) {
+            .order-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .order-actions button {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Sidebar -->
-    <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-green-800 text-white sidebar-collapsed hidden">
-        <div class="flex items-center justify-between p-4 border-b border-green-700">
-            <div class="flex items-center space-x-3">
-                <img src="./assets/images/logo/logo.svg" alt="ThriftMap" class="h-8 w-8">
-            </div>
-            <button id="toggleSidebar" class="text-white hover:text-green-200">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <nav class="mt-6">
-            <div class="px-4 space-y-2">
-                <a href="dashboard-home.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-home mr-3"></i>
-                    <span class="sidebar-text">Dashboard</span>
+<body>
+    <!-- Header/Navbar -->
+    <header>
+        <div class="header-main">
+            <div class="container">
+                <a href="dashboard-home.html" class="header-logo">
+                    <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
                 </a>
-                
-                <a href="dashboard-profile.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-user mr-3"></i>
-                    <span class="sidebar-text">Profil</span>
-                </a>
-                
-                <a href="dashboard-products.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-tshirt mr-3"></i>
-                    <span class="sidebar-text">Produk</span>
-                </a>
-                
-                <a href="dashboard-orders.html" class="nav-item block py-2 px-4 rounded-lg bg-green-700 text-white">
-                    <i class="fas fa-shopping-bag mr-3"></i>
-                    <span class="sidebar-text">Pesanan</span>
-                </a>
-                
-                <a href="dashboard-tracking.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-map-marker-alt mr-3"></i>
-                    <span class="sidebar-text">Lacak Pesanan</span>
-                </a>
-                
-                <a href="dashboard-settings.html" class="nav-item block py-2 px-4 rounded-lg hover:bg-green-700 text-green-100">
-                    <i class="fas fa-cog mr-3"></i>
-                    <span class="sidebar-text">Pengaturan</span>
-                </a>
-            </div>
-        </nav>
-        
-        <div class="absolute bottom-0 w-full p-4 border-t border-green-700">
-            <a href="index.html" class="flex items-center space-x-3 text-green-100 hover:text-white">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="sidebar-text">Keluar</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content ml-0">
-                <!-- Index-style Header/Navbar -->
-                <header style="position:sticky;top:0;z-index:1300;background:#fff">
-                    <div class="header-main">
-                        <div class="container">
-                            <a href="dashboard-home.html" class="header-logo">
-                                <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
-                            </a>
-                            <div class="header-search-container">
-                                <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari pesanan, invoice...">
-                                <button class="search-btn" id="globalSearchBtn">
-                                    <ion-icon name="search-outline"></ion-icon>
-                                </button>
-                            </div>
-                                                        <div class="header-user-actions" style="margin-left:auto">
-                                                                <a href="dashboard-profile.html" class="action-btn" title="Akun">
-                                                                        <ion-icon name="person-outline"></ion-icon>
-                                                                </a>
-                                                                <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-                                                                        <ion-icon name="bag-handle-outline"></ion-icon>
-                                                                        <span class="count cart-count" style="display:none">0</span>
-                                                                </a>
-                                <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
-                                    <ion-icon name="heart-outline"></ion-icon>
-                                    <span class="count wish-count" style="display:none">0</span>
-                                </a>
-                                                                <div class="tm-nav-dropdown">
-                                                                    <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
-                                                                        <ion-icon name="menu-outline"></ion-icon>
-                                                                    </button>
-                                                                    <div class="tm-dropdown-panel hidden" id="globalMenu">
-                                                                        <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
-                                                                        <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
-                                                                        <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
-                                                                        <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-                                                                        <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                                                                    </div>
-                                                                </div>
-                                                        </div>
+                <div class="header-search-container">
+                    <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari pesanan, invoice...">
+                    <button class="search-btn" id="globalSearchBtn">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </div>
+                <div class="header-user-actions">
+                    <a href="dashboard-profile.html" class="action-btn" title="Akun">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </a>
+                    <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+                        <ion-icon name="bag-handle-outline"></ion-icon>
+                        <span class="count cart-count" style="display:none">0</span>
+                    </a>
+                    <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span class="count wish-count" style="display:none">0</span>
+                    </a>
+                    <div class="tm-nav-dropdown">
+                        <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
+                            <ion-icon name="menu-outline"></ion-icon>
+                        </button>
+                        <div class="tm-dropdown-panel hidden" id="globalMenu">
+                            <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
+                            <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
+                            <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
+                            <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
+                            <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
                         </div>
                     </div>
-                    
-                </header>
-
-        <!-- Page Content -->
-        <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800">Ringkasan Pesanan</h2>
-                        <p class="text-sm text-gray-500">Pantau status pesanan Anda secara real-time</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50">
-                            <i class="fas fa-download mr-2"></i>Unduh CSV
-                        </button>
-                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            <i class="fas fa-filter mr-2"></i>Filter Status
-                        </button>
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="border-b border-gray-200 bg-gray-50">
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Order ID</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Produk</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Tanggal</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Total</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">XP</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Status</th>
-                                <th class="text-left py-4 px-4 text-sm font-medium text-gray-600">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersTable">
-                            <!-- Rows injected by JS -->
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 pb-24 mt-3">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 stats-grid">
+            <div class="stats-card">
+                <div class="stats-icon orders">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="totalOrders">0</div>
+                    <div class="stats-label">Total Pesanan</div>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-icon xp">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="totalXP">0 XP</div>
+                    <div class="stats-label">XP Diperoleh</div>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-icon spent">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="totalSpent">Rp 0</div>
+                    <div class="stats-label">Total Pengeluaran</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs" id="statusFilter">
+            <div class="filter-tab active" data-status="all">Semua Pesanan</div>
+            <div class="filter-tab" data-status="diproses">Diproses</div>
+            <div class="filter-tab" data-status="dikirim">Dikirim</div>
+            <div class="filter-tab" data-status="selesai">Selesai</div>
+            <div class="filter-tab" data-status="dibatalkan">Dibatalkan</div>
+        </div>
+
+        <!-- Orders Container -->
+        <div id="ordersContainer">
+            <!-- Orders will be injected here -->
+        </div>
+    </main>
 
     <!-- Mobile Bottom Navigation -->
-    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+    <nav class="tm-bottom-nav fixed bottom-0 inset-x-0 z-40 md:hidden">
         <div class="flex justify-around py-2 text-xs">
-            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-home text-base"></i>
                 <span>Home</span>
             </a>
-            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-tags text-base"></i>
                 <span>Produk</span>
             </a>
-            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center gap-1 active">
                 <i class="fas fa-shopping-bag text-base"></i>
                 <span>Pesanan</span>
             </a>
-            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-map-marker-alt text-base"></i>
                 <span>Lacak</span>
             </a>
-            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-user text-base"></i>
                 <span>Profil</span>
             </a>
         </div>
     </nav>
 
-    <!-- Ionicons for index-style UI -->
+    <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
     <script>
         // Global menu dropdown & bottom nav active
         (function(){
@@ -243,7 +541,10 @@
             }
             document.querySelectorAll('a[data-nav]').forEach(a => {
                 const href = a.getAttribute('href') || '';
-                if (location.pathname.endsWith(href)) a.classList.add('text-green-600');
+                if (location.pathname.endsWith(href)) {
+                    a.classList.add('active');
+                    a.setAttribute('aria-current', 'page');
+                }
             });
         })();
 
@@ -257,69 +558,389 @@
                 const wCount = Array.isArray(wishList) ? wishList.length : (parseInt(localStorage.getItem('tm_wishlist_count')||'0',10) || 0);
                 const oEl = menu.querySelector('.orders-count');
                 const wEl = menu.querySelector('.wish-count');
-                if (oEl) { if (orders>0){ oEl.style.display='inline-block'; oEl.textContent=String(orders);} else { oEl.style.display='none'; } }
-                if (wEl) { if (wCount>0){ wEl.style.display='inline-block'; wEl.textContent=String(wCount);} else { wEl.style.display='none'; } }
+                if (oEl) { 
+                    if (orders>0){ 
+                        oEl.style.display='inline-block'; 
+                        oEl.textContent=String(orders);
+                    } else { 
+                        oEl.style.display='none'; 
+                    } 
+                }
+                if (wEl) { 
+                    if (wCount>0){ 
+                        wEl.style.display='inline-block'; 
+                        wEl.textContent=String(wCount);
+                    } else { 
+                        wEl.style.display='none'; 
+                    } 
+                }
             } catch {}
         })();
 
-        const ordersTable = document.getElementById('ordersTable');
+        // Orders data
         const ORDERS_KEY = 'tm_orders_history_v1';
+        const ordersContainer = document.getElementById('ordersContainer');
+        const statusFilter = document.getElementById('statusFilter');
+        const totalOrdersEl = document.getElementById('totalOrders');
+        const totalXPEl = document.getElementById('totalXP');
+        const totalSpentEl = document.getElementById('totalSpent');
 
-        const statusStyles = {
-            "Selesai": "bg-green-100 text-green-800",
-            "Proses": "bg-yellow-100 text-yellow-800",
-            "Dikirim": "bg-blue-100 text-blue-800",
-            "Dibatalkan": "bg-red-100 text-red-700"
-        };
+        // Sample orders data
+        const sampleOrders = [
+            {
+                id: "TM-2023-00125",
+                date: "15 Nov 2023",
+                status: "diproses",
+                progress: 2, // 0-4 steps
+                total: 185000,
+                xpEarned: 25,
+                products: [
+                    {
+                        name: "Jaket Kulit Pria Vintage",
+                        image: "./assets/images/products/jacket-3.jpg",
+                        price: 125000,
+                        quantity: 1,
+                        variant: "Hitam, Size L"
+                    },
+                    {
+                        name: "Kaos Graphic Limited Edition",
+                        image: "./assets/images/products/shirt-1.jpg",
+                        price: 60000,
+                        quantity: 1,
+                        variant: "Putih, Size M"
+                    }
+                ],
+                shipping: {
+                    method: "Reguler",
+                    tracking: "TM-987654321",
+                    address: "Jl. Merdeka No. 123, Jakarta"
+                }
+            },
+            {
+                id: "TM-2023-00124",
+                date: "12 Nov 2023",
+                status: "dikirim",
+                progress: 3, // 0-4 steps
+                total: 275000,
+                xpEarned: 35,
+                products: [
+                    {
+                        name: "Sepatu Sneakers Casual",
+                        image: "./assets/images/products/shoe-1.jpg",
+                        price: 275000,
+                        quantity: 1,
+                        variant: "Putih, Size 42"
+                    }
+                ],
+                shipping: {
+                    method: "Express",
+                    tracking: "TM-123456789",
+                    address: "Jl. Sudirman No. 456, Bandung"
+                }
+            },
+            {
+                id: "TM-2023-00123",
+                date: "10 Nov 2023",
+                status: "selesai",
+                progress: 4, // 0-4 steps
+                total: 89000,
+                xpEarned: 15,
+                products: [
+                    {
+                        name: "Tas Mini Wanita",
+                        image: "./assets/images/products/bag-1.png",
+                        price: 89000,
+                        quantity: 1,
+                        variant: "Hitam"
+                    }
+                ],
+                shipping: {
+                    method: "Reguler",
+                    tracking: "TM-456789123",
+                    address: "Jl. Asia Afrika No. 789, Surabaya"
+                }
+            },
+            {
+                id: "TM-2023-00122",
+                date: "05 Nov 2023",
+                status: "dibatalkan",
+                progress: 1, // 0-4 steps
+                total: 150000,
+                xpEarned: 0,
+                products: [
+                    {
+                        name: "Dress Floral Midi",
+                        image: "./assets/images/products/clothes-3.jpg",
+                        price: 150000,
+                        quantity: 1,
+                        variant: "Navy Floral, Size M"
+                    }
+                ],
+                shipping: {
+                    method: "Reguler",
+                    tracking: "",
+                    address: "Jl. Gajah Mada No. 321, Yogyakarta"
+                }
+            }
+        ];
 
-        function renderOrders() {
-            ordersTable.innerHTML = '';
-            let list = [];
-            try { list = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]'); } catch {}
-            if (!Array.isArray(list) || list.length === 0) {
-                ordersTable.innerHTML = `<tr><td colspan="7" class="py-6 px-4 text-center text-gray-500 text-sm">Belum ada pesanan. Yuk checkout produk favoritmu!</td></tr>`;
+        // Initialize orders if not exists
+        function initializeOrders() {
+            if (!localStorage.getItem(ORDERS_KEY)) {
+                localStorage.setItem(ORDERS_KEY, JSON.stringify(sampleOrders));
+            }
+        }
+
+        // Get orders from localStorage
+        function getOrders() {
+            try {
+                return JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        // Render orders based on filter
+        function renderOrders(statusFilter = 'all') {
+            const orders = getOrders();
+            ordersContainer.innerHTML = '';
+            
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3 class="text-lg font-semibold mb-2">Belum ada pesanan</h3>
+                        <p class="mb-4">Yuk, jelajahi produk thrift dan mulai berbelanja!</p>
+                        <a href="dashboard-products.html" class="btn-primary">
+                            <i class="fas fa-shopping-cart mr-2"></i>Belanja Sekarang
+                        </a>
+                    </div>
+                `;
                 return;
             }
-            list.forEach(order => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-200 hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="py-4 px-4">
-                        <span class="font-semibold text-green-600">${order.id}</span>
-                    </td>
-                    <td class="py-4 px-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500">
-                                <i class="fas fa-image"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-800 font-medium">${order.product}</p>
-                                <p class="text-xs text-gray-500">Berat: 1.2 kg</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="py-4 px-4 text-gray-600">${order.date}</td>
-                    <td class="py-4 px-4 font-semibold text-gray-800">Rp ${(order.total||0).toLocaleString('id-ID')}</td>
-                    <td class="py-4 px-4 text-gray-700">${order.xpEarned ? `+${order.xpEarned} XP` : '-'}</td>
-                    <td class="py-4 px-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusStyles[order.status] || 'bg-gray-100 text-gray-800'}">${order.status}</span>
-                    </td>
-                    <td class="py-4 px-4">
-                        <div class="flex items-center gap-2">
-                            <button class="px-3 py-2 text-sm text-green-600 hover:text-green-800 font-medium">
-                                <i class="fas fa-eye mr-1"></i>Detail
-                            </button>
-                            <button class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900">
-                                <i class="fas fa-download mr-1"></i>Invoice
-                            </button>
-                        </div>
-                    </td>
+
+            const filteredOrders = statusFilter === 'all' 
+                ? orders 
+                : orders.filter(order => order.status === statusFilter);
+
+            if (filteredOrders.length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-filter"></i>
+                        <h3 class="text-lg font-semibold mb-2">Tidak ada pesanan dengan status ini</h3>
+                        <p>Coba pilih filter status yang berbeda</p>
+                    </div>
                 `;
-                ordersTable.appendChild(row);
+                return;
+            }
+
+            filteredOrders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card mb-6';
+                
+                // Status badge text
+                const statusText = {
+                    'diproses': 'Diproses',
+                    'dikirim': 'Dikirim',
+                    'selesai': 'Selesai',
+                    'dibatalkan': 'Dibatalkan'
+                };
+                
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                            <div>
+                                <h3 class="font-bold text-gray-800">${order.id}</h3>
+                                <p class="text-sm text-gray-500">${order.date}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge status-${order.status}">
+                                    <i class="fas ${getStatusIcon(order.status)}"></i>
+                                    ${statusText[order.status]}
+                                </span>
+                                <span class="text-sm font-semibold text-gray-800">Rp ${order.total.toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-body">
+                        ${order.status !== 'dibatalkan' ? renderProgress(order.progress) : ''}
+                        
+                        <div class="products-list">
+                            ${order.products.map(product => `
+                                <div class="product-item">
+                                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                                    <div class="product-details">
+                                        <h4 class="font-semibold text-gray-800">${product.name}</h4>
+                                        <p class="text-sm text-gray-600">${product.variant}</p>
+                                        <p class="text-sm text-gray-600">Jumlah: ${product.quantity}</p>
+                                        <p class="text-sm font-medium text-gray-800">Rp ${product.price.toLocaleString('id-ID')}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        ${order.shipping ? `
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i class="fas fa-truck text-gray-600"></i>
+                                    <span class="font-medium text-gray-800">Pengiriman ${order.shipping.method}</span>
+                                </div>
+                                ${order.shipping.tracking ? `
+                                    <p class="text-sm text-gray-600">No. Resi: ${order.shipping.tracking}</p>
+                                ` : ''}
+                                <p class="text-sm text-gray-600">${order.shipping.address}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="order-footer">
+                        <div class="flex items-center gap-4">
+                            ${order.xpEarned > 0 ? `
+                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-medium">
+                                    <i class="fas fa-trophy"></i>
+                                    +${order.xpEarned} XP
+                                </span>
+                            ` : ''}
+                        </div>
+                        <div class="order-actions flex gap-2">
+                            <button class="btn-outline" onclick="viewOrderDetail('${order.id}')">
+                                <i class="fas fa-eye"></i> Detail
+                            </button>
+                            ${order.status === 'dikirim' ? `
+                                <button class="btn-primary" onclick="trackOrder('${order.id}')">
+                                    <i class="fas fa-map-marker-alt"></i> Lacak
+                                </button>
+                            ` : ''}
+                            <button class="btn-outline" onclick="downloadInvoice('${order.id}')">
+                                <i class="fas fa-download"></i> Invoice
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                ordersContainer.appendChild(orderCard);
             });
         }
 
-        renderOrders();
+        // Render progress bar
+        function renderProgress(step) {
+            const steps = [
+                { label: "Pesanan Diterima", icon: "fa-clipboard-check" },
+                { label: "Diproses", icon: "fa-cog" },
+                { label: "Dikirim", icon: "fa-shipping-fast" },
+                { label: "Selesai", icon: "fa-check-circle" }
+            ];
+            
+            const progressWidth = (step / (steps.length - 1)) * 100;
+            
+            return `
+                <div class="progress-container">
+                    <div class="progress-steps">
+                        <div class="progress-bar" style="width: ${progressWidth}%"></div>
+                        ${steps.map((s, i) => {
+                            let stepClass = "progress-step";
+                            if (i < step) stepClass += " step-completed";
+                            if (i === step) stepClass += " step-active";
+                            
+                            return `
+                                <div class="${stepClass}">
+                                    <div class="step-icon">
+                                        <i class="fas ${s.icon}"></i>
+                                    </div>
+                                    <div class="step-label">${s.label}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get status icon
+        function getStatusIcon(status) {
+            const icons = {
+                'diproses': 'fa-cog',
+                'dikirim': 'fa-shipping-fast',
+                'selesai': 'fa-check-circle',
+                'dibatalkan': 'fa-times-circle'
+            };
+            return icons[status] || 'fa-question-circle';
+        }
+
+        // Update stats
+        function updateStats() {
+            const orders = getOrders();
+            const totalOrders = orders.length;
+            const totalXP = orders.reduce((sum, order) => sum + (order.xpEarned || 0), 0);
+            const totalSpent = orders.reduce((sum, order) => sum + order.total, 0);
+            
+            totalOrdersEl.textContent = totalOrders;
+            totalXPEl.textContent = `${totalXP} XP`;
+            totalSpentEl.textContent = `Rp ${totalSpent.toLocaleString('id-ID')}`;
+        }
+
+        // Filter orders by status
+        function filterOrders(status) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Render filtered orders
+            renderOrders(status);
+        }
+
+        // Order actions
+        function viewOrderDetail(orderId) {
+            alert(`Menampilkan detail pesanan: ${orderId}`);
+            // In a real app, this would navigate to order detail page
+        }
+
+        function trackOrder(orderId) {
+            alert(`Melacak pesanan: ${orderId}`);
+            // In a real app, this would navigate to tracking page
+        }
+
+        function downloadInvoice(orderId) {
+            alert(`Mengunduh invoice untuk: ${orderId}`);
+            // In a real app, this would download the invoice
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeOrders();
+            updateStats();
+            renderOrders();
+            
+            // Add event listeners to filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterOrders(tab.dataset.status);
+                });
+            });
+            
+            // Global search functionality
+            const globalSearch = document.getElementById('globalSearch');
+            const globalSearchBtn = document.getElementById('globalSearchBtn');
+            
+            if (globalSearch && globalSearchBtn) {
+                globalSearchBtn.addEventListener('click', () => {
+                    const query = globalSearch.value.toLowerCase();
+                    if (query) {
+                        // In a real app, this would filter orders by query
+                        alert(`Mencari: ${query}`);
+                    }
+                });
+                
+                globalSearch.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        globalSearchBtn.click();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

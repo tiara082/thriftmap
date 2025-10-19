@@ -130,6 +130,69 @@
         .chips-arrow--left { left: 6px; }
         .chips-arrow--right { right: 6px; }
 
+        /* Hero carousel enhancements */
+        .hero-slide {
+            position: relative;
+            min-width: 100%;
+            border-radius: 1.5rem;
+            padding: clamp(1.75rem, 4vw, 2.75rem);
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            background: var(--hero-bg, var(--hero-fallback, linear-gradient(135deg,#ecfdf5,#d1fae5)));
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            box-shadow: 0 16px 45px rgba(15, 118, 110, 0.12);
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.58) 60%, rgba(255,255,255,0.25) 100%);
+            backdrop-filter: blur(1.5px);
+        }
+
+        .hero-slide--loaded::before {
+            background: linear-gradient(115deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.5) 55%, rgba(255,255,255,0.18) 100%);
+        }
+
+        .hero-slide-content,
+        .hero-slide-media {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-slide-content h2 {
+            color: #0f172a;
+        }
+
+        .hero-slide-content p {
+            color: rgba(51, 65, 85, 0.95);
+        }
+
+        .hero-slide-media {
+            display: none;
+            color: rgba(22, 101, 52, 0.9);
+        }
+
+        .hero-slide-media i { text-shadow: 0 12px 25px rgba(15, 118, 110, 0.25); }
+
+        @media (min-width: 640px) {
+            .hero-slide-media {
+                display: block;
+                font-size: clamp(3.5rem, 6vw, 5.5rem);
+            }
+        }
+
+        .hero-slide-actions .btn {
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);
+        }
+
         /* STYLE PRODUK MIRIP INDEX.HTML */
         .showcase {
             background: white;
@@ -151,18 +214,26 @@
         .showcase-banner {
             position: relative;
             overflow: hidden;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, rgba(236, 253, 245, 0.8), rgba(209, 250, 229, 0.65));
         }
 
         .showcase-img {
             width: 100%;
-            aspect-ratio: 16/10;
-            height: auto;
-            object-fit: cover;
+            height: 100%;
+            max-height: 190px;
+            object-fit: contain;
             transition: transform 0.3s ease;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 12px 24px rgba(15, 118, 110, 0.12);
         }
 
         .showcase:hover .showcase-img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .showcase-actions {
@@ -225,6 +296,19 @@
             color: #27ae60;
         }
 
+        .showcase-desc {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+            display: block;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+
         .condition-badge {
             display: inline-flex;
             align-items: center;
@@ -272,7 +356,7 @@
 
         .price-box {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 10px;
             margin: 15px 0;
             flex-wrap: wrap;
@@ -290,12 +374,17 @@
         }
 
         .discount-percentage {
-            background: #ff6b6b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fb7185;
             color: white;
-            padding: 4px 8px;
+            padding: 2px 6px;
             border-radius: 5px;
-            font-size: 0.75rem;
+            font-size: 0.62rem;
             font-weight: 600;
+            letter-spacing: 0.04em;
+            box-shadow: 0 6px 14px rgba(248, 113, 113, 0.18);
         }
 
         .add-cart-btn {
@@ -405,9 +494,14 @@
         /* PRODUCT GRID LAYOUT */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
             gap: 25px;
             margin-top: 30px;
+            justify-content: center;
+        }
+        .product-grid > * {
+            width: 100%;
+            max-width: 320px;
         }
         /* Ensure inner content has bottom breathing room (override theme rule) */
         .product-grid .showcase-content { padding: 15px 16px 16px !important; }
@@ -875,34 +969,40 @@
             <section class="mb-6">
                 <div id="heroCarousel" class="relative">
                     <div class="h-scroll no-scrollbar flex gap-4 carousel" id="heroTrack">
-                        <div class="min-w-full rounded-2xl p-8 banner-gradient-1 text-gray-800 flex items-center justify-between">
-                            <div>
+                        <div class="hero-slide" data-hero-query="thrift fashion" style="--hero-fallback: linear-gradient(135deg,#d1fae5,#a7f3d0);">
+                            <div class="hero-slide-content">
                                 <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Flash Sale Serba 50%</h2>
-                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-hourglass-half text-amber-500"></i> Produk pilihan hari ini, stok terbatas!</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-cart-plus mr-2"></i> Belanja Sekarang</a>
+                                <p class="mb-4 flex items-center gap-2"><i class="fas fa-hourglass-half text-amber-500"></i> Produk pilihan hari ini, stok terbatas!</p>
+                                <div class="hero-slide-actions">
+                                    <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-cart-plus mr-2"></i> Belanja Sekarang</a>
+                                </div>
                             </div>
-                            <div class="hidden sm:block">
-                                <i class="fas fa-tags text-green-600 text-6xl"></i>
+                            <div class="hero-slide-media">
+                                <i class="fas fa-tags"></i>
                             </div>
                         </div>
-                        <div class="min-w-full rounded-2xl p-8 banner-gradient-2 text-gray-800 flex items-center justify-between">
-                            <div>
+                        <div class="hero-slide" data-hero-query="vintage clothing boutique" style="--hero-fallback: linear-gradient(135deg,#e0e7ff,#c7d2fe);">
+                            <div class="hero-slide-content">
                                 <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-location-dot text-indigo-500"></i> Near You Picks</h2>
-                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-location-crosshairs text-indigo-400"></i> Temukan barang thrift dekat lokasimu.</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-map-location-dot mr-2"></i> Lihat di Peta</a>
+                                <p class="mb-4 flex items-center gap-2"><i class="fas fa-location-crosshairs text-indigo-400"></i> Temukan barang thrift dekat lokasimu.</p>
+                                <div class="hero-slide-actions">
+                                    <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-map-location-dot mr-2"></i> Lihat di Peta</a>
+                                </div>
                             </div>
-                            <div class="hidden sm:block">
-                                <i class="fas fa-map-marked-alt text-indigo-500 text-6xl"></i>
+                            <div class="hero-slide-media">
+                                <i class="fas fa-map-marked-alt"></i>
                             </div>
                         </div>
-                        <div class="min-w-full rounded-2xl p-8 banner-gradient-3 text-gray-800 flex items-center justify-between">
-                            <div>
+                        <div class="hero-slide" data-hero-query="sustainable fashion store" style="--hero-fallback: linear-gradient(135deg,#fee2e2,#fecaca);">
+                            <div class="hero-slide-content">
                                 <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2"><i class="fas fa-gem text-rose-500"></i> Koleksi Vintage Pilihan</h2>
-                                <p class="text-gray-700 mb-4 flex items-center gap-2"><i class="fas fa-shirt text-rose-400"></i> Jaket, kemeja, dan dress kualitas terbaik.</p>
-                                <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-compass mr-2"></i> Jelajahi</a>
+                                <p class="mb-4 flex items-center gap-2"><i class="fas fa-shirt text-rose-400"></i> Jaket, kemeja, dan dress kualitas terbaik.</p>
+                                <div class="hero-slide-actions">
+                                    <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn"><i class="fas fa-compass mr-2"></i> Jelajahi</a>
+                                </div>
                             </div>
-                            <div class="hidden sm:block">
-                                <i class="fas fa-tshirt text-rose-500 text-6xl"></i>
+                            <div class="hero-slide-media">
+                                <i class="fas fa-tshirt"></i>
                             </div>
                         </div>
                     </div>
@@ -1435,9 +1535,39 @@
         });
         // Hero carousel logic
         const heroTrack = document.getElementById('heroTrack');
-        const heroDots = document.getElementById('heroDots');
+    const heroDots = document.getElementById('heroDots');
+    const heroSlideNodes = heroTrack ? heroTrack.querySelectorAll('.hero-slide') : [];
+    const HERO_PEXELS_QUERIES = ['thrift fashion', 'vintage clothing boutique', 'sustainable fashion store'];
+    // Set window.PEXELS_API_KEY = 'YOUR_REAL_KEY' (https://www.pexels.com/api/) to enable dynamic hero backgrounds
+    const PEXELS_API_KEY = window.PEXELS_API_KEY || 'YOUR_PEXELS_API_KEY';
         let heroIndex = 0;
         const heroSlides = heroTrack ? heroTrack.children.length : 0;
+
+        async function loadHeroBackgrounds(){
+            if (!heroSlideNodes.length) return;
+            if (!PEXELS_API_KEY || PEXELS_API_KEY === 'YOUR_PEXELS_API_KEY') return;
+            let page = 1;
+            for (const slide of heroSlideNodes){
+                const query = slide.getAttribute('data-hero-query') || HERO_PEXELS_QUERIES[(page-1) % HERO_PEXELS_QUERIES.length];
+                try {
+                    const response = await fetch(`https://api.pexels.com/v1/search?per_page=1&orientation=landscape&query=${encodeURIComponent(query)}&page=${page}`, {
+                        headers: { Authorization: PEXELS_API_KEY }
+                    });
+                    if (!response.ok) throw new Error(`Pexels API returned ${response.status}`);
+                    const payload = await response.json();
+                    const photo = payload?.photos?.[0];
+                    const url = photo?.src?.landscape || photo?.src?.large || photo?.src?.original;
+                    if (url){
+                        slide.style.setProperty('--hero-bg', `linear-gradient(0deg, rgba(15,23,42,0.18), rgba(15,23,42,0.18)), url('${url}')`);
+                        slide.classList.add('hero-slide--loaded');
+                    }
+                } catch (error) {
+                    console.warn('Tidak dapat memuat background hero dari Pexels:', error);
+                }
+                page += 1;
+            }
+        }
+
         function renderDots(){
             if (!heroDots) return;
             heroDots.innerHTML = '';
@@ -1454,7 +1584,11 @@
             renderDots();
         }
         function autoHero(){ heroIndex = (heroIndex+1) % heroSlides; updateHero(); }
-        if (heroSlides>0){ renderDots(); setInterval(autoHero, 4000); }
+        if (heroSlides>0){
+            renderDots();
+            loadHeroBackgrounds();
+            setInterval(autoHero, 4000);
+        }
 
         // Flash sale countdown (1 hour from load)
         const fsTimer = document.getElementById('fsTimer');

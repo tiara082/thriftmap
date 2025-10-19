@@ -95,8 +95,8 @@
     <div id="content" class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Gallery -->
       <section>
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          <img id="mainImage" src="" alt="Detail Produk" class="w-full aspect-square object-cover" />
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden p-6 flex items-center justify-center aspect-square">
+          <img id="mainImage" src="" alt="Detail Produk" class="max-h-full w-full object-contain" />
         </div>
         <div id="thumbs" class="mt-4 flex flex-wrap items-center justify-center gap-3 overflow-x-auto py-2"></div>
     
@@ -116,40 +116,43 @@
         </div>
         <div class="h-4"></div>
 
-        <div class="flex flex-col gap-3 mb-5">
-          <div class="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4">
-                <a href="https://www.pexels.com" target="_blank" rel="noopener" class="flex-shrink-0">
-                  <img src="https://images.pexels.com/photos/12293506/pexels-photo-12293506.jpeg" alt="Toko Thrift" class="h-14 w-14 rounded-full border border-emerald-100 object-cover shadow-sm">
-                </a>
-                <div>
-                  <p class="text-[11px] uppercase tracking-[0.3em] text-emerald-600">Toko Resmi</p>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <p id="productStoreName" class="text-xl font-semibold text-gray-900">ThriftMap Store</p>
-                    <span class="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-emerald-600 shadow-sm">
-                      <i class="fa-solid fa-shield-heart"></i>
-                      <span>Trusted Seller</span>
-                    </span>
-                  </div>
-                  <p class="text-sm text-gray-500">Kurasi fashion preloved dengan kondisi terbaik.</p>
+        <div class="flex flex-col gap-4 mb-5">
+          <div class="rounded-3xl border border-emerald-200 bg-white p-5 shadow-sm">
+            <div class="flex items-center gap-4">
+              <a href="https://www.pexels.com" target="_blank" rel="noopener" class="flex-shrink-0">
+                <img src="https://images.pexels.com/photos/12293506/pexels-photo-12293506.jpeg" alt="Toko Thrift" class="h-16 w-16 rounded-2xl border border-emerald-200 object-cover shadow-sm">
+              </a>
+              <div class="space-y-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Toko Resmi</span>
+                  </span>
+                  <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    <span>Trusted Seller</span>
+                  </span>
                 </div>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <button id="btnWishPrimary" class="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-white px-4 py-2 text-sm font-medium text-rose-500 hover:bg-rose-50 transition" aria-pressed="false">
-                  <i class="fa-regular fa-heart"></i>
-                  <span>Simpan Wishlist</span>
-                </button>
-                <button id="btnShareProduct" class="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-white px-4 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition">
-                  <i class="fa-solid fa-share-nodes"></i>
-                  <span>Bagikan</span>
-                </button>
+                <p id="productStoreName" class="text-2xl font-semibold text-gray-900 leading-snug">ThriftMap Store</p>
+                <p class="text-sm text-gray-500 leading-snug">Kurasi fashion preloved dengan kondisi terbaik.</p>
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-xs px-3 py-1 rounded-full bg-white border border-gray-200 text-gray-700" id="productCondition">Sangat Baik</span>
-            <span class="text-xs px-3 py-1 rounded-full bg-white border border-gray-200 text-gray-700" id="productCategory">Pria</span>
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs px-3 py-1 rounded-full border border-gray-200 bg-white text-gray-700" id="productCondition">Sangat Baik</span>
+              <span class="text-xs px-3 py-1 rounded-full border border-gray-200 bg-white text-gray-700" id="productCategory">Pria</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="btnWishPrimary" class="inline-flex items-center gap-2 rounded-full bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100" aria-pressed="false">
+                <i class="fa-regular fa-heart"></i>
+                <span>Simpan Wishlist</span>
+              </button>
+              <button id="btnShareProduct" class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-600 shadow-sm transition hover:bg-emerald-100">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>Bagikan</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -159,9 +162,9 @@
           <span id="productDiscount" class="hidden inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-rose-100 text-rose-600">0% OFF</span>
         </div>
 
-        <div class="rounded-3xl border border-emerald-100 bg-white p-5 mb-5 shadow-sm">
-          <h3 class="text-lg font-semibold text-emerald-700 mb-2">Deskripsi Produk</h3>
-          <p id="productDesc" class="text-gray-700 leading-relaxed"></p>
+        <div class="rounded-3xl border border-emerald-200 bg-white px-5 py-4 mb-5 shadow-sm">
+          <h3 class="text-base font-semibold text-emerald-700 mb-2 tracking-wide uppercase">Deskripsi Produk</h3>
+          <p id="productDesc" class="text-[13px] leading-7 text-gray-600 sm:text-sm sm:leading-7"></p>
         </div>
 
         <div class="bg-white rounded-xl p-4 border mb-4">

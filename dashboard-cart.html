@@ -15,6 +15,28 @@
     body { font-family: 'Poppins', sans-serif; background:#f8fafc; }
     .btn { transition: all .25s ease; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
+    .empty-icon {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 1.25rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(140deg, rgba(22,163,74,0.12), rgba(20,184,166,0.22));
+      box-shadow: 0 20px 40px rgba(15,118,110,0.12);
+    }
+    .empty-icon svg {
+      width: 56px;
+      height: 56px;
+      fill: none;
+      stroke: #16a34a;
+      stroke-width: 2;
+    }
+    .empty-icon svg path[data-fill] {
+      fill: rgba(16,185,129,0.12);
+      stroke: none;
+    }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -65,7 +87,14 @@
   <main class="max-w-7xl mx-auto px-4 py-6 pb-24 mt-3">
     <h1 class="text-2xl font-bold text-gray-800 mb-4">Keranjang</h1>
     <div id="emptyState" class="hidden bg-white rounded-xl shadow-sm p-8 text-center">
-      <i class="fas fa-shopping-basket text-4xl text-gray-400 mb-3"></i>
+      <div class="empty-icon">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path data-fill d="M14 22h36l-4 30H18l-4-30z"></path>
+          <path d="M20 22v-3a12 12 0 0 1 24 0v3"></path>
+          <path d="M26 22v-3a6 6 0 0 1 12 0v3"></path>
+          <path d="M26 34h12"></path>
+        </svg>
+      </div>
       <p class="text-gray-600 mb-4">Keranjang kamu masih kosong.</p>
       <a href="dashboard-products.html" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg btn">Belanja Sekarang <i class="fas fa-arrow-right ml-2"></i></a>
     </div>

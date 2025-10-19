@@ -10,6 +10,10 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfB+BeIVHeY5x9JyvqB+1bpkfz0QG8T5nUrpHK7aC+7pCwT6U2Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Index page global styles to match navbar -->
+    <link rel="stylesheet" href="./assets/css/style-prefix.css">
+    <!-- SweetAlert2 for Notify utility -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -41,68 +45,11 @@
             color: var(--tm-text);
         }
 
-        header {
+        .tm-auto-hide-header {
             position: sticky;
             top: 0;
             z-index: 1300;
-            background: #fff !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        .header-main { padding: 12px 0 !important; margin-bottom: 0 !important; }
-
-        .header-main .container {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .header-user-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-left: auto;
-        }
-
-        .action-btn {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f8f9fa;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover,
-        .action-btn:focus-visible {
-            background: #27ae60;
-            color: #fff;
-        }
-
-        .action-btn .count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff6b6b;
-            color: #fff;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: grid;
-            place-items: center;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .tm-nav-dropdown { position: relative; }
-
-        .tm-nav-dropdown .tm-dropdown-panel {
-            right: 0;
-            left: auto;
+            background: #fff;
         }
 
         .tracking-card {
@@ -221,38 +168,52 @@
             margin-bottom: 1.5rem;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border-radius: var(--tm-radius-md);
-            border: 1px solid var(--tm-border);
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.2s ease;
-            font-size: 1rem;
-        }
-
-        .search-input:focus {
-            border-color: rgba(22, 163, 74, 0.5);
-            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
-        }
-
-        .search-btn {
-            padding: 1rem 1.5rem;
-            border-radius: var(--tm-radius-md);
-            background: var(--tm-primary);
-            color: white;
-            border: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            cursor: pointer;
+        .track-form {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            border-radius: var(--tm-radius-md);
+            border: 1px solid var(--tm-border);
+            background: rgba(255, 255, 255, 0.92);
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
         }
 
-        .search-btn:hover {
+        .track-form input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: var(--tm-text);
+        }
+
+        .track-form input:focus {
+            outline: none;
+        }
+
+        .track-form button {
+            border: none;
+            background: var(--tm-primary);
+            color: #fff;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0 1.75rem;
+            height: 100%;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .track-form button:hover {
             background: var(--tm-primary-dark);
             box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .track-form button:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
         }
 
         .order-info-card {
@@ -447,20 +408,22 @@
                 text-align: center;
             }
 
-            .search-section .flex {
+            .track-form {
                 flex-direction: column;
+                align-items: stretch;
             }
 
-            .search-btn {
+            .track-form button {
                 width: 100%;
                 justify-content: center;
+                padding: 0.85rem 1.75rem;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header/Navbar -->
-    <header>
+    <header class="tm-auto-hide-header">
         <div class="header-main">
             <div class="container">
                 <a href="dashboard-home.html" class="header-logo">
@@ -472,7 +435,7 @@
                         <ion-icon name="search-outline"></ion-icon>
                     </button>
                 </div>
-                <div class="header-user-actions">
+                <div class="header-user-actions" style="margin-left:auto">
                     <a href="dashboard-profile.html" class="action-btn" title="Akun">
                         <ion-icon name="person-outline"></ion-icon>
                     </a>
@@ -480,10 +443,10 @@
                         <ion-icon name="bag-handle-outline"></ion-icon>
                         <span class="count cart-count" style="display:none">0</span>
                     </a>
-                    <a href="dashboard-wishlist.html" class="action-btn" title="Wishlist">
+                    <button type="button" class="action-btn" data-open-wishlist title="Wishlist">
                         <ion-icon name="heart-outline"></ion-icon>
                         <span class="count wish-count" style="display:none">0</span>
-                    </a>
+                    </button>
                     <div class="tm-nav-dropdown">
                         <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
                             <ion-icon name="menu-outline"></ion-icon>
@@ -509,10 +472,9 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Lacak Pesanan ThriftMap</h2>
                 <p class="text-gray-600 mb-4">Masukkan kode pesanan untuk melihat status terbaru dan lokasi paket Anda</p>
                 
-                <div class="flex gap-4">
-                    <input type="text" id="orderCode" placeholder="Contoh: TM-2023-00125" 
-                           class="search-input flex-1">
-                    <button id="trackButton" class="search-btn">
+                <div class="track-form">
+                    <input type="text" id="orderCode" placeholder="Contoh: TM-2023-00125" class="track-input">
+                    <button type="button" id="trackButton">
                         <i class="fas fa-search-location"></i> Lacak Pesanan
                     </button>
                 </div>
@@ -656,9 +618,11 @@
     <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Notify helper -->
+    <script src="./assets/js/notify.js"></script>
     
     <script>
-        // Global menu dropdown & bottom nav active
+    // Global menu dropdown & bottom nav active
         (function(){
             const btn = document.getElementById('globalMenuBtn');
             const menu = document.getElementById('globalMenu');
@@ -1056,6 +1020,9 @@
                 orderHint.textContent = 'Kode pesanan tidak ditemukan. Pastikan kode pesanan benar.';
                 orderHint.classList.remove('hidden', 'text-green-600');
                 orderHint.classList.add('text-red-500');
+                if (window.Notify && typeof Notify.toastError === 'function') {
+                    Notify.toastError('Kode pesanan tidak ditemukan');
+                }
                 return;
             }
 
@@ -1091,6 +1058,9 @@
             orderHint.textContent = `Pesanan ${orderCode} ditemukan. Status: ${getStatusText(order.status)}.`;
             orderHint.classList.remove('hidden', 'text-red-500');
             orderHint.classList.add('text-green-600');
+            if (window.Notify && typeof Notify.toastSuccess === 'function') {
+                Notify.toastSuccess(`Status: ${getStatusText(order.status)}`);
+            }
             
             // Update recent orders list
             updateRecentOrders(orderCode);
@@ -1168,6 +1138,9 @@
                     orderHint.textContent = 'Masukkan kode pesanan terlebih dahulu.';
                     orderHint.classList.remove('hidden', 'text-green-600');
                     orderHint.classList.add('text-red-500');
+                    if (window.Notify && typeof Notify.toastWarn === 'function') {
+                        Notify.toastWarn('Isi kode pesanan dulu ya');
+                    }
                     return;
                 }
                 showTracking(value);
@@ -1204,7 +1177,11 @@
                             showTracking(query);
                         } else {
                             // In a real app, this would search orders by query
-                            alert(`Mencari: ${query}`);
+                            if (window.Notify && typeof Notify.toastInfo === 'function') {
+                                Notify.toastInfo(`Mencari "${query}"`);
+                            } else {
+                                alert(`Mencari: ${query}`);
+                            }
                         }
                     }
                 });

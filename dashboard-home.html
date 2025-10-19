@@ -287,6 +287,14 @@
         .footer-nav-list { display: block !important; }
 
         /* HEADER IMPROVEMENTS */
+        /* HAPUS GARIS PUTIH NAVBAR - match index.html */
+        header, header *, .header-main, .header-main *,
+        .desktop-navigation-menu, .desktop-navigation-menu * {
+            border: none !important;
+        }
+        .header-main { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+        .desktop-navigation-menu { padding-top: 0 !important; margin-top: 0 !important; }
+        header { background: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; }
         .header-user-actions {
             display: flex;
             align-items: center;
@@ -443,41 +451,42 @@
     <!-- Main Content -->
     <div class="main-content ml-0">
         <!-- Index-style Header/Navbar -->
-        <header class="tm-auto-hide-header" style="position:sticky;top:0;z-index:1300;background:#fff">
+    <header class="tm-auto-hide-header">
             <div class="header-main">
                 <div class="container">
                     <a href="dashboard-home.html" class="header-logo">
                         <img src="./assets/images/logo/logo.svg" alt="ThriftMap logo" width="120" height="36">
                     </a>
-                    <div class="header-search-container">
+                                        <div class="header-search-container">
                         <input id="globalSearch" type="search" name="search" class="search-field" placeholder="Cari produk preloved...">
                         <button class="search-btn" id="globalSearchBtn">
                             <ion-icon name="search-outline"></ion-icon>
                         </button>
                     </div>
                                         <div class="header-user-actions" style="margin-left:auto">
-                        <div class="tm-nav-dropdown">
-                          <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
-                            <ion-icon name="menu-outline"></ion-icon>
-                          </button>
-                          <div class="tm-dropdown-panel hidden" id="globalMenu">
-                            <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
-                            <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
-                            <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
-                            <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-                            <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
-                            <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-                            <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
-                          </div>
-                        </div>
-                        <a href="dashboard-profile.html" class="action-btn" title="Akun">
-                            <ion-icon name="person-outline"></ion-icon>
-                        </a>
-                        <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
-                            <ion-icon name="bag-handle-outline"></ion-icon>
-                            <span class="count cart-count" style="display:none">0</span>
-                        </a>
-                    </div>
+                                                <!-- Order: account -> bag -> dropdown (far right) -->
+                                                <a href="dashboard-profile.html" class="action-btn" title="Akun">
+                                                        <ion-icon name="person-outline"></ion-icon>
+                                                </a>
+                                                <a href="dashboard-cart.html" class="action-btn" title="Keranjang">
+                                                        <ion-icon name="bag-handle-outline"></ion-icon>
+                                                        <span class="count cart-count" style="display:none">0</span>
+                                                </a>
+                                                <div class="tm-nav-dropdown">
+                                                    <button class="action-btn" id="globalMenuBtn" aria-haspopup="true" aria-expanded="false" title="Menu">
+                                                        <ion-icon name="menu-outline"></ion-icon>
+                                                    </button>
+                                                    <div class="tm-dropdown-panel hidden" id="globalMenu">
+                                                        <a href="dashboard-home.html"><span class="label"><ion-icon name="home-outline"></ion-icon> Beranda</span></a>
+                                                        <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
+                                                        <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
+                                                        <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
+                                                        <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
+                                                        <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
+                                                        <a href="#"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
+                                                    </div>
+                                                </div>
+                                        </div>
                 </div>
             </div>
         </header>
@@ -1224,8 +1233,11 @@
             if (!header || !main) return;
 
             function setMainOffset(){
-                // Prevent content from going under the fixed header
-                const h = header.offsetHeight;
+                // Prevent content from going under the fixed header (exact number, no gap)
+                const rect = header.getBoundingClientRect();
+                const styles = window.getComputedStyle(header);
+                const marginBottom = parseFloat(styles.marginBottom) || 0;
+                const h = Math.round(rect.height + marginBottom);
                 main.style.paddingTop = h + 'px';
             }
 

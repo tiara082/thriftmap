@@ -14,9 +14,13 @@
     body { font-family: 'Poppins', sans-serif; background: #f8fafc; }
     .btn { transition: all .25s ease; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(16, 185, 129, 0.25); }
-    .wishlist-card { transition: transform .2s ease, box-shadow .2s ease; }
-    .wishlist-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(15, 118, 110, 0.12); }
-    .wishlist-thumb { background: linear-gradient(145deg, rgba(236, 253, 245, 0.9), rgba(209, 250, 229, 0.7)); }
+  .wishlist-card { transition: transform .2s ease, box-shadow .2s ease; }
+  .wishlist-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(15, 118, 110, 0.12); }
+  .wishlist-thumb { background: linear-gradient(145deg, rgba(236, 253, 245, 0.9), rgba(209, 250, 229, 0.7)); }
+  .wishlist-empty-icon { width: 96px; height: 96px; margin: 0 auto 1.25rem; display: grid; place-items: center; border-radius: 9999px; background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(45,212,191,0.28)); box-shadow: inset 0 8px 16px rgba(255,255,255,0.6); }
+  .wishlist-empty-icon svg { width: 56px; height: 56px; }
+  .wishlist-empty-icon path { stroke: #047857; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+  .wishlist-empty-icon path[data-fill] { fill: rgba(16,185,129,0.12); stroke: none; }
     .line-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
   </style>
 </head>
@@ -54,9 +58,7 @@
               <a href="dashboard-products.html"><span class="label"><ion-icon name="storefront-outline"></ion-icon> Produk</span></a>
               <a href="dashboard-orders.html"><span class="label"><ion-icon name="bag-check-outline"></ion-icon> Pesanan</span><span class="badge orders-count" style="display:none">0</span></a>
               <a href="dashboard-tracking.html"><span class="label"><ion-icon name="location-outline"></ion-icon> Lacak</span></a>
-              <a href="dashboard-payment.html"><span class="label"><ion-icon name="card-outline"></ion-icon> Pembayaran</span></a>
               <a href="dashboard-settings.html"><span class="label"><ion-icon name="settings-outline"></ion-icon> Pengaturan</span></a>
-              <a href="dashboard-wishlist.html" class="is-active"><span class="label"><ion-icon name="heart-outline"></ion-icon> Wishlist</span><span class="badge wish-count" style="display:none">0</span></a>
             </div>
           </div>
         </div>
@@ -75,8 +77,12 @@
     </div>
 
     <section id="wishlistEmpty" class="hidden bg-white border border-dashed border-emerald-200 rounded-3xl p-10 text-center shadow-sm">
-      <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 shadow-inner">
-        <i class="fa-solid fa-heart-crack text-3xl"></i>
+      <div class="wishlist-empty-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <path data-fill d="M22 12c4.1 0 7.9 2.1 10 5.5 2.1-3.4 5.9-5.5 10-5.5 7.1 0 12.8 5.7 12.8 12.8 0 10.6-8.1 19.3-20.9 31.3L32 55.9l-1.9-1.8C17.3 44.1 9.2 35.4 9.2 24.8 9.2 17.7 14.9 12 22 12z"></path>
+          <path d="M28 34l8-8-4-4 4-7"></path>
+          <path d="M28 34l-5-7 5-4"></path>
+        </svg>
       </div>
       <h2 class="text-lg font-semibold text-gray-800 mb-1">Wishlist masih kosong</h2>
       <p class="text-sm text-gray-500 mb-5">Temukan produk preloved terbaik dan simpan untuk dibeli nanti.</p>

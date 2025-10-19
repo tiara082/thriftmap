@@ -25,95 +25,873 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-        }
-        
-        .sidebar {
-            transition: all 0.3s ease;
-        }
-        
-        .sidebar-collapsed {
-            width: 70px;
-        }
-        
-        .sidebar-collapsed .sidebar-text {
-            display: none;
-        }
-        
-        .main-content {
-            transition: all 0.3s ease;
-        }
-        
-        .main-content-expanded {
-            margin-left: 70px;
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        :root {
+            --tm-primary: #16a34a;
+            --tm-primary-dark: #15803d;
+            --tm-secondary: #0f766e;
+            --tm-bg: #f1f5f9;
+            --tm-page: linear-gradient(180deg, #f8fafc 0%, #eefdf6 45%, #f8fafc 100%);
+            --tm-surface: rgba(255, 255, 255, 0.94);
+            --tm-border: rgba(15, 118, 110, 0.14);
+            --tm-muted: #64748b;
+            --tm-text: #0f172a;
+            --tm-radius-lg: 22px;
+            --tm-radius-md: 16px;
+            --tm-radius-sm: 12px;
         }
 
-        /* Map view layout */
-        .map-container {
-            height: 72vh;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--tm-page);
+            color: var(--tm-text);
+        }
+
+
+        .view-toolbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.65rem 1.3rem;
+            border-radius: var(--tm-radius-sm);
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--tm-muted);
+            font-weight: 600;
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 24px rgba(15, 118, 110, 0.12);
+        }
+
+        .toggle-btn:hover,
+        .toggle-btn:focus-visible {
+            color: var(--tm-primary-dark);
+            border-color: rgba(15, 118, 110, 0.16);
+        }
+
+        .toggle-btn.is-active {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.14), rgba(22, 163, 74, 0.24));
+            border-color: rgba(22, 163, 74, 0.4);
+            color: var(--tm-primary-dark);
+            box-shadow: 0 14px 32px rgba(22, 163, 74, 0.24);
+        }
+
+        .filters-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filters-wrap .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(22, 163, 74, 0.12);
+            color: var(--tm-primary-dark);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .filters-wrap button {
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            border: 1px solid rgba(22, 163, 74, 0.24);
+            background: rgba(22, 163, 74, 0.08);
+            color: var(--tm-primary-dark);
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filters-wrap button:hover {
+            background: rgba(22, 163, 74, 0.18);
+            box-shadow: 0 12px 24px rgba(22, 163, 74, 0.18);
+        }
+
+        .geo-status {
+            font-size: 13px;
+            color: var(--tm-muted);
+        }
+
+        .map-layout {
+            display: grid;
+            gap: 1.5rem;
+            grid-auto-rows: minmax(0, 1fr);
+        }
+
+        @media (min-width: 1024px) {
+            .map-layout {
+                grid-template-columns: minmax(0, 360px) 1fr;
+                align-items: stretch;
+            }
+        }
+
+        .map-layout > * {
             min-height: 520px;
-            border-radius: 12px;
+            height: 100%;
+        }
+
+        .glass-panel {
+            background: var(--tm-surface);
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 26px 46px rgba(15, 118, 110, 0.16);
+        }
+
+        .map-results {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .map-shell {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .map-results-header {
+            padding: 1.1rem 1.25rem 0.75rem;
+            border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+            display: grid;
+            gap: 1rem;
+        }
+
+        .map-results-search {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .map-results-search .field-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .map-results-search .field-wrapper i {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(100, 116, 139, 0.6);
+        }
+
+        .map-results-search input {
+            width: 100%;
+            padding: 0.65rem 0.85rem 0.65rem 2.4rem;
+            border-radius: var(--tm-radius-sm);
+            border: 1px solid var(--tm-border);
+            background: rgba(250, 253, 251, 0.9);
+            transition: border-color 0.2s ease;
+        }
+
+        .map-results-search input:focus {
+            border-color: rgba(22, 163, 74, 0.5);
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+        }
+
+        .map-results-search button {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            border: 1px solid rgba(22, 163, 74, 0.22);
+            color: var(--tm-primary-dark);
+            background: rgba(236, 253, 245, 0.9);
+            transition: all 0.2s ease;
+        }
+
+        .map-results-search button:hover {
+            background: rgba(209, 250, 229, 0.95);
+            box-shadow: 0 12px 28px rgba(22, 163, 74, 0.18);
+        }
+
+        .map-slider {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.75rem;
+            align-items: center;
+            font-size: 14px;
+            color: var(--tm-muted);
+        }
+
+        .map-slider label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .map-slider input[type="range"] {
+            accent-color: var(--tm-primary);
+            flex: 1;
+        }
+
+        .map-slider span {
+            justify-self: end;
+            font-weight: 600;
+            color: var(--tm-primary-dark);
+        }
+
+        .map-container {
+            flex: 1;
+            height: 100%;
+            min-height: clamp(420px, 52vh, 620px);
+            border-radius: var(--tm-radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 30px 55px rgba(15, 118, 110, 0.18);
+        }
+
+        .tm-map-pin-wrapper {
+            background: transparent;
+            border: none;
+        }
+
+        .tm-map-pin {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            filter: drop-shadow(0 16px 24px rgba(15, 118, 110, 0.25));
+        }
+
+        .tm-map-pin__bubble {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 32px;
+            background: linear-gradient(160deg, rgba(16, 185, 129, 0.92), rgba(59, 130, 246, 0.92));
+            border: 3px solid #ecfdf5;
+        }
+
+        .tm-map-pin__bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            background: inherit;
+            border-bottom: 3px solid #bbf7d0;
+            border-right: 3px solid #bfdbfe;
+            transform: translateX(-50%) rotate(45deg);
+            border-bottom-right-radius: 8px;
+        }
+
+        .tm-map-pin__bubble img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 999px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+        }
+
+        .tm-map-pin__dot {
+            display: block;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: #ffffff;
+            border: 4px solid rgba(14, 165, 233, 0.85);
+            box-shadow: 0 6px 14px rgba(14, 165, 233, 0.45);
+        }
+
+        .tm-map-pin__price {
+            padding: 2px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #ffffff;
+            color: var(--tm-primary-dark);
+            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.18);
+        }
+
+        .tm-map-pin--user .tm-map-pin__bubble {
+            background: linear-gradient(160deg, rgba(59, 130, 246, 0.95), rgba(14, 165, 233, 0.95));
+        }
+
+        .tm-map-pin--user .tm-map-pin__price {
+            background: rgba(14, 165, 233, 0.12);
+            color: rgba(14, 116, 224, 1);
+            border: 1px solid rgba(14, 165, 233, 0.35);
+        }
+
+        .results-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.25rem 0;
+        }
+
+        .results-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .results-scroll::-webkit-scrollbar-thumb {
+            background: rgba(15, 118, 110, 0.24);
+            border-radius: 999px;
+        }
+
+        .results-item {
+            position: relative;
+            padding: 1rem 1.25rem;
+            border-left: 3px solid transparent;
+            border-radius: 20px;
+            display: block;
+            background: rgba(240, 253, 250, 0.55);
+            transform: translateY(0);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+            animation: fadeInUp 0.4s ease both;
+        }
+
+        .results-item:hover {
+            background: rgba(22, 163, 74, 0.18);
+            transform: translateY(-4px);
+            box-shadow: 0 18px 32px rgba(15, 118, 110, 0.18);
+        }
+
+        .results-item.is-active {
+            background: rgba(22, 163, 74, 0.24);
+            border-left-color: var(--tm-primary);
+            box-shadow: 0 20px 38px rgba(15, 118, 110, 0.24);
+        }
+
+        .results-item .card-top {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .results-item .thumbnail {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 14px 24px rgba(15, 118, 110, 0.18);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-item .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .results-item .title-row p {
+            font-weight: 600;
+            color: var(--tm-text);
+        }
+
+        .results-item .stats {
+            font-size: 13px;
+            color: var(--tm-muted);
+        }
+
+        .results-item .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.35rem;
+        }
+
+        .results-item .price {
+            font-weight: 700;
+            color: var(--tm-primary-dark);
+        }
+
+        .results-item .distance {
+            font-size: 12px;
+            color: var(--tm-muted);
+        }
+
+        .results-item .distance i {
+            color: var(--tm-primary);
+            margin-right: 0.35rem;
+        }
+
+        .results-empty {
+            padding: 1.25rem;
+            text-align: center;
+            font-weight: 500;
+            color: var(--tm-muted);
+        }
+
+        .product-main {
+            margin-top: 2.5rem;
+        }
+
+        .product-main .title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--tm-text);
+        }
+
+        .product-main .title::after {
+            content: '';
+            height: 4px;
+            width: 54px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.35), rgba(20, 184, 166, 0.4));
+        }
+
+        .product-grid {
+            display: grid;
+            gap: 1.8rem;
+        }
+
+        .product-grid-wrap {
+            margin-top: 1.75rem;
+            padding: 2rem 2rem 2.4rem;
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            background: var(--tm-surface);
+            box-shadow: 0 26px 50px rgba(15, 118, 110, 0.16);
+        }
+
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .showcase {
+            border-radius: var(--tm-radius-lg);
+            border: 1px solid var(--tm-border);
+            background: var(--tm-surface);
+            box-shadow: 0 24px 48px rgba(15, 118, 110, 0.16);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .showcase:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px rgba(15, 118, 110, 0.22);
+        }
+
+        .showcase-banner {
+            position: relative;
+            padding: 1rem;
+            background: linear-gradient(160deg, rgba(45, 212, 191, 0.18), rgba(16, 185, 129, 0.16));
             overflow: hidden;
         }
-        .results-scroll {
-            max-height: 72vh;
-            overflow-y: auto;
+
+        .showcase-banner img {
+            border-radius: 18px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .showcase-banner .product-img.default {
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.35s ease;
+        }
+
+        .showcase-banner .product-img.hover {
+            position: absolute;
+            inset: 1rem;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .showcase:hover .showcase-banner .product-img.hover {
+            opacity: 1;
+        }
+
+        .showcase:hover .showcase-banner .product-img.default {
+            opacity: 0;
+        }
+
+        .showcase-actions {
+            top: 14px;
+            right: 14px;
+            gap: 0.5rem;
+        }
+
+        .showcase-actions .btn-action {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.96);
+            color: var(--tm-muted);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .showcase-actions .btn-action:hover {
+            color: var(--tm-primary);
+            border-color: rgba(22, 163, 74, 0.28);
+            box-shadow: 0 18px 34px rgba(22, 163, 74, 0.2);
+        }
+
+        .showcase-content {
+            padding: 1.3rem 1.4rem 1.4rem;
+        }
+
+        .showcase-category {
+            color: var(--tm-secondary);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .showcase-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--tm-text);
+            margin: 0.5rem 0;
+        }
+
+        .price-box {
+            display: flex;
+            align-items: baseline;
+            gap: 0.65rem;
+        }
+
+        .price-box .price {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--tm-primary-dark);
+        }
+
+        .price-box del {
+            color: rgba(15, 23, 42, 0.35);
+        }
+
+        .detail-panel {
+            border-radius: var(--tm-radius-lg);
+            background: var(--tm-surface);
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 28px 46px rgba(15, 118, 110, 0.18);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.1rem;
+            border-bottom: 1px solid rgba(15, 118, 110, 0.08);
+            padding-bottom: 1.4rem;
+        }
+
+        .detail-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .detail-close {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.95rem;
+            border-radius: var(--tm-radius-sm);
+            border: 1px solid var(--tm-border);
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--tm-muted);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .detail-close:hover {
+            color: var(--tm-primary-dark);
+            border-color: rgba(22, 163, 74, 0.3);
+            box-shadow: 0 12px 26px rgba(22, 163, 74, 0.18);
+        }
+
+        .detail-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(22, 163, 74, 0.12);
+            color: var(--tm-primary-dark);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .detail-price-group {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-price-group .primary {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--tm-primary-dark);
+        }
+
+        .detail-price-group del {
+            color: rgba(15, 23, 42, 0.35);
+        }
+
+        .detail-price-group .badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(248, 113, 113, 0.18);
+            color: #b91c1c;
+            font-weight: 600;
+        }
+
+        .quantity-control {
+            display: inline-flex;
+            align-items: center;
+            border-radius: var(--tm-radius-sm);
+            border: 1px solid var(--tm-border);
+            background: rgba(248, 250, 252, 0.85);
+            overflow: hidden;
+        }
+
+        .quantity-control button {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            font-weight: 600;
+            border: none;
+            color: var(--tm-muted);
+            transition: color 0.2s ease;
+        }
+
+        .quantity-control span {
+            display: inline-block;
+            width: 48px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .quantity-control button:hover {
+            color: var(--tm-primary);
+        }
+
+        .detail-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .detail-actions .primary-btn {
+            flex: 1;
+            min-width: 200px;
+            background: var(--tm-primary);
+            color: #fff;
+            border-radius: var(--tm-radius-sm);
+            padding: 0.85rem 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .detail-actions .primary-btn:hover {
+            background: var(--tm-primary-dark);
+            box-shadow: 0 18px 32px rgba(22, 163, 74, 0.24);
+        }
+
+        .detail-actions .ghost-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            border: 1px solid var(--tm-border);
+            color: var(--tm-muted);
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-actions .ghost-btn:hover {
+            color: var(--tm-primary);
+            border-color: rgba(22, 163, 74, 0.3);
+            box-shadow: 0 18px 36px rgba(22, 163, 74, 0.2);
+        }
+
+        #detailThumbnails img {
+            border-radius: 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        #detailThumbnails img:hover {
+            transform: translateY(-2px);
+        }
+
+        #detailThumbnails img.border-2.border-green-500 {
+            border-color: var(--tm-primary);
+            box-shadow: 0 12px 28px rgba(22, 163, 74, 0.2);
+        }
+
+        .tm-bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid var(--tm-border);
+            box-shadow: 0 -18px 32px rgba(15, 118, 110, 0.12);
+        }
+
+        .tm-bottom-nav a {
+            color: var(--tm-muted);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .tm-bottom-nav a.active,
+        .tm-bottom-nav a:hover {
+            color: var(--tm-primary-dark);
+        }
+
+        .tm-bottom-nav ion-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
         }
 
         * {
             outline: none !important;
         }
-        
+
         button:focus,
         button:hover,
         button:active {
             outline: none !important;
         }
 
-        /* Shared button micro-interaction */
-        .btn { transition: all .25s ease; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,.25); }
+        .btn {
+            transition: all 0.25s ease;
+        }
 
-    /* Leaflet popup unify look */
-    .leaflet-popup-content-wrapper { border-radius: 12px; box-shadow: 0 10px 24px rgba(0,0,0,.12); }
-    /* extra right space so text doesn't hide under the close (×) button */
-    .leaflet-popup-content { margin: 10px 20px 12px 12px; }
-    .leaflet-popup-close-button { top: 6px !important; right: 6px !important; }
-    .leaflet-popup-tip { background: #fff; }
-    /* make the popup action button full width without overflow */
-    .leaflet-popup-content [data-view-detail] { display: block; width: 100%; box-sizing: border-box; border-radius: 12px; }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+        }
 
-    /* Polished button styles used in popup and cards */
-    .tm-btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .625rem .875rem; border-radius: 12px; font-weight: 600; transition: all .2s ease; }
-    .tm-btn-primary { background: #16a34a; color: #fff; }
-    .tm-btn-primary:hover { background: #15803d; box-shadow: 0 6px 16px rgba(16,163,74,.25); }
-    .tm-btn-link { color: #16a34a; }
-    .tm-btn-full { width: 100%; }
+        .leaflet-popup-content-wrapper {
+            border-radius: 18px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.25);
+            border: 1px solid var(--tm-border);
+        }
 
-    /* Condition badges for index-style cards */
-    .condition-badge { padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
-    .condition-excellent { background: #dcfce7; color: #166534; }
-    .condition-good { background: #e0f2fe; color: #075985; }
-    .condition-fair { background: #fef3c7; color: #92400e; }
+        .leaflet-popup-content {
+            margin: 12px 22px 16px 14px;
+        }
 
-        /* Keep header above map and pinned to top */
-        header { position: sticky; top: 0; z-index: 1300; background: #ffffff; }
+        .leaflet-popup-close-button {
+            top: 8px !important;
+            right: 8px !important;
+        }
+
+        .leaflet-popup-tip {
+            background: #fff;
+        }
+
+        .leaflet-popup-content [data-view-detail] {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 1023px) {
+            .header-main .container {
+                flex-wrap: wrap;
+            }
+
+            .header-search-container {
+                order: 3;
+                width: 100%;
+                min-width: 100%;
+            }
+
+            .header-user-actions {
+                order: 2;
+            }
+
+            .map-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .map-container {
+                height: 420px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-search-container {
+                box-shadow: none;
+            }
+
+            .view-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-toggle {
+                width: 100%;
+            }
+
+            .toggle-btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-actions {
+                flex-direction: column;
+            }
+
+            .detail-actions .ghost-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
         <!-- Index-style Header/Navbar -->
-        <header>
+    <header class="tm-auto-hide-header">
             <div class="header-main">
                 <div class="container">
                     <a href="dashboard-home.html" class="header-logo">
@@ -156,7 +934,7 @@
         </header>
 
     <!-- Page Content -->
-    <main class="max-w-7xl mx-auto px-4 py-6 pb-24">
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10 pb-28 space-y-10">
             <!-- View Toggle + Filter Summary -->
             <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
                 <div class="flex items-center gap-2">
@@ -174,34 +952,34 @@
             </div>
 
             <!-- MAP VIEW -->
-            <div id="mapSection" class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+            <div id="mapSection" class="map-layout">
                 <!-- Left: Results like GMaps -->
-                <aside class="bg-white rounded-xl shadow-sm p-0 lg:col-span-1">
-                    <div class="p-4 border-b border-gray-100">
-                        <div class="flex items-center gap-2">
-                            <div class="relative flex-1">
-                                <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input id="searchInput" type="text" placeholder="Cari produk, kategori, kondisi..." class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                <aside class="glass-panel map-results lg:col-span-1">
+                    <div class="map-results-header">
+                        <div class="map-results-search">
+                            <div class="field-wrapper">
+                                <i class="fas fa-search"></i>
+                                <input id="searchInput" type="text" placeholder="Cari produk, kategori, kondisi..." aria-label="Cari produk di sekitar Anda">
                             </div>
-                            <button id="btnUseLocation" class="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50" title="Gunakan lokasiku">
+                            <button id="btnUseLocation" type="button" title="Gunakan lokasiku" aria-label="Gunakan lokasi saya">
                                 <i class="fas fa-location-crosshairs"></i>
                             </button>
                         </div>
-                        <div class="mt-3 grid grid-cols-3 gap-2 text-sm">
-                            <div class="col-span-2 flex items-center gap-3">
-                                <label for="radiusRange" class="text-gray-600 whitespace-nowrap">Radius</label>
-                                <input id="radiusRange" type="range" min="1" max="20" value="5" class="w-full">
-                            </div>
-                            <div class="text-right"><span id="radiusLabel" class="font-medium text-gray-800">5 km</span></div>
+                        <div class="map-slider">
+                            <label for="radiusRange">
+                                <span>Radius</span>
+                                <input id="radiusRange" type="range" min="1" max="20" value="5">
+                            </label>
+                            <span id="radiusLabel">5 km</span>
                         </div>
                     </div>
-                    <div id="resultsList" class="results-scroll divide-y divide-gray-100">
+                    <div id="resultsList" class="results-scroll">
                         <!-- Results injected here -->
                     </div>
                 </aside>
 
                 <!-- Right: Map -->
-                <section class="lg:col-span-2">
+                <section class="glass-panel map-shell lg:col-span-2">
                     <div id="productsMap" class="map-container bg-gray-100"></div>
                 </section>
             </div>
@@ -211,72 +989,75 @@
               <section class="product-main">
                 <div class="container">
                   <h2 id="productsHeading" class="title">Semua Produk</h2>
-                  <div class="product-grid" id="productsGrid"></div>
+                                    <div class="product-grid-wrap">
+                                        <div class="product-grid" id="productsGrid"></div>
+                                    </div>
                 </div>
               </section>
             </div>
 
             <!-- Product Detail -->
-            <section id="productDetail" class="mt-10 hidden">
-                <div class="bg-white rounded-xl shadow-sm p-6">
-                    <div class="flex items-center justify-between mb-6">
+            <section id="productDetail" class="mt-12 hidden">
+                <div class="detail-panel p-6 lg:p-8">
+                    <div class="detail-header">
                         <div>
-                            <h2 id="detailTitle" class="text-2xl font-bold text-gray-800">Detail Produk</h2>
-                            <p class="text-gray-600">Informasi lengkap produk pilihan Anda</p>
+                            <h2 id="detailTitle">Detail Produk</h2>
+                            <p class="geo-status">Informasi lengkap produk pilihan Anda</p>
                         </div>
-                        <button id="closeDetail" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times mr-2"></i>Tutup
+                        <button id="closeDetail" class="detail-close">
+                            <i class="fas fa-times"></i>
+                            <span>Tutup</span>
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
                         <div>
-                            <div class="mb-4 rounded-lg overflow-hidden">
+                            <div class="mb-4 rounded-2xl overflow-hidden shadow-lg">
                                 <img id="detailImage" src="" alt="Produk" class="w-full h-96 object-cover">
                             </div>
-                            <div class="grid grid-cols-4 gap-2" id="detailThumbnails">
+                            <div class="grid grid-cols-4 gap-3" id="detailThumbnails">
                                 <!-- Thumbnails injected here -->
                             </div>
                         </div>
 
-                        <div>
-                            <div class="flex items-center mb-4">
-                                <div id="detailRating" class="flex text-yellow-400 mr-2"></div>
-                                <span id="detailRatingValue" class="text-gray-600"></span>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-2">
+                                <div id="detailRating" class="flex text-yellow-400"></div>
+                                <span id="detailRatingValue" class="geo-status"></span>
                             </div>
 
-                            <div class="mb-6">
-                                <span id="detailPrice" class="text-3xl font-bold text-green-600">Rp 0</span>
-                                <span id="detailOriginalPrice" class="text-lg text-gray-500 line-through ml-2"></span>
-                                <span class="ml-2 px-2 py-1 bg-red-100 text-red-600 text-sm rounded-full" id="detailDiscount"></span>
+                            <div class="detail-price-group">
+                                <span id="detailPrice" class="primary">Rp 0</span>
+                                <del id="detailOriginalPrice"></del>
+                                <span class="badge" id="detailDiscount"></span>
                             </div>
 
-                            <div class="mb-6">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Deskripsi</h3>
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Deskripsi</h3>
                                 <p id="detailDescription" class="text-gray-600 leading-relaxed">
                                     Pilih produk untuk melihat deskripsi lengkap.
                                 </p>
                             </div>
 
-                            <div class="mb-6">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Spesifikasi</h3>
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Spesifikasi</h3>
                                 <div class="grid grid-cols-2 gap-2 text-sm text-gray-600" id="detailSpecs">
                                     <!-- Specs injected here -->
                                 </div>
                             </div>
 
-                            <div class="flex flex-wrap gap-4">
-                                <div class="flex items-center border border-gray-300 rounded-lg">
-                                    <button class="px-4 py-2 text-gray-600 hover:text-gray-800" id="qtyMinus">-</button>
-                                    <span id="detailQuantity" class="px-4 py-2">1</span>
-                                    <button class="px-4 py-2 text-gray-600 hover:text-gray-800" id="qtyPlus">+</button>
+                            <div class="detail-actions">
+                                <div class="quantity-control">
+                                    <button id="qtyMinus" type="button">-</button>
+                                    <span id="detailQuantity">1</span>
+                                    <button id="qtyPlus" type="button">+</button>
                                 </div>
                                 
-                                <button class="flex-1 min-w-[200px] bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">
+                                <button class="primary-btn" type="button">
                                     <i class="fas fa-shopping-cart mr-2"></i>Tambah ke Keranjang
                                 </button>
                                 
-                                <button class="p-3 border border-gray-300 rounded-lg text-gray-600 hover:text-red-500">
+                                <button class="ghost-btn" type="button">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </div>
@@ -287,25 +1068,25 @@
         </main>
 
     <!-- Mobile Bottom Navigation -->
-    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40 md:hidden">
+    <nav class="tm-bottom-nav fixed bottom-0 inset-x-0 z-40 md:hidden">
         <div class="flex justify-around py-2 text-xs">
-            <a data-nav href="dashboard-home.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-home.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-home text-base"></i>
                 <span>Home</span>
             </a>
-            <a data-nav href="dashboard-products.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-products.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-tags text-base"></i>
                 <span>Produk</span>
             </a>
-            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-orders.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-shopping-bag text-base"></i>
                 <span>Pesanan</span>
             </a>
-            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-tracking.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-map-marker-alt text-base"></i>
                 <span>Lacak</span>
             </a>
-            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center text-gray-600 hover:text-green-600">
+            <a data-nav href="dashboard-profile.html" class="flex flex-col items-center gap-1">
                 <i class="fas fa-user text-base"></i>
                 <span>Profil</span>
             </a>
@@ -365,7 +1146,10 @@
             }
             document.querySelectorAll('a[data-nav]').forEach(a => {
                 const href = a.getAttribute('href') || '';
-                if (location.pathname.endsWith(href)) a.classList.add('text-green-600');
+                if (location.pathname.endsWith(href)) {
+                    a.classList.add('active');
+                    a.setAttribute('aria-current', 'page');
+                }
             });
         })();
 
@@ -375,13 +1159,8 @@
         const btnMapView = document.getElementById('btnMapView');
         const btnGridView = document.getElementById('btnGridView');
         function setToggleActive(active) {
-            const activeClasses = ['border-green-600','text-green-700','bg-green-50'];
-            const baseClasses = ['border','border-gray-300','text-gray-700','bg-white'];
-            [btnMapView, btnGridView].forEach(btn => {
-                btn.classList.remove(...activeClasses);
-                if (!btn.classList.contains('border')) btn.classList.add(...baseClasses);
-            });
-            active.classList.add(...activeClasses);
+            [btnMapView, btnGridView].forEach(btn => btn.classList.remove('is-active'));
+            active.classList.add('is-active');
         }
         btnMapView.addEventListener('click', () => {
             mapSection.classList.remove('hidden');
@@ -533,7 +1312,7 @@
                 name: "Tas Mini Wanita",
                 price: 42000,
                 originalPrice: 55000,
-                image: "./assets/images/products/party-wear-1.jpg",
+                image: "./assets/images/products/bag-1.png",
                 gallery: [
                     "./assets/images/products/party-wear-1.jpg",
                     "./assets/images/products/party-wear-2.jpg"
@@ -553,10 +1332,10 @@
             },
             {
                 id: 5,
-                name: "Sepatu Sneakers",
+                name: "Sepatu Kantor",
                 price: 88000,
                 originalPrice: 120000,
-                image: "./assets/images/products/shoes-1.jpg",
+                image: "./assets/images/products/shoe-3.jpg",
                 gallery: [
                     "./assets/images/products/shoes-1.jpg",
                     "./assets/images/products/shoes-2.jpg",
@@ -615,9 +1394,11 @@
                             const card = document.createElement('div');
                             card.className = 'showcase';
                             const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
+                            const hoverImage = Array.isArray(product.gallery) && product.gallery.length > 1 ? product.gallery[1] : product.image;
                             card.innerHTML = `
                                 <div class="showcase-banner">
                                     <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
+                                    <img src="${hoverImage}" alt="${product.name}" class="product-img hover" width="300" aria-hidden="true">
                                     <div class="showcase-actions">
                                         <button class="btn-action" type="button" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
                                             <ion-icon name="heart-outline"></ion-icon>
@@ -754,6 +1535,49 @@
         const geoStatus = document.getElementById('geoStatus');
 
         let userLatLng = null;
+        const productIconCache = new Map();
+        let userLocationIcon;
+
+        function getProductIcon(product){
+            if (!product || typeof L === 'undefined') return null;
+            const key = String(product.id || product.name || Math.random());
+            if (productIconCache.has(key)) return productIconCache.get(key);
+            const icon = L.divIcon({
+                html: `
+                    <div class="tm-map-pin">
+                        <div class="tm-map-pin__bubble">
+                            <img src="${product.image}" alt="${product.name}">
+                        </div>
+                        <span class="tm-map-pin__price">Rp ${product.price.toLocaleString('id-ID')}</span>
+                    </div>
+                `,
+                className: 'tm-map-pin-wrapper',
+                iconSize: [64, 86],
+                iconAnchor: [32, 78],
+                popupAnchor: [0, -72]
+            });
+            productIconCache.set(key, icon);
+            return icon;
+        }
+
+        function getUserIcon(){
+            if (userLocationIcon || typeof L === 'undefined') return userLocationIcon;
+            userLocationIcon = L.divIcon({
+                html: `
+                    <div class="tm-map-pin tm-map-pin--user">
+                        <div class="tm-map-pin__bubble">
+                            <span class="tm-map-pin__dot"></span>
+                        </div>
+                        <span class="tm-map-pin__price">Lokasimu</span>
+                    </div>
+                `,
+                className: 'tm-map-pin-wrapper',
+                iconSize: [64, 86],
+                iconAnchor: [32, 78],
+                popupAnchor: [0, -72]
+            });
+            return userLocationIcon;
+        }
 
         function kmToDegLat(km){ return km/110.574; }
         function kmToDegLng(km, lat){ return km/(111.320*Math.cos(lat*Math.PI/180)); }
@@ -809,13 +1633,14 @@
                 .sort((a,b) => (a.distance ?? 1e9) - (b.distance ?? 1e9));
 
             if (filtered.length === 0) {
-                resultsList.innerHTML = '<div class="p-4 text-sm text-gray-500">Tidak ada produk dalam radius ini. Perbesar radius atau ubah pencarian.</div>';
+                resultsList.innerHTML = '<div class="results-empty">Tidak ada produk dalam radius ini. Perbesar radius atau ubah pencarian.</div>';
             }
 
-            const listItems = [];
-            const markerById = {};
             filtered.forEach(product => {
-                const marker = L.marker([product.lat, product.lng]).addTo(markersLayer);
+                const marker = L.marker([product.lat, product.lng], {
+                    icon: getProductIcon(product),
+                    riseOnHover: true
+                }).addTo(markersLayer);
                 marker.bindPopup(`
                     <div class='min-w-[240px]'>
                         <div class='flex items-center gap-3'>
@@ -833,25 +1658,24 @@
                     </div>
                 `);
 
-                markerById[product.id] = marker;
-
                 const item = document.createElement('div');
-                item.className = 'p-4 hover:bg-gray-50 cursor-pointer';
+                item.className = 'results-item';
+                const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
                 item.innerHTML = `
-                    <div class='flex gap-3'>
-                        <img src='${product.image}' class='w-16 h-16 object-cover rounded-lg' alt='${product.name}'/>
+                    <div class='card-top'>
+                        <img src='${product.image}' class='thumbnail' alt='${product.name}'/>
                         <div class='flex-1'>
-                            <div class='flex items-center justify-between'>
-                                <p class='font-semibold text-gray-800'>${product.name}</p>
-                                <span class='px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full'>${product.condition}</span>
+                            <div class='title-row'>
+                                <p>${product.name}</p>
+                                <span class='condition-badge ${condClass}'>${product.condition}</span>
                             </div>
-                            <div class='text-sm text-gray-500'>${product.category} • ${product.rating.toFixed(1)}★</div>
-                            <div class='flex items-center justify-between mt-1'>
+                            <div class='stats'>${product.category} • ${product.rating.toFixed(1)}★</div>
+                            <div class='price-row'>
                                 <div>
-                                    <span class='text-green-600 font-bold'>Rp ${product.price.toLocaleString('id-ID')}</span>
-                                    <span class='text-gray-400 text-xs line-through ml-2'>Rp ${product.originalPrice.toLocaleString('id-ID')}</span>
+                                    <span class='price'>Rp ${product.price.toLocaleString('id-ID')}</span>
+                                    <span class='text-xs text-gray-400 line-through ml-2'>Rp ${product.originalPrice.toLocaleString('id-ID')}</span>
                                 </div>
-                                ${product.distance!==null?`<span class='text-xs text-gray-600'>${product.distance.toFixed(2)} km</span>`:''}
+                                ${product.distance!==null?`<span class='distance'><i class='fas fa-location-dot'></i> ${product.distance.toFixed(2)} km</span>`:''}
                             </div>
                         </div>
                     </div>`;
@@ -861,20 +1685,25 @@
                     highlightSelected(item);
                 });
                 resultsList.appendChild(item);
-                listItems.push(item);
 
                 marker.on('click', () => {
-                    const idx = listItems.findIndex(li => li.contains(item.querySelector('img')));
-                    if (idx > -1) highlightSelected(listItems[idx]);
+                    highlightSelected(item);
                 });
             });
 
             // No need to delegate click; anchor navigates to the new detail page
 
             function highlightSelected(el){
-                resultsList.querySelectorAll('.bg-green-50').forEach(n => n.classList.remove('bg-green-50'));
-                el.classList.add('bg-green-50');
+                resultsList.querySelectorAll('.results-item.is-active').forEach(n => n.classList.remove('is-active'));
+                el.classList.add('is-active');
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
+
+            setTimeout(() => {
+                if (productsMap) {
+                    productsMap.invalidateSize();
+                }
+            }, 150);
         }
 
         function initMap(center){
@@ -889,7 +1718,7 @@
 
             // user marker
             if (userMarker) { productsMap.removeLayer(userMarker); }
-            userMarker = L.marker([center.lat, center.lng], { title: 'Lokasi Anda' }).addTo(productsMap);
+            userMarker = L.marker([center.lat, center.lng], { title: 'Lokasi Anda', icon: getUserIcon(), zIndexOffset: 1200 }).addTo(productsMap);
             userMarker.bindPopup('Lokasi Anda');
 
             ensureProductCoords(center);
@@ -982,13 +1811,14 @@
             if (!wrap) return;
             if (!filters || filters.length === 0){ wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
             wrap.classList.remove('hidden');
-            wrap.innerHTML = filters.map(f => `
-              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm border border-green-300 bg-green-50 text-green-700">
-                 <i class="fas fa-filter"></i>${f}
-              </span>
-            `).join('') + `
-              <button id="btnClearFilters" class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">Bersihkan</button>
-            `;
+                        wrap.innerHTML = filters.map(f => `
+                            <span class="chip">
+                                 <i class="fas fa-filter"></i>
+                                 ${f}
+                            </span>
+                        `).join('') + `
+                            <button id="btnClearFilters" type="button">Bersihkan</button>
+                        `;
             const clearBtn = document.getElementById('btnClearFilters');
             if (clearBtn){
                 clearBtn.addEventListener('click', () => {

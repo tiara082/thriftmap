@@ -3464,3 +3464,43 @@ footer {
     margin-left: auto !important;
     margin-right: auto !important;
 }
+
+/* Utility: hidden for non-Tailwind pages */
+.hidden { display: none !important; }
+
+/* Compact header dropdown for nav actions */
+.tm-nav-dropdown { position: relative; }
+.tm-nav-dropdown .tm-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--cultured);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  width: 220px;
+  padding: 6px 0;
+  z-index: 2000;
+}
+.tm-nav-dropdown .tm-dropdown-panel a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  color: var(--eerie-black);
+}
+.tm-nav-dropdown .tm-dropdown-panel a:hover { background: var(--cultured); }
+.tm-nav-dropdown .tm-dropdown-panel .label { display: inline-flex; align-items: center; gap: 8px; }
+.tm-nav-dropdown .tm-dropdown-panel .badge {
+  background: #ff6b6b;
+  color: #fff;
+  border-radius: 9999px;
+  font-size: 11px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

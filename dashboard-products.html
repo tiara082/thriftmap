@@ -46,132 +46,74 @@
             color: var(--tm-text);
         }
 
+        header, header *, .header-main, .header-main *,
+        .desktop-navigation-menu, .desktop-navigation-menu * {
+            border: none !important;
+        }
+
         header {
             position: sticky;
             top: 0;
             z-index: 1300;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--tm-border);
-            box-shadow: 0 12px 32px rgba(15, 118, 110, 0.08);
+            background: #fff !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
         }
+
+        .header-main { padding: 12px 0 !important; margin-bottom: 0 !important; }
 
         .header-main .container {
             display: flex;
             align-items: center;
-            gap: 1.4rem;
-            padding: 0.95rem 0;
-        }
-
-        .header-search-container {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.45rem 0.75rem;
-            border-radius: var(--tm-radius-md);
-            border: 1px solid var(--tm-border);
-            background: rgba(255, 255, 255, 0.92);
-            min-width: clamp(240px, 32vw, 360px);
-            box-shadow: 0 18px 32px rgba(15, 118, 110, 0.08);
-        }
-
-        .header-search-container .search-field {
-            border: none;
-            background: transparent;
-            padding: 0.35rem 0.25rem;
-            color: var(--tm-text);
-            font-weight: 500;
-        }
-
-        .header-search-container .search-field::placeholder {
-            color: rgba(100, 116, 139, 0.75);
-        }
-
-        .header-search-container .search-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            background: var(--tm-primary);
-            color: #fff;
-            transition: all 0.25s ease;
-        }
-
-        .header-search-container .search-btn:hover {
-            background: var(--tm-primary-dark);
-            box-shadow: 0 10px 24px rgba(22, 163, 74, 0.3);
+            gap: 1.5rem;
         }
 
         .header-user-actions {
-            margin-left: auto;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.7rem;
-            padding: 0.35rem 0.5rem;
-            border-radius: var(--tm-radius-md);
-            background: rgba(255, 255, 255, 0.88);
-            border: 1px solid var(--tm-border);
-            box-shadow: 0 20px 40px rgba(15, 118, 110, 0.12);
+            gap: 15px;
+            margin-left: auto;
         }
 
         .action-btn {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-            background: rgba(240, 253, 244, 0.85);
-            color: var(--tm-muted);
-            display: grid;
-            place-items: center;
-            border: 1px solid transparent;
-            transition: all 0.25s ease;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
         }
 
         .action-btn:hover,
         .action-btn:focus-visible {
-            color: var(--tm-primary-dark);
-            background: rgba(209, 250, 229, 0.8);
-            border-color: rgba(22, 163, 74, 0.35);
-            box-shadow: 0 14px 28px rgba(22, 163, 74, 0.22);
+            background: #27ae60;
+            color: #fff;
         }
 
         .action-btn .count {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            border-radius: 999px;
-            background: #ef4444;
-            padding: 2px 6px;
-            font-size: 11px;
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
             color: #fff;
-            font-weight: 600;
-            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-        }
-
-        .tm-dropdown-panel {
-            border-radius: var(--tm-radius-md);
-            border: 1px solid var(--tm-border);
-            background: rgba(255, 255, 255, 0.96);
-            box-shadow: 0 20px 44px rgba(15, 118, 110, 0.18);
-            padding: 0.75rem;
-            min-width: 220px;
-        }
-
-        .tm-dropdown-panel a {
-            border-radius: 12px;
-            padding: 0.55rem 0.75rem;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            color: var(--tm-muted);
-            transition: all 0.2s ease;
-            font-weight: 500;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
         }
 
-        .tm-dropdown-panel a:hover {
-            background: rgba(22, 163, 74, 0.1);
-            color: var(--tm-primary-dark);
+        .tm-nav-dropdown { position: relative; }
+
+        .tm-nav-dropdown .tm-dropdown-panel {
+            right: 0;
+            left: auto;
         }
 
         .view-toolbar {
@@ -506,77 +448,141 @@
         }
 
         .showcase {
-            border-radius: var(--tm-radius-lg);
-            border: 1px solid var(--tm-border);
-            background: var(--tm-surface);
-            box-shadow: 0 24px 48px rgba(15, 118, 110, 0.16);
+            position: relative;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(15, 118, 110, 0.08);
+            box-shadow: 0 24px 46px rgba(15, 118, 110, 0.12);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .showcase::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 20% -20%, rgba(45, 212, 191, 0.18), transparent 55%),
+                        radial-gradient(circle at 80% 0%, rgba(14, 165, 233, 0.16), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
         }
 
         .showcase:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 30px 60px rgba(15, 118, 110, 0.22);
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 32px 60px rgba(15, 118, 110, 0.18);
+        }
+
+        .showcase:hover::before {
+            opacity: 1;
         }
 
         .showcase-banner {
-            padding: 1rem;
-            background: linear-gradient(160deg, rgba(45, 212, 191, 0.18), rgba(16, 185, 129, 0.16));
+            position: relative;
+            padding: 1.4rem 1.4rem 1.2rem;
+        }
+
+        .showcase-banner::before {
+            content: "";
+            position: absolute;
+            inset: 1.1rem;
+            border-radius: 24px;
+            background: linear-gradient(140deg, rgba(45, 212, 191, 0.22), rgba(16, 185, 129, 0.2));
+            filter: blur(18px);
+            z-index: 0;
         }
 
         .showcase-banner img {
-            border-radius: 18px;
+            position: relative;
+            z-index: 1;
+            border-radius: 24px;
             width: 100%;
+            aspect-ratio: 4 / 3;
             object-fit: cover;
+            box-shadow: 0 22px 35px rgba(14, 116, 144, 0.18);
+            transition: transform 0.35s ease;
+        }
+
+        .showcase:hover .showcase-banner img {
+            transform: translateY(-6px) scale(1.01);
         }
 
         .showcase-actions {
-            top: 14px;
-            right: 14px;
-            gap: 0.5rem;
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            display: grid;
+            gap: 0.6rem;
+            z-index: 2;
         }
 
         .showcase-actions .btn-action {
             width: 44px;
             height: 44px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.96);
-            color: var(--tm-muted);
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #0f172a;
+            border: 1px solid rgba(15, 118, 110, 0.08);
+            box-shadow: 0 14px 24px rgba(15, 118, 110, 0.12);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
         }
 
         .showcase-actions .btn-action:hover {
-            color: var(--tm-primary);
-            border-color: rgba(22, 163, 74, 0.28);
-            box-shadow: 0 18px 34px rgba(22, 163, 74, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 32px rgba(15, 118, 110, 0.18);
+            color: var(--tm-primary-dark);
         }
 
         .showcase-content {
-            padding: 1.3rem 1.4rem 1.4rem;
+            padding: 1.35rem 1.6rem 1.6rem;
+            position: relative;
         }
 
         .showcase-category {
-            color: var(--tm-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.12);
+            color: #0369a1;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
         }
 
         .showcase-title {
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--tm-text);
-            margin: 0.5rem 0;
+            font-size: 1.15rem;
+            color: #0f172a;
+            margin: 0.7rem 0 0.4rem;
+        }
+
+        .showcase-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: rgba(15, 23, 42, 0.55);
+        }
+
+        .showcase-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
         .price-box {
             display: flex;
             align-items: baseline;
-            gap: 0.65rem;
+            justify-content: space-between;
+            gap: 0.85rem;
         }
 
         .price-box .price {
-            font-size: 1.35rem;
+            font-size: 1.45rem;
             font-weight: 700;
             color: var(--tm-primary-dark);
         }
@@ -893,17 +899,17 @@
         }
 
         .condition-excellent {
-            background: rgba(16, 185, 129, 0.15);
-            color: #047857;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(59, 130, 246, 0.14));
+            color: #0f766e;
         }
 
         .condition-good {
-            background: rgba(59, 130, 246, 0.15);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(14, 165, 233, 0.16));
             color: #1d4ed8;
         }
 
         .condition-fair {
-            background: rgba(249, 115, 22, 0.18);
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(250, 204, 21, 0.18));
             color: #c2410c;
         }
 
@@ -1464,11 +1470,11 @@
                 name: "Sepatu Kantor",
                 price: 88000,
                 originalPrice: 120000,
-                image: "./assets/images/products/shoe-3.jpg",
+                image: "./assets/images/products/shoe-1.jpg",
                 gallery: [
-                    "./assets/images/products/shoes-1.jpg",
-                    "./assets/images/products/shoes-2.jpg",
-                    "./assets/images/products/shoes-3.jpg"
+                    "./assets/images/products/shoe-1.jpg",
+                    "./assets/images/products/shoe-2.jpg",
+                    "./assets/images/products/shoe-3.jpg"
                 ],
                 category: "Sepatu",
                 condition: "Cukup",
@@ -1539,8 +1545,12 @@
                                     </div>
                                 </div>
                                 <div class="showcase-content">
-                                    <a href="#" class="showcase-category">${product.category}</a>
+                                    <a href="#" class="showcase-category"><ion-icon name="pricetag-outline"></ion-icon>${product.category}</a>
                                     <a href="#"><h3 class="showcase-title">${product.name}</h3></a>
+                                    <div class="showcase-meta">
+                                        <span><i class="fas fa-star text-yellow-400"></i>${product.rating.toFixed(1)}</span>
+                                        <span><i class="fas fa-clock"></i>Last update</span>
+                                    </div>
                                     <span class="condition-badge ${condClass}">${product.condition}</span>
                                     <div class="price-box">
                                         <p class="price">Rp ${product.price.toLocaleString('id-ID')}</p>

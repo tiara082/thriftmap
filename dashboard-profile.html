@@ -993,6 +993,12 @@
                     if (window.Notify?.toastSuccess) {
                         Notify.toastSuccess('Profil berhasil disimpan');
                     }
+                    
+                    // Sembunyikan tombol Batal dan Simpan setelah berhasil disimpan
+                    const buttonContainer = document.querySelector('.flex.justify-end.space-x-4');
+                    if (buttonContainer) {
+                        buttonContainer.style.display = 'none';
+                    }
                 });
             }
 

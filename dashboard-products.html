@@ -59,9 +59,33 @@
 
         .tm-nav-dropdown { position: relative; }
 
+        /* Center the dropdown panel under the trigger button */
         .tm-nav-dropdown .tm-dropdown-panel {
-            right: 0;
-            left: auto;
+            position: absolute !important;
+            left: 50% !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+            top: calc(100% + 8px) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+
+        /* Center menu item content inside the dropdown */
+        .tm-nav-dropdown .tm-dropdown-panel a {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 10px 12px !important;
+        }
+
+        /* Center the label and icon within menu items */
+        .tm-nav-dropdown .tm-dropdown-panel .label {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
 
         .showcase-category {

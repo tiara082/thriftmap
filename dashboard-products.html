@@ -52,9 +52,34 @@
             background: #fff;
         }
 
+        /* Samakan header dengan dashboard lain */
+        .header-main { padding: 12px 0; margin-bottom: 0; }
+        .header-main .container { display: flex; align-items: center; gap: 1.5rem; }
+
+        .header-user-actions { display: flex; align-items: center; gap: 15px; }
+        .action-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+        .action-btn:hover, .action-btn:focus-visible { background: #27ae60; color: #fff; }
+        .action-btn .count {
+            position: absolute; top: -5px; right: -5px;
+            background: #ff6b6b; color: #fff; border-radius: 50%;
+            width: 18px; height: 18px; display: grid; place-items: center;
+            font-size: 11px; font-weight: 700;
+        }
+
         .showcase:hover .showcase-actions .btn-action {
-            width: min(200px, 72vw);
+            width: min(200px, 85vw);
             padding-inline: 0.85rem;
+            justify-content: flex-start;
         }
 
         .tm-nav-dropdown { position: relative; }
@@ -398,6 +423,12 @@
         .product-grid {
             display: grid;
             gap: 1.8rem;
+            overflow: visible !important;
+            /* Centered grid with fixed-width tracks so cards don't hug edges */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+            justify-content: center;
+            justify-items: stretch;
+            align-content: start;
         }
 
         .product-grid-wrap {
@@ -407,11 +438,13 @@
             border: 1px solid var(--tm-border);
             background: var(--tm-surface);
             box-shadow: 0 26px 50px rgba(15, 118, 110, 0.16);
+            overflow: visible !important;
         }
 
         @media (min-width: 768px) {
             .product-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+                justify-content: center;
             }
         }
 
@@ -421,8 +454,14 @@
             background: rgba(255, 255, 255, 0.96);
             border: 1px solid rgba(15, 118, 110, 0.08);
             box-shadow: 0 24px 46px rgba(15, 118, 110, 0.12);
-            overflow: hidden;
+            overflow: visible !important;
             transition: transform 0.35s ease, box-shadow 0.35s ease;
+            isolation: isolate;
+            clip-path: none !important;
+            /* Keep card centered and consistent width */
+            max-width: 360px;
+            margin-inline: auto;
+            cursor: pointer;
         }
 
         .showcase::before {
@@ -442,24 +481,34 @@
             box-shadow: 0 32px 60px rgba(15, 118, 110, 0.18);
         }
 
+        /* Jangan gelapkan gambar saat hover */
         .showcase:hover::before {
-            opacity: 1;
+            opacity: 0; /* matikan overlay hover */
         }
 
         .showcase-banner {
             position: relative;
-            padding: 1.4rem 1.4rem 1.2rem;
-            overflow: hidden;
+            padding: 2.5rem 2.5rem 2rem;
+            overflow: visible !important;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: none !important;
         }
 
+        /* Matikan efek overlay agar gambar tidak memudar saat hover */
         .showcase-banner::before {
             content: "";
             position: absolute;
             inset: 1.1rem;
             border-radius: 24px;
-            background: linear-gradient(140deg, rgba(45, 212, 191, 0.22), rgba(16, 185, 129, 0.2));
-            filter: blur(18px);
+            background: transparent !important;
+            filter: none !important;
             z-index: 0;
+            opacity: 0 !important;
         }
 
         .showcase-banner img {
@@ -472,36 +521,46 @@
             display: block;
             height: auto !important;
             box-shadow: 0 22px 35px rgba(14, 116, 144, 0.18);
-            transition: transform 0.35s ease, opacity 0.35s ease;
+            transition: none !important;
+            opacity: 1 !important;
+            filter: none !important;
+            transform: none !important;
         }
 
         .showcase:hover .showcase-banner img {
-            transform: translateY(-6px) scale(1.01);
-            opacity: 0.08;
+            transform: none !important; /* jangan geser/zoom gambar saat hover */
+            opacity: 1 !important;      /* pastikan tidak memudar */
+            filter: none !important;
         }
 
-        /* PERBAIKAN: Posisikan tombol di tengah */
+        /* Sembunyikan panel aksi (tidak dipakai lagi) */
+        .showcase-actions { display: none !important; }
+
+        /* PERBAIKAN: Panel aksi lebar adaptif mengikuti lebar banner */
         .showcase-actions {
             position: absolute;
             top: 50%;
             left: 50%;
-            display: grid;
-            gap: 0.65rem;
-            justify-items: center;
-            padding: 0.55rem;
+            transform: translate(-50%, -50%) scale(0.9);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: stretch;
+            justify-content: center;
+            padding: 0.75rem;
             border-radius: 24px;
             background: linear-gradient(160deg, rgba(15, 118, 110, 0.28), rgba(14, 165, 233, 0.12));
             border: 1px solid rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(16px) saturate(160%);
             box-shadow: 0 20px 38px rgba(15, 118, 110, 0.22);
-            transform: translate(-50%, -50%) scale(0.9);
-            z-index: 2;
+            z-index: 100;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transition: opacity 0.35s ease, transform 0.35s ease, padding 0.35s ease, gap 0.35s ease, box-shadow 0.35s ease;
-            width: auto;
-            max-width: 90%;
+            /* Width responsive: min 280px, prefer banner width minus padding, max 420px */
+            width: clamp(280px, calc(100% - 2.4rem), 420px) !important;
+            box-sizing: border-box;
         }
 
         .showcase:hover .showcase-actions {
@@ -509,7 +568,7 @@
             visibility: visible;
             pointer-events: auto;
             transform: translate(-50%, -50%) scale(1);
-            padding: 1.15rem 1.25rem;
+            padding: 1.5rem 2rem;
             gap: 0.85rem;
             box-shadow: 0 28px 52px rgba(15, 118, 110, 0.3);
         }
@@ -518,20 +577,32 @@
             position: relative;
             width: 44px;
             height: 44px;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.6rem;
             padding: 0;
             border-radius: 16px;
-            background: linear-gradient(140deg, rgba(255, 255, 255, 0.75), rgba(241, 253, 249, 0.58));
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.95), rgba(241, 253, 249, 0.85));
             color: #0f172a;
             border: 1px solid rgba(15, 118, 110, 0.16);
             box-shadow: 0 12px 24px rgba(15, 118, 110, 0.16);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.2s ease, background 0.2s ease, border-color 0.25s ease, width 0.35s ease, padding 0.35s ease;
+            transition: all 0.35s ease;
             backdrop-filter: blur(6px);
-            overflow: hidden;
             white-space: nowrap;
+            flex-shrink: 0;
+            overflow: visible !important;
+        }
+
+        /* PERBAIKAN: Tombol expand penuh tanpa batasan */
+        .showcase:hover .showcase-actions .btn-action {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            padding: 1rem 1.5rem !important;
+            justify-content: flex-start !important;
+            overflow: visible !important;
+            height: auto !important;
         }
 
         .showcase-actions .btn-action::after {
@@ -553,16 +624,30 @@
         }
 
         .showcase-actions .btn-action span {
-            font-size: 0.84rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #0f172a;
             opacity: 0;
             transform: translateX(-12px);
-            transition: opacity 0.2s ease 0.06s, transform 0.3s ease 0.06s, color 0.2s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+            display: block !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            max-width: none !important;
+            width: auto !important;
+            flex: 1 1 auto !important;
+        }
+
+        .showcase:hover .showcase-actions .btn-action span {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+            color: var(--tm-primary-dark) !important;
+            overflow: visible !important;
         }
 
         .showcase-actions .btn-action:hover {
-            transform: translateY(-3px) scale(1.05);
+            transform: translateY(0) scale(1);
             box-shadow: 0 24px 38px rgba(15, 118, 110, 0.28);
             color: var(--tm-primary-dark);
             background: linear-gradient(140deg, rgba(16, 185, 129, 0.25), rgba(14, 165, 233, 0.16));
@@ -573,12 +658,6 @@
             transform: translateX(0);
         }
 
-        .showcase:hover .showcase-actions .btn-action span {
-            opacity: 1;
-            transform: translateX(0);
-            color: var(--tm-primary-dark);
-        }
-
         .showcase-actions .btn-action:hover::after {
             opacity: 1;
         }
@@ -586,6 +665,14 @@
         .showcase-content {
             padding: 1.35rem 1.6rem 1.6rem;
             position: relative;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.96);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .showcase-category {
@@ -612,10 +699,11 @@
         .showcase-meta {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             margin-bottom: 1rem;
             font-size: 0.85rem;
             color: rgba(15, 23, 42, 0.55);
+            width: 100%;
         }
 
         .showcase-meta span {
@@ -1073,9 +1161,10 @@
             .map-container {
                 height: 420px;
             }
-
+            /* Keep grid centered and responsive */
             .product-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+                justify-content: center;
             }
         }
 
@@ -1100,6 +1189,14 @@
 
             .product-grid {
                 grid-template-columns: 1fr;
+                justify-content: center;
+            }
+
+            /* Ensure the card itself stays centered with a readable width */
+            .showcase {
+                max-width: 420px;
+                width: 100%;
+                margin-inline: auto;
             }
 
             .detail-actions {
@@ -1443,23 +1540,9 @@
                 const condClass = (product.condition === 'Seperti Baru' || product.condition === 'Sangat Baik') ? 'condition-excellent' : (product.condition === 'Baik' ? 'condition-good' : 'condition-fair');
                 const storeName = getStoreName(product);
                 card.innerHTML = `
-                    <div class="showcase-banner">
+                    <a class="showcase-banner" href="dashboard-product.html?id=${product.id}" aria-label="Lihat ${product.name}">
                         <img src="${product.image}" alt="${product.name}" class="product-img default" width="300">
-                        <div class="showcase-actions">
-                            <a class="btn-action" href="dashboard-wishlist.html" data-wish-id="${product.id}" data-wish-name="${product.name}" aria-label="Wishlist ${product.name}">
-                                <ion-icon name="heart-outline"></ion-icon>
-                                <span>Tambah Wishlist</span>
-                            </a>
-                            <a class="btn-action" href="dashboard-product.html?id=${product.id}" data-view-detail="${product.id}" aria-label="Lihat ${product.name}">
-                                <ion-icon name="eye-outline"></ion-icon>
-                                <span>Lihat Produk</span>
-                            </a>
-                            <a class="btn-action" href="dashboard-cart.html" data-add-cart data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}" aria-label="Tambah ke keranjang: ${product.name}">
-                                <ion-icon name="bag-add-outline"></ion-icon>
-                                <span>Masukkan Keranjang</span>
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                     <div class="showcase-content">
                         <a href="#" class="showcase-category"><ion-icon name="pricetag-outline"></ion-icon>${product.category}</a>
                         <a href="#"><h3 class="showcase-title">${product.name}</h3></a>
@@ -1476,13 +1559,11 @@
                         <span class="showcase-footer-accent"></span>
                     </div>
                 `;
-                // Card click navigates to detail when clicking content area
+                // Card click navigates to detail for any click on the card
                 card.addEventListener('click', (e) => {
-                    if (e.target.closest('.btn-action') || e.target.closest('[data-add-cart]')) return;
-                    location.href = `dashboard-product.html?id=${product.id}`;
+                    const link = card.querySelector('.showcase-banner');
+                    if (link) { window.location.href = link.getAttribute('href'); }
                 });
-                // Prevent bubbling on action buttons
-                card.querySelectorAll('.btn-action,[data-add-cart]').forEach(btn => btn.addEventListener('click', (e)=> e.stopPropagation()));
                 // Initialize wishlist icon state
                 const wishBtn = card.querySelector('[data-wish-id]');
                 try {

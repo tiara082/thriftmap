@@ -73,19 +73,19 @@ export default function Sidebar({
       </div>
 
       {/* User Info Section */}
-      {user && !collapsed && (
+      {user && !collapsed && user.shop && (
         <div className="p-4 m-2 bg-white/10 rounded-xl border border-white/20 backdrop-blur-sm">
           <p className="text-xs text-green-200 font-semibold mb-1">
             TOKO ANDA
           </p>
           <p className="text-sm font-bold text-white truncate mb-1">
-            {user.shop.name}
+            {user.shop?.name || "Toko Saya"}
           </p>
           <div className="flex items-center gap-2 text-xs text-green-100">
             <i className="fas fa-star text-yellow-300"></i>
-            <span>{user.shop.rating}</span>
+            <span>{user.shop?.rating || 0}</span>
             <span>•</span>
-            <span>{user.shop.totalSales} penjualan</span>
+            <span>{user.shop?.totalSales || 0} penjualan</span>
           </div>
         </div>
       )}

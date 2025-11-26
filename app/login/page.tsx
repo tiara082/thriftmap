@@ -1,164 +1,202 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+type UserRole = 'user' | 'seller';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState<UserRole>('user');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Check jika sudah login, redirect ke dashboard
-  useEffect(() => {
-    const isAuth = localStorage.getItem("isAuthenticated");
-    const storedUserType = localStorage.getItem("userType");
-    if (isAuth === "true") {
-      router.push(storedUserType === "seller" ? "/dashboard-seller" : "/dashboard-user");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Login gagal');
+        return;
+      }
+
+      // Store user info and redirect based on role
+      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('authToken', `${email}:${role}`);
+      localStorage.setItem('isAuthenticated', 'true');
+
+      if (role === 'seller') {
+        router.push('/dashboard-seller');
+      } else {
+        router.push('/dashboard-user');
+      }
+    } catch (err) {
+      setError('Terjadi kesalahan. Coba lagi nanti.');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  }, [router]);
-
-
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6" style={{ 
-      fontFamily: 'Poppins, sans-serif',
-      background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
-    }}>
-      <div className="max-w-5xl w-full">
-        {/* Logo Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <img src="/logo.svg" alt="ThriftMap Logo" className="h-16" />
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Card */}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-green-200">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-8 text-center">
+            <h1 className="text-3xl font-bold text-white mb-2">ThriftMap</h1>
+            <p className="text-green-50">Style More, Spend Less ✨</p>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Selamat Datang di ThriftMap</h1>
-          <p className="text-gray-600">Pilih jenis akun untuk melanjutkan</p>
-        </div>
 
-        {/* Login Options */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* User Login Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow">
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i className="fas fa-shopping-bag text-green-600 text-3xl"></i>
+          {/* Content */}
+          <div className="p-8">
+            {/* Role Selector */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-3">
+                Login sebagai:
+              </label>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRole('user')}
+                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
+                    role === 'user'
+                      ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  👤 Pembeli
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('seller')}
+                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
+                    role === 'seller'
+                      ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  🏪 Penjual
+                </button>
               </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Login User</h2>
-              <p className="text-gray-600 text-sm">Jelajahi produk thrift pilihan</p>
             </div>
 
-            <a
-              href="/login-user"
-              className="block w-full bg-green-600 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:bg-green-700 transition-colors text-center mb-4"
-              style={{ outline: 'none' }}
-            >
-              <i className="fas fa-sign-in-alt mr-2"></i>
-              Masuk Sebagai User
-            </a>
-
-            <div className="text-center text-sm">
-              <span className="text-gray-600">Belum punya akun? </span>
-              <a href="/register-user" className="text-green-600 hover:text-green-800 font-medium hover:underline transition-colors">
-                Daftar di sini
-              </a>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center">
-                <i className="fas fa-check-circle text-green-600 mr-2"></i>
-                Keuntungan User
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start">
-                  <i className="fas fa-check text-green-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Akses ribuan produk thrift berkualitas</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-check text-green-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Tracking pesanan real-time</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-check text-green-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Wishlist & manajemen keranjang</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Seller Login Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow">
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i className="fas fa-store text-yellow-600 text-3xl"></i>
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                {error}
               </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Login Seller</h2>
-              <p className="text-gray-600 text-sm">Kembangkan bisnis thrift Anda</p>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="contoh@email.com"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? '🙈' : '👁️'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-green-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              >
+                {loading ? 'Sedang masuk...' : 'Masuk'}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="my-6 flex items-center gap-3">
+              <div className="flex-1 h-px bg-gray-300"></div>
+              <span className="text-sm text-gray-500">atau</span>
+              <div className="flex-1 h-px bg-gray-300"></div>
             </div>
 
-            <a
-              href="/login-seller"
-              className="block w-full bg-yellow-500 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:bg-yellow-600 transition-colors text-center mb-4"
-              style={{ outline: 'none' }}
-            >
-              <i className="fas fa-sign-in-alt mr-2"></i>
-              Masuk Sebagai Seller
-            </a>
-
-            <div className="text-center text-sm">
-              <span className="text-gray-600">Belum punya toko? </span>
-              <a href="/register-seller" className="text-yellow-600 hover:text-yellow-800 font-medium hover:underline transition-colors">
-                Daftar di sini
-              </a>
+            {/* Links */}
+            <div className="space-y-3 text-center text-sm">
+              <p className="text-gray-600">
+                Belum punya akun?{' '}
+                <Link
+                  href="/register"
+                  className="text-green-600 font-semibold hover:text-green-700 transition-colors"
+                >
+                  Daftar di sini
+                </Link>
+              </p>
+              <p>
+                <Link
+                  href="/"
+                  className="text-gray-600 hover:text-green-600 transition-colors"
+                >
+                  ← Kembali ke beranda
+                </Link>
+              </p>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center">
-                <i className="fas fa-check-circle text-yellow-600 mr-2"></i>
-                Keuntungan Seller
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start">
-                  <i className="fas fa-check text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Dashboard lengkap kelola produk</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-check text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Sistem manajemen order otomatis</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-check text-yellow-600 mt-1 mr-2 flex-shrink-0"></i>
-                  <span>Analitik & laporan penjualan</span>
-                </li>
-              </ul>
+            {/* Demo Accounts Info */}
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-700">
+              <p className="font-semibold mb-2">Demo Akun:</p>
+              <p>👤 Pembeli: user@thriftmap.com</p>
+              <p>🏪 Penjual: seller@thriftmap.com</p>
+              <p className="mt-2">Password: Demo@12345</p>
             </div>
           </div>
         </div>
 
-        {/* Back to Home Link */}
-        <div className="text-center mt-8">
-          <a href="/" className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors">
-            <i className="fas fa-arrow-left mr-2"></i>
-            Kembali ke Beranda
-          </a>
-        </div>
+        {/* Footer Text */}
+        <p className="text-center text-gray-600 text-sm mt-6">
+          Berbelanja dengan aman di ThriftMap ✨
+        </p>
       </div>
-
-      <style>{`
-        * {
-          outline: none !important;
-        }
-        *:focus {
-          outline: none !important;
-        }
-        button,
-        button:hover,
-        button:focus,
-        button:active,
-        button:focus-visible {
-          outline: none !important;
-          outline-width: 0 !important;
-          outline-style: none !important;
-          outline-color: transparent !important;
-          -webkit-tap-highlight-color: transparent !important;
-        }
-      `}</style>
     </div>
   );
 }

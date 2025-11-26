@@ -12,8 +12,9 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
   useEffect(() => {
     const checkAuth = () => {
       const isAuth = localStorage.getItem("isAuthenticated");
+      const user = localStorage.getItem("user");
       
-      if (isAuth !== "true") {
+      if (isAuth !== "true" || !user) {
         router.push("/login");
       } else {
         setIsAuthorized(true);

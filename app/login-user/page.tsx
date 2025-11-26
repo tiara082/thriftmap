@@ -108,47 +108,36 @@ export default function LoginUserPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ 
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
       fontFamily: 'Poppins, sans-serif',
-      background: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)'
+      background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
     }}>
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-      </div>
-
-      <div className="max-w-md w-full relative z-10">
+      <div className="max-w-md w-full">
         {/* Logo Section */}
-        <div className="text-center mb-10 animate-fadeIn">
-          <div className="flex justify-center mb-6">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-white/30 rounded-full blur-2xl group-hover:blur-3xl transition-all"></div>
-              <img src="/logo.svg" alt="ThriftMap Logo" className="h-20 relative z-10 drop-shadow-2xl transform group-hover:scale-110 transition-transform" />
-            </div>
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <img src="/logo.svg" alt="ThriftMap Logo" className="h-16" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-3 drop-shadow-lg">Login User</h1>
-          <p className="text-white/90 text-lg">Masuk untuk melanjutkan belanja</p>
         </div>
 
         {/* Form Login */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/20 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
           <form onSubmit={handleLogin}>
             {/* Email Input */}
-            <div className="mb-6 group">
-              <label htmlFor="email" className="block text-gray-800 font-semibold mb-3 text-sm uppercase tracking-wide">
-                Email Address
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                Email
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <i className="fas fa-envelope text-green-500 group-focus-within:scale-110 transition-transform"></i>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i className="fas fa-envelope text-gray-400"></i>
                 </div>
                 <input
                   type="email"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all hover:border-green-400 hover:bg-white text-gray-800 font-medium"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all hover:border-green-500 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.1)]"
                   placeholder="nama@email.com"
                   required
                   disabled={loading}
@@ -158,26 +147,26 @@ export default function LoginUserPage() {
             </div>
 
             {/* Password Input */}
-            <div className="mb-6 group">
-              <div className="flex justify-between items-center mb-3">
-                <label htmlFor="password" className="block text-gray-800 font-semibold text-sm uppercase tracking-wide">
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <label htmlFor="password" className="block text-gray-700 font-medium">
                   Password
                 </label>
-                <a href="#" className="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors hover:underline">
+                <a href="#" className="text-sm text-green-600 hover:text-green-800 transition-colors">
                   Lupa password?
                 </a>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <i className="fas fa-lock text-green-500 group-focus-within:scale-110 transition-transform"></i>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i className="fas fa-lock text-gray-400"></i>
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all hover:border-green-400 hover:bg-white text-gray-800 font-medium"
-                  placeholder="••••••••"
+                  className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all hover:border-green-500 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.1)]"
+                  placeholder="Masukkan password"
                   required
                   disabled={loading}
                   style={{ outline: 'none' }}
@@ -185,27 +174,27 @@ export default function LoginUserPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center hover:scale-110 transition-transform"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   style={{ outline: 'none' }}
                   disabled={loading}
                 >
-                  <i className={`fas fa-${showPassword ? "eye-slash" : "eye"} text-green-500 text-lg`}></i>
+                  <i className={`fas fa-${showPassword ? "eye-slash" : "eye"} text-gray-400 hover:text-green-600 transition-colors`}></i>
                 </button>
               </div>
             </div>
 
             {/* Remember Me Checkbox */}
-            <div className="flex items-center mb-8">
+            <div className="flex items-center mb-6">
               <input
                 type="checkbox"
                 id="remember"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-5 w-5 text-green-600 focus:ring-2 focus:ring-green-500 border-gray-300 rounded cursor-pointer hover:border-green-500 transition-all"
+                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer hover:border-green-500 transition-colors"
                 disabled={loading}
               />
-              <label htmlFor="remember" className="ml-3 block text-sm text-gray-700 cursor-pointer font-medium">
-                Ingat saya untuk 30 hari
+              <label htmlFor="remember" className="ml-2 block text-sm text-gray-700 cursor-pointer">
+                Ingat saya
               </label>
             </div>
 
@@ -213,55 +202,55 @@ export default function LoginUserPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl hover:from-green-600 hover:to-emerald-700 transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-green-600 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:bg-green-700 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(16,185,129,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ outline: 'none' }}
             >
               {loading ? (
                 <>
                   <i className="fas fa-spinner fa-spin mr-2"></i>
-                  Memproses Login...
+                  Memproses...
                 </>
               ) : (
                 <>
                   <i className="fas fa-sign-in-alt mr-2"></i>
-                  Masuk ke Akun
+                  Masuk
                 </>
               )}
             </button>
 
             {/* Divider */}
-            <div className="my-8 flex items-center">
-              <div className="flex-grow border-t-2 border-gray-200"></div>
-              <span className="mx-4 text-gray-500 text-sm font-semibold">ATAU</span>
-              <div className="flex-grow border-t-2 border-gray-200"></div>
+            <div className="my-6 flex items-center">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="mx-4 text-gray-500 text-sm">atau masuk dengan</span>
+              <div className="flex-grow border-t border-gray-300"></div>
             </div>
 
             {/* Social Login Buttons */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-4 mb-6">
               <button
                 type="button"
-                className="group flex items-center justify-center py-3.5 px-4 bg-white border-2 border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transform hover:-translate-y-1 hover:shadow-lg transition-all"
+                className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 hover:-translate-y-0.5 hover:shadow-[0_2px_8px_rgba(16,185,129,0.2)] transition-all"
                 style={{ outline: 'none' }}
               >
-                <i className="fab fa-google text-red-500 text-lg mr-2 group-hover:scale-110 transition-transform"></i>
-                <span className="text-gray-700 font-semibold">Google</span>
+                <i className="fab fa-google text-green-600 mr-2"></i>
+                <span className="text-gray-700 font-medium">Google</span>
               </button>
               <button
                 type="button"
-                className="group flex items-center justify-center py-3.5 px-4 bg-white border-2 border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transform hover:-translate-y-1 hover:shadow-lg transition-all"
+                className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 hover:-translate-y-0.5 hover:shadow-[0_2px_8px_rgba(16,185,129,0.2)] transition-all"
                 style={{ outline: 'none' }}
               >
-                <i className="fab fa-facebook text-blue-600 text-lg mr-2 group-hover:scale-110 transition-transform"></i>
-                <span className="text-gray-700 font-semibold">Facebook</span>
+                <i className="fab fa-facebook text-green-600 mr-2"></i>
+                <span className="text-gray-700 font-medium">Facebook</span>
               </button>
             </div>
 
             {/* Register Link */}
-            <div className="text-center pt-6 border-t-2 border-gray-200">
-              <p className="text-gray-600 text-base">
-                Belum punya akun?{" "}
-                <a href="/register-user" className="text-green-600 hover:text-green-700 font-bold transition-colors underline decoration-2 decoration-green-400 hover:decoration-green-600">
-                  Daftar Sekarang
+            <div className="text-center pt-4 border-t border-gray-200">
+              <p className="text-gray-600">
+                Belum punya akun?
+                <a href="/register-user" className="text-green-600 hover:text-green-800 font-medium transition-colors ml-1">
+                  Daftar di sini
                 </a>
               </p>
             </div>

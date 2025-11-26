@@ -118,8 +118,6 @@ export default function LoginSellerPage() {
           <div className="flex justify-center mb-4">
             <img src="/logo.svg" alt="ThriftMap Logo" className="h-16" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Login Seller</h1>
-          <p className="text-gray-600 mt-2">Masuk untuk mengelola toko Anda</p>
         </div>
 
         {/* Form Login */}
@@ -221,49 +219,50 @@ export default function LoginSellerPage() {
             </button>
 
             {/* Divider */}
-            <div className="my-6 flex items-center">
-              <div className="flex-grow border-t border-gray-300"></div>
-              <span className="mx-4 text-gray-500 text-sm">atau masuk dengan</span>
-              <div className="flex-grow border-t border-gray-300"></div>
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Atau masuk dengan</span>
+              </div>
             </div>
 
             {/* Social Login Buttons */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-2 gap-3 mb-6">
               <button
                 type="button"
-                className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 hover:-translate-y-0.5 hover:shadow-[0_2px_8px_rgba(251,191,36,0.2)] transition-all"
+                className="flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
                 style={{ outline: 'none' }}
               >
-                <i className="fab fa-google text-yellow-600 mr-2"></i>
-                <span className="text-gray-700 font-medium">Google</span>
+                <i className="fab fa-google mr-2 text-red-500"></i>
+                Google
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 hover:-translate-y-0.5 hover:shadow-[0_2px_8px_rgba(251,191,36,0.2)] transition-all"
+                className="flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
                 style={{ outline: 'none' }}
               >
-                <i className="fab fa-facebook text-yellow-600 mr-2"></i>
-                <span className="text-gray-700 font-medium">Facebook</span>
+                <i className="fab fa-facebook-f mr-2 text-blue-600"></i>
+                Facebook
               </button>
             </div>
 
             {/* Register Link */}
-            <div className="text-center pt-4 border-t border-gray-200">
-              <p className="text-gray-600">
-                Belum punya akun seller?
-                <a href="/register-seller" className="text-yellow-600 hover:text-yellow-800 font-medium transition-colors ml-1">
-                  Daftar di sini
-                </a>
-              </p>
-            </div>
+            <p className="text-center text-gray-600">
+              Belum punya akun?{' '}
+              <a href="/register-seller" className="text-yellow-600 font-medium hover:text-yellow-800 hover:underline transition-colors">
+                Daftar di sini
+              </a>
+            </p>
           </form>
         </div>
 
         {/* Back to Login Selection */}
         <div className="text-center mt-6">
-          <a href="/login" className="text-yellow-600 hover:text-yellow-800 font-medium transition-colors inline-flex items-center">
+          <a href="/login" className="inline-flex items-center text-gray-600 hover:text-yellow-600 transition-colors">
             <i className="fas fa-arrow-left mr-2"></i>
-            Kembali ke Pilihan Login
+            Kembali ke pilihan login
           </a>
         </div>
       </div>
@@ -285,6 +284,36 @@ export default function LoginSellerPage() {
           outline-style: none !important;
           outline-color: transparent !important;
           -webkit-tap-highlight-color: transparent !important;
+        }
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .animate-slideUp {
+          animation: slideUp 0.8s ease-out forwards;
         }
       `}</style>
     </div>

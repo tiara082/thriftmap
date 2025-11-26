@@ -11,6 +11,7 @@ import SettingsPage from "@/components/dashboard-seller/SettingsPage";
 import CurationPage from "@/components/dashboard-seller/CurationPage";
 import CurationHistoryPage from "@/components/dashboard-seller/CurationHistoryPage";
 import PricingAndAnalyticsPage from "@/components/dashboard-seller/PricingAndAnalyticsPage";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function DashboardPage() {
   const [activePage, setActivePage] = useState<string>("dashboard");
@@ -83,26 +84,28 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar
-        activePage={activePage}
-        setActivePage={setActivePage}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-      />
-
-      <div
-        className={`transition-all duration-300 ${
-          sidebarCollapsed ? "ml-[70px]" : "ml-64"
-        }`}
-      >
-        <Header
-          title={currentPageInfo.title}
-          subtitle={currentPageInfo.subtitle}
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50">
+        <Sidebar
+          activePage={activePage}
+          setActivePage={setActivePage}
+          collapsed={sidebarCollapsed}
+          setCollapsed={setSidebarCollapsed}
         />
 
-        <main className="p-6">{renderPage()}</main>
+        <div
+          className={`transition-all duration-300 ${
+            sidebarCollapsed ? "ml-[70px]" : "ml-64"
+          }`}
+        >
+          <Header
+            title={currentPageInfo.title}
+            subtitle={currentPageInfo.subtitle}
+          />
+
+          <main className="p-6">{renderPage()}</main>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 }

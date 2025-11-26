@@ -12,9 +12,7 @@ export default function RegisterSellerPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
-    address: "",
-    description: ""
+    phone: ""
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -83,12 +81,6 @@ export default function RegisterSellerPage() {
       return;
     }
 
-    if (!formData.address.trim()) {
-      toast.error("Alamat toko harus diisi");
-      setLoading(false);
-      return;
-    }
-
     if (!agreedToTerms) {
       toast.error("Anda harus menyetujui syarat dan ketentuan");
       setLoading(false);
@@ -114,8 +106,6 @@ export default function RegisterSellerPage() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        address: formData.address,
-        description: formData.description,
         createdAt: new Date().toISOString()
       };
 
@@ -315,52 +305,6 @@ export default function RegisterSellerPage() {
                 </div>
               </div>
 
-              {/* Alamat Toko */}
-              <div className="md:col-span-2">
-                <label htmlFor="address" className="block text-gray-700 font-medium mb-2">
-                  Alamat Toko *
-                </label>
-                <div className="relative">
-                  <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
-                    <i className="fas fa-map-marker-alt text-gray-400"></i>
-                  </div>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    rows={2}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Alamat lengkap toko"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
-
-              {/* Deskripsi Toko */}
-              <div className="md:col-span-2">
-                <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
-                  Deskripsi Toko (Opsional)
-                </label>
-                <div className="relative">
-                  <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
-                    <i className="fas fa-align-left text-gray-400"></i>
-                  </div>
-                  <textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows={3}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Ceritakan tentang toko Anda..."
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
             </div>
 
             {/* Terms & Conditions */}

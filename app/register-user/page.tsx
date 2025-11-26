@@ -11,8 +11,7 @@ export default function RegisterUserPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
-    address: ""
+    phone: ""
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -99,7 +98,6 @@ export default function RegisterUserPage() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        address: formData.address,
         createdAt: new Date().toISOString()
       };
 
@@ -252,7 +250,7 @@ export default function RegisterUserPage() {
               </div>
 
               {/* Nomor Telepon */}
-              <div>
+              <div className="md:col-span-2">
                 <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
                   Nomor Telepon *
                 </label>
@@ -269,29 +267,6 @@ export default function RegisterUserPage() {
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all hover:border-green-500 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.1)]"
                     placeholder="08xxxxxxxxxx"
                     required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
-
-              {/* Alamat */}
-              <div className="md:col-span-2">
-                <label htmlFor="address" className="block text-gray-700 font-medium mb-2">
-                  Alamat (Opsional)
-                </label>
-                <div className="relative">
-                  <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
-                    <i className="fas fa-map-marker-alt text-gray-400"></i>
-                  </div>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    rows={3}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all hover:border-green-500 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.1)]"
-                    placeholder="Alamat lengkap Anda"
                     disabled={loading}
                     style={{ outline: 'none' }}
                   />

@@ -70,9 +70,9 @@ const heroSlides: HeroSlide[] = [
     accentGradient:
       "radial-gradient(120% 120% at 50% 0%, rgba(45,212,191,0.28) 0%, rgba(16,185,129,0.1) 55%, rgba(255,255,255,0) 90%)",
     highlights: [
-      { value: "25K Ton", label: "Waste Saved 🌍", icon: "fa-solid fa-seedling" },
+      { value: "25K Ton", label: "Waste Saved", icon: "fa-solid fa-seedling" },
       { value: "50K+ Users", label: "Green Community 💚", icon: "fa-solid fa-people-group" },
-      { value: "Eco Impact", label: "Real Change 🌱", icon: "fa-solid fa-arrow-rotate-left" },
+      { value: "Eco Impact", label: "Real Change", icon: "fa-solid fa-arrow-rotate-left" },
     ],
   },
 ];
@@ -325,8 +325,8 @@ export default function HomePage() {
               className="h-9 sm:h-12 w-auto"
             />
             <div className="flex flex-col">
-              <span className="text-base sm:text-xl font-display font-black bg-gradient-to-r from-emerald-600 to-lime-500 bg-clip-text text-transparent">More Style</span>
-              <span className="text-[10px] sm:text-xs font-display font-bold uppercase tracking-wider sm:tracking-widest text-emerald-600">Less Spend</span>
+              <span className="text-base sm:text-xl font-display font-black bg-gradient-to-r from-emerald-600 to-lime-500 bg-clip-text text-transparent">Style More</span>
+              <span className="text-[10px] sm:text-xs font-display font-bold uppercase tracking-wider sm:tracking-widest text-emerald-600">Spend Less</span>
             </div>
           </Link>
 

@@ -1,378 +1,441 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
+import { ArrowLeft, Check, Eye, EyeOff, Lock, Mail, Phone, Store, User } from "lucide-react";
+
+const NAME_REGEX = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'.-]{3,60}$/;
+const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const PHONE_REGEX = /^(?:\+62|0)\d{9,13}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&_.-])[A-Za-z\d@$!%*?#&_.-]{8,32}$/;
+const STORAGE_KEY = "registered_sellers";
+
+type AlertState = { type: "success" | "error"; message: string } | null;
+
+interface StoredSeller {
+  id: string;
+  storeName: string;
+  ownerName: string;
+  email: string;
+  phone: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
+const initialFormState = {
+  storeName: "",
+  ownerName: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
+  terms: false
+};
 
 export default function RegisterSellerPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    storeName: "",
-    ownerName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phone: ""
-  });
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState(initialFormState);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState<AlertState>(null);
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  useEffect(() => {
+    if (!alert) return;
+    const timer = setTimeout(() => setAlert(null), 5000);
+    return () => clearTimeout(timer);
+  }, [alert]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validatePassword = (password: string) => {
-    if (typeof password !== 'string') return false;
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers;
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const validateName = (value: string) => NAME_REGEX.test((value || "").trim());
+  const validateEmail = (value: string) => EMAIL_REGEX.test((value || "").trim());
+
+  const normalizePhone = (value: string) => (value || "").replace(/[^\d+]/g, "");
+
+  const validatePhone = (value: string) => {
+    const compact = (value || "").replace(/[^\d+]/g, "");
+    return PHONE_REGEX.test(compact);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const validatePassword = (value: string) =>
+    typeof value === "string" && PASSWORD_REGEX.test(value);
+
+  const loadSellers = (): StoredSeller[] => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY) || "[]";
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? (parsed as StoredSeller[]) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveSellers = (sellers: StoredSeller[]) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sellers));
+  };
+
+  const hashPassword = async (value: string) => {
+    try {
+      if (typeof window !== "undefined" && window.crypto?.subtle) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(value);
+        const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return btoa(String.fromCharCode(...hashArray));
+      }
+    } catch {
+      // fallback handled below
+    }
+    return btoa(unescape(encodeURIComponent(value)));
+  };
+
+  const showAlert = (type: "success" | "error", message: string) => {
+    setAlert({ type, message });
+  };
+
+  const emailHelper = (() => {
+    if (!formData.email) {
+      return { text: "Gunakan email yang aktif", className: "text-gray-500" };
+    }
+    if (validateEmail(formData.email)) {
+      return { text: "Format email valid", className: "text-green-600" };
+    }
+    return { text: "Format email belum valid", className: "text-red-500" };
+  })();
+
+  const passwordHelper = (() => {
+    if (!formData.password) {
+      return {
+        text:
+          "Password harus 8-32 karakter dengan huruf besar, huruf kecil, angka, dan simbol (@$!%*?#&_)",
+        className: "text-gray-500"
+      };
+    }
+    if (validatePassword(formData.password)) {
+      return { text: "Password kuat", className: "text-green-600" };
+    }
+    return {
+      text: "Password 8-32 karakter & wajib huruf besar, huruf kecil, angka, dan simbol",
+      className: "text-red-500"
+    };
+  })();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
-    // Validation
-    if (!formData.storeName.trim()) {
-      toast.error("Nama toko harus diisi");
-      setLoading(false);
+    if (!validateName(formData.storeName)) {
+      showAlert("error", "Nama toko minimal 3 karakter dan hanya huruf");
       return;
     }
 
-    if (!formData.ownerName.trim()) {
-      toast.error("Nama pemilik harus diisi");
-      setLoading(false);
+    if (!validateName(formData.ownerName)) {
+      showAlert("error", "Nama pemilik minimal 3 karakter dan hanya huruf");
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      toast.error("Format email tidak valid");
-      setLoading(false);
+      showAlert("error", "Format email tidak valid");
+      return;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      showAlert("error", "Nomor telepon harus diawali +62/0 dan berisi 10-15 digit");
       return;
     }
 
     if (!validatePassword(formData.password)) {
-      toast.error("Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.");
-      setLoading(false);
+      showAlert(
+        "error",
+        "Password harus 8-32 karakter dengan huruf besar, huruf kecil, angka, dan simbol"
+      );
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Password dan konfirmasi password tidak cocok");
-      setLoading(false);
+      showAlert("error", "Konfirmasi password tidak cocok");
       return;
     }
 
-    if (!formData.phone.trim()) {
-      toast.error("Nomor telepon harus diisi");
-      setLoading(false);
+    if (!formData.terms) {
+      showAlert("error", "Anda harus menyetujui syarat & ketentuan seller");
       return;
     }
 
-    if (!agreedToTerms) {
-      toast.error("Anda harus menyetujui syarat dan ketentuan");
-      setLoading(false);
-      return;
-    }
-
+    setLoading(true);
     try {
-      // Check if email already exists
-      const registeredSellers = JSON.parse(localStorage.getItem("registered_sellers") || "[]");
-      const emailExists = registeredSellers.some((s: any) => s.email.toLowerCase() === formData.email.toLowerCase());
+      const sellers = loadSellers();
+      const exists = sellers.some(
+        (seller) => seller.email.toLowerCase() === formData.email.trim().toLowerCase()
+      );
 
-      if (emailExists) {
-        toast.error("Email sudah terdaftar. Silakan gunakan email lain.");
-        setLoading(false);
+      if (exists) {
+        showAlert("error", "Email sudah terdaftar. Gunakan email lain");
         return;
       }
 
-      // Save seller data
-      const newSeller = {
-        id: Date.now().toString(),
-        storeName: formData.storeName,
-        ownerName: formData.ownerName,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
+      const passwordHash = await hashPassword(formData.password);
+      const newSeller: StoredSeller = {
+        id: crypto.randomUUID ? crypto.randomUUID() : `seller-${Date.now()}`,
+        storeName: formData.storeName.trim(),
+        ownerName: formData.ownerName.trim(),
+        email: formData.email.trim(),
+        phone: normalizePhone(formData.phone),
+        passwordHash,
         createdAt: new Date().toISOString()
       };
 
-      registeredSellers.push(newSeller);
-      localStorage.setItem("registered_sellers", JSON.stringify(registeredSellers));
+      saveSellers([...sellers, newSeller]);
+      showAlert("success", "Pendaftaran seller berhasil! Silakan masuk");
+      setFormData(initialFormState);
 
-      toast.success("Pendaftaran seller berhasil! Silakan login.");
-
-      setTimeout(() => {
-        router.push("/login-seller");
-      }, 1500);
-    } catch (err) {
-      toast.error("Pendaftaran gagal. Silakan coba lagi.");
-      console.error(err);
+      setTimeout(() => router.push("/login-seller"), 1600);
+    } catch (error) {
+      console.error(error);
+      showAlert("error", "Pendaftaran gagal. Coba beberapa saat lagi");
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
-      fontFamily: 'Poppins, sans-serif',
-      background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)'
-    }}>
-      <div className="max-w-2xl w-full">
-        {/* Logo Section */}
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        fontFamily: "Poppins, 'Plus Jakarta Sans', sans-serif",
+        background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)"
+      }}
+    >
+      <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <img src="/logo.svg" alt="ThriftMap Logo" className="h-16" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Daftar Akun Seller</h1>
-          <p className="text-gray-600 mt-2">Buat toko dan mulai berjualan</p>
+          <h1 className="text-2xl font-bold text-gray-900">Daftar Akun Seller</h1>
         </div>
 
-        {/* Form Register */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-yellow-100">
-          <form onSubmit={handleSubmit}>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Nama Toko */}
-              <div>
-                <label htmlFor="storeName" className="block text-gray-700 font-medium mb-2">
-                  Nama Toko *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-store text-gray-400"></i>
-                  </div>
-                  <input
-                    type="text"
-                    id="storeName"
-                    name="storeName"
-                    value={formData.storeName}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Nama toko Anda"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="storeName" className="block text-gray-700 font-medium mb-2">
+                Nama Toko
+              </label>
+              <div className="relative">
+                <Store className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="storeName"
+                  name="storeName"
+                  type="text"
+                  value={formData.storeName}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm focus:border-green-500"
+                  placeholder="Nama toko Anda"
+                  disabled={loading}
+                />
               </div>
-
-              {/* Nama Pemilik */}
-              <div>
-                <label htmlFor="ownerName" className="block text-gray-700 font-medium mb-2">
-                  Nama Pemilik *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-user text-gray-400"></i>
-                  </div>
-                  <input
-                    type="text"
-                    id="ownerName"
-                    name="ownerName"
-                    value={formData.ownerName}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Nama pemilik toko"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div>
-                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-                  Email *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-envelope text-gray-400"></i>
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="email@toko.com"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
-
-              {/* Nomor Telepon */}
-              <div>
-                <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
-                  Nomor Telepon *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-phone text-gray-400"></i>
-                  </div>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="08xxxxxxxxxx"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div>
-                <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-                  Password *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-lock text-gray-400"></i>
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Min. 8 karakter"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    style={{ outline: 'none' }}
-                    disabled={loading}
-                  >
-                    <i className={`fas fa-${showPassword ? "eye-slash" : "eye"} text-gray-400 hover:text-yellow-600 transition-colors`}></i>
-                  </button>
-                </div>
-              </div>
-
-              {/* Konfirmasi Password */}
-              <div>
-                <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
-                  Konfirmasi Password *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-lock text-gray-400"></i>
-                  </div>
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all hover:border-yellow-500 hover:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
-                    placeholder="Ulangi password"
-                    required
-                    disabled={loading}
-                    style={{ outline: 'none' }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    style={{ outline: 'none' }}
-                    disabled={loading}
-                  >
-                    <i className={`fas fa-${showConfirmPassword ? "eye-slash" : "eye"} text-gray-400 hover:text-yellow-600 transition-colors`}></i>
-                  </button>
-                </div>
-              </div>
-
             </div>
 
-            {/* Terms & Conditions */}
-            <div className="flex items-start mt-6">
+            <div>
+              <label htmlFor="ownerName" className="block text-gray-700 font-medium mb-2">
+                Nama Pemilik
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="ownerName"
+                  name="ownerName"
+                  type="text"
+                  value={formData.ownerName}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm focus:border-green-500"
+                  placeholder="Nama pemilik"
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm focus:border-green-500"
+                  placeholder="email@tokomu.com"
+                  disabled={loading}
+                />
+              </div>
+              <p className={`mt-2 text-xs ${emailHelper.className}`}>
+                {emailHelper.text}
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
+                Nomor Telepon
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm focus:border-green-500"
+                  placeholder="08xxxxxxxxxx"
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-10 text-sm focus:border-green-500"
+                  placeholder="Minimal 8 karakter"
+                  disabled={loading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+              <p className={`mt-2 text-xs ${passwordHelper.className}`}>
+                {passwordHelper.className === "text-emerald-600" && (
+                  <Check className="inline-block h-4 w-4 mr-1" />
+                )}
+                {passwordHelper.text}
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
+                Konfirmasi Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  className="form-input w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-10 text-sm focus:border-green-500"
+                  placeholder="Ulangi password"
+                  disabled={loading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
               <input
-                type="checkbox"
                 id="terms"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded cursor-pointer hover:border-yellow-500 transition-colors mt-1"
-                disabled={loading}
+                name="terms"
+                type="checkbox"
+                checked={formData.terms}
+                onChange={handleCheckboxChange}
+                className="mt-1 h-4 w-4 rounded-md border-gray-300 text-green-600 focus:ring-green-500"
               />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700 cursor-pointer">
-                Saya setuju dengan{" "}
-                <a href="#" className="text-yellow-600 hover:text-yellow-800 font-medium">
-                  syarat dan ketentuan seller
-                </a>{" "}
-                yang berlaku
+              <label htmlFor="terms" className="text-sm text-gray-700">
+                Saya menyetujui <span className="text-green-600">Syarat & Ketentuan Seller</span> dan kebijakan privasi
               </label>
             </div>
 
-            {/* Register Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-6 bg-yellow-500 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:bg-yellow-600 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(251,191,36,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ outline: 'none' }}
+              className="w-full rounded-xl bg-green-600 py-3 text-white font-semibold shadow-md hover:bg-green-700"
             >
-              {loading ? (
-                <>
-                  <i className="fas fa-spinner fa-spin mr-2"></i>
-                  Memproses...
-                </>
-              ) : (
-                <>
-                  <i className="fas fa-store mr-2"></i>
-                  Daftar Sebagai Seller
-                </>
-              )}
+              {loading ? "Membuat akun..." : "Daftar sebagai Seller"}
             </button>
 
-            {/* Login Link */}
-            <div className="text-center mt-6 pt-6 border-t border-gray-200">
-              <p className="text-gray-600">
-                Sudah punya akun seller?
-                <a href="/login-seller" className="text-yellow-600 hover:text-yellow-800 font-medium transition-colors ml-1">
-                  Login di sini
-                </a>
+            <div className="text-center pt-4 border-t border-gray-200">
+              <p className="text-gray-600 text-sm">
+                Sudah punya akun?{" "}
+                <Link href="/login-seller" className="text-green-600 font-semibold">
+                  Masuk di sini
+                </Link>
               </p>
             </div>
           </form>
         </div>
 
-        {/* Back to Login Selection */}
         <div className="text-center mt-6">
-          <a href="/login" className="text-yellow-600 hover:text-yellow-800 font-medium transition-colors inline-flex items-center">
-            <i className="fas fa-arrow-left mr-2"></i>
-            Kembali ke Pilihan Login
-          </a>
+          <Link
+            href="/"
+            className="text-green-600 hover:text-green-800 font-medium inline-flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
+          </Link>
         </div>
       </div>
 
+      {alert && (
+        <div
+          className={`custom-alert fixed top-4 right-4 max-w-sm rounded-lg border px-4 py-3 shadow-lg z-20 ${
+            alert.type === "success"
+              ? "bg-green-100 border-green-400 text-green-800"
+              : "bg-red-100 border-red-400 text-red-700"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <span className="font-semibold capitalize">{alert.type}</span>
+            <p className="text-sm">{alert.message}</p>
+          </div>
+        </div>
+      )}
+
       <style>{`
+        .form-input {
+          transition: all 0.3s ease;
+        }
+        .form-input:hover {
+          border-color: #10b981;
+          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
         * {
           outline: none !important;
         }
         *:focus {
           outline: none !important;
+          box-shadow: none !important;
         }
         button,
         button:hover,
@@ -383,6 +446,7 @@ export default function RegisterSellerPage() {
           outline-width: 0 !important;
           outline-style: none !important;
           outline-color: transparent !important;
+          box-shadow: none !important;
           -webkit-tap-highlight-color: transparent !important;
         }
       `}</style>

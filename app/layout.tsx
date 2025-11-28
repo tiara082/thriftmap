@@ -1,12 +1,22 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Plus_Jakarta_Sans, Poppins } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Providers } from "./providers"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const plusJakarta = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+})
+
+const poppins = Poppins({ 
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "ThriftMap - Sustainable Preloved Fashion Marketplace",
@@ -48,7 +58,7 @@ export default function RootLayout({
           referrerPolicy="no-referrer"
         />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className={`${plusJakarta.variable} ${poppins.variable} font-sans antialiased`}>
         <Providers>
           {children}
           <Analytics />

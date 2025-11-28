@@ -23,7 +23,7 @@ export const productCategories: ProductCategory[] = [
 				title: "Dress / Terusan",
 				description: "Wanita menggunakan dress dengan tone warna netral/hangat.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1595777457583-95e059d581b8",
+					"https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "women-2",
@@ -31,14 +31,14 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Tampilan detail pakaian atasan wanita (blouse/kemeja) yang bersih.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1564257631407-4deb1f99d992",
+					"https://images.unsplash.com/photo-1550314472-5eb9fcb8ec0b?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "women-3",
 				title: "Aksesoris / Tas",
 				description: "Tas wanita estetik di atas meja atau digantung.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1591561954557-26941169b49e",
+					"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "women-4",
@@ -61,7 +61,7 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Wanita menggunakan sweater rajut yang nyaman (cocok untuk musim hujan).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1576566588028-4147f3842f27",
+					"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},
@@ -75,42 +75,42 @@ export const productCategories: ProductCategory[] = [
 				title: "Kemeja / Formal",
 				description: "Pria menggunakan kemeja, gaya smart casual.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1596755094514-f87e34085b2c",
+					"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "men-2",
 				title: "Jaket / Outerwear",
 				description: "Pria menggunakan jaket denim atau hoodie, gaya santai.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1591047139829-d91aecb6caea",
+					"https://images.unsplash.com/photo-1551028719-00167b16ebc5?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "men-3",
 				title: "Sepatu",
 				description: "Sepatu pria (sneakers/kulit) dengan latar belakang bersih.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1527010154944-f2241763d806",
+					"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "men-4",
 				title: "Atasan / Kaos Polos",
 				description: "Pria menggunakan kaos polos (T-shirt) putih, gaya minimalis.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+					"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "men-5",
 				title: "Aksesoris / Jam Tangan",
 				description: "Detail jam tangan pria kulit, memberikan kesan premium.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1524592094714-0f0654e20314",
+					"https://images.unsplash.com/photo-1523170335684-f042f1ba670b?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "men-6",
 				title: "Celana Pria",
 				description: "Pria menggunakan celana bahan/chinos (potongan lower body).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1473966968600-fa801b869a1a",
+					"https://images.unsplash.com/photo-1552374196-c4e7ffc6441b?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},
@@ -124,21 +124,21 @@ export const productCategories: ProductCategory[] = [
 				title: "Pakaian Bayi",
 				description: "Baju bayi (onesie) yang tertata rapi (flatlay).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1522771753035-1a5b6562f3ba",
+					"https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "kids-2",
 				title: "Fashion Anak",
 				description: "Anak kecil dengan pakaian kasual yang ceria.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1621452773781-0f992ee03591",
+					"https://images.unsplash.com/photo-1503454537688-e6694210ee70?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "kids-3",
 				title: "Mainan",
 				description: "Mainan anak estetik (kayu/boneka) di lantai atau rak.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1596461404969-9ae70f2830c1",
+					"https://images.unsplash.com/photo-1574220745330-64b1ee5531b9?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},
@@ -152,7 +152,7 @@ export const productCategories: ProductCategory[] = [
 				title: "Peralatan Dapur",
 				description: "Peralatan masak atau alat makan kayu yang estetik.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1556910103-1c02745a30bf",
+					"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-2",
@@ -160,21 +160,21 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Buku catatan, pena, dan laptop di meja kerja (Workspace).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+					"https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-3",
 				title: "Barang Lain / Dekorasi",
 				description: "Dekorasi rumah modern (vas bunga/rak).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1583847661867-00593f440667",
+					"https://images.unsplash.com/photo-1578747214190-1261d4dbae0a?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-4",
 				title: "Sepatu Anak",
 				description: "Sepatu sneakers kecil untuk balita.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4",
+					"https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-5",
@@ -182,7 +182,7 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Anak sedang membaca atau memegang buku cerita berwarna.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1512820790803-83ca734da794",
+					"https://images.unsplash.com/photo-1507842217343-583f20270319?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-6",
@@ -190,7 +190,7 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Botol susu atau peralatan makan bayi yang higienis.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1519689680058-324335c77eba",
+					"https://images.unsplash.com/photo-1589408033453-b0be2b70f464?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-7",
@@ -198,21 +198,21 @@ export const productCategories: ProductCategory[] = [
 				description:
 					"Headphone atau speaker bluetooth di atas meja (produk elektronik populer).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+					"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-8",
 				title: "Buku Umum",
 				description: "Tumpukan buku novel atau buku bisnis yang estetik.",
 				previewUrl:
-					"https://images.unsplash.com/photo-1524578271613-d550eacf6090",
+					"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80",
 			},
 			{
 				id: "goods-9",
 				title: "Peralatan Rumah Tangga",
 				description: "Tanaman hias dalam pot atau lampu meja (Home Decor).",
 				previewUrl:
-					"https://images.unsplash.com/photo-1485955900006-10f4d324d411",
+					"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},

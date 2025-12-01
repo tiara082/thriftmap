@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Head from 'next/head';
 import { useEffect, useMemo, useState } from 'react';
 import { productCategories } from '@/app/data/products';
 
@@ -290,7 +291,12 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#f7f7f5] text-slate-900">
+    <>
+      <Head>
+        <title>Style More, Spend Less</title>
+        <meta name="description" content="Koleksi fashion berkualitas, harga terjangkau. Style More, Spend Less di ThriftMap!" />
+      </Head>
+      <div className="relative min-h-screen bg-[#f7f7f5] text-slate-900">
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -949,7 +955,7 @@ export default function HomePage() {
                 <img src="/logo.svg" alt="ThriftMap" className="h-12 w-auto" />
                 <div className="flex flex-col">
                   <span className="text-xl font-black bg-gradient-to-r from-emerald-400 to-lime-400 bg-clip-text text-transparent">ThriftMap</span>
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">More Style, Less Spend</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">Style More, Spend Less</span>
                 </div>
               </Link>
               
@@ -1078,6 +1084,7 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }

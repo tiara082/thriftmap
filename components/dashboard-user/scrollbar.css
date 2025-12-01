@@ -1,0 +1,14 @@
+/* Custom horizontal scrollbar for categories and other scroll areas */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  background: #e0f2fe;
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #34d399;
+  border-radius: 8px;
+}
+.custom-scrollbar {
+  scrollbar-color: #34d399 #e0f2fe;
+  scrollbar-width: thin;
+}

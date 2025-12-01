@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState, ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import LoadingSpinner from "./LoadingSpinner";
 
 export default function ProtectedRoute({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -15,7 +16,14 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
       const user = localStorage.getItem("user");
       
       if (isAuth !== "true" || !user) {
-        router.push("/login");
+        // Redirect ke login yang sesuai berdasarkan path
+        if (pathname?.startsWith("/dashboard-seller")) {
+          router.push("/login-seller");
+        } else if (pathname?.startsWith("/dashboard-user")) {
+          router.push("/login-user");
+        } else {
+          router.push("/login-user"); // Default ke login-user
+        }
       } else {
         setIsAuthorized(true);
       }
@@ -26,7 +34,7 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
     // Small delay untuk memastikan localStorage ready
     const timer = setTimeout(checkAuth, 100);
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, pathname]);
 
   if (isLoading) {
     return (

@@ -34,6 +34,11 @@ const ordersSeed = [
         name: "Summer Floral Dress",
         image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80",
         price: 95000
+      },
+      {
+        name: "Accessories Bundle",
+        image: "https://images.unsplash.com/photo-1509941943102-10c232535736?auto=format&fit=crop&w=400&q=80",
+        price: 105000
       }
     ]
   },
@@ -41,7 +46,7 @@ const ordersSeed = [
     id: "TM-9774",
     status: "Dikirim",
     date: "24 Nov 2025",
-    eta: "Kurir sedang menuju Bandung",
+    eta: "Kurir sedang menuju lokasi",
     total: 450000,
     progress: 3,
     items: [
@@ -71,6 +76,76 @@ const ordersSeed = [
         price: 45000
       }
     ]
+  },
+  {
+    id: "TM-9550",
+    status: "Selesai",
+    date: "18 Nov 2025",
+    eta: "Pesanan diterima 19 Nov",
+    total: 275000,
+    progress: 4,
+    items: [
+      {
+        name: "Men's Casual Shirt",
+        image: "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=400&q=80",
+        price: 135000
+      },
+      {
+        name: "Classic Watch",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        price: 140000
+      }
+    ]
+  },
+  {
+    id: "TM-9421",
+    status: "Selesai",
+    date: "15 Nov 2025",
+    eta: "Pesanan diterima 16 Nov",
+    total: 195000,
+    progress: 4,
+    items: [
+      {
+        name: "Summer Beach Dress",
+        image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=400&q=80",
+        price: 95000
+      },
+      {
+        name: "Straw Hat",
+        image: "https://images.unsplash.com/photo-1529958030586-3aae4ca485ff?auto=format&fit=crop&w=400&q=80",
+        price: 100000
+      }
+    ]
+  },
+  {
+    id: "TM-9305",
+    status: "Selesai",
+    date: "10 Nov 2025",
+    eta: "Pesanan diterima 12 Nov",
+    total: 380000,
+    progress: 4,
+    items: [
+      {
+        name: "Winter Coat",
+        image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=400&q=80",
+        price: 380000
+      }
+    ]
+  },
+  {
+    id: "TM-9112",
+    status: "Dibatalkan",
+    date: "5 Nov 2025",
+    eta: "Pesanan dibatalkan oleh pembeli",
+    total: 150000,
+    progress: 1,
+    items: [
+      {
+        name: "Sports Shoes",
+        image: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=400&q=80",
+        price: 150000
+      }
+    ]
   }
 ];
 
@@ -89,41 +164,44 @@ export default function DashboardOrders() {
   }, [activeTab]);
 
   return (
-    <section className="space-y-8" aria-labelledby="orders-heading">
-      <header className="rounded-3xl border border-emerald-50 bg-white/90 p-6 shadow-sm backdrop-blur">
+    <section className="space-y-8 relative" aria-labelledby="orders-heading">
+      {/* Floating Background Particles */}
+      <div className="fixed top-10 left-10 w-72 h-72 bg-emerald-300/20 rounded-full blur-3xl animate-floating-slow pointer-events-none" />
+      <div className="fixed bottom-20 right-20 w-96 h-96 bg-lime-300/15 rounded-full blur-3xl animate-floating-medium pointer-events-none" />
+      <header className="rounded-3xl border border-emerald-50 bg-white/90 p-6 shadow-sm backdrop-blur relative z-10 animate-fade-in-down">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-500">Pesanan</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-500 animate-glow">Pesanan</p>
             <h1 id="orders-heading" className="mt-1 text-3xl font-bold text-slate-900">
               Pantau status dan histori belanja
             </h1>
             <p className="text-sm text-slate-500">Gamifikasi XP otomatis masuk setiap pesanan selesai.</p>
           </div>
           <div className="grid grid-cols-3 gap-3 text-center text-sm">
-            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3">
+            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
               <p className="text-xs text-slate-500">Pesanan aktif</p>
-              <p className="text-lg font-bold text-slate-900">02</p>
+              <p className="text-lg font-bold text-slate-900 animate-pulse">{ordersSeed.filter(o => ['Diproses', 'Dikirim'].includes(o.status)).length.toString().padStart(2, '0')}</p>
             </div>
-            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3">
+            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
               <p className="text-xs text-slate-500">Total selesai</p>
-              <p className="text-lg font-bold text-slate-900">36</p>
+              <p className="text-lg font-bold text-slate-900">{ordersSeed.filter(o => o.status === 'Selesai').length + 32}</p>
             </div>
-            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3">
+            <div className="rounded-2xl border border-emerald-100 bg-white/80 p-3 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
               <p className="text-xs text-slate-500">XP bulan ini</p>
-              <p className="text-lg font-bold text-slate-900">+420</p>
+              <p className="text-lg font-bold text-slate-900 text-emerald-600">+{ordersSeed.filter(o => o.status === 'Selesai').length * 50 + 250}</p>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="rounded-3xl border border-emerald-50 bg-white p-4 shadow-sm">
+      <div className="rounded-3xl border border-emerald-50 bg-white p-4 shadow-sm relative z-10 animate-scale-in">
         <div className="flex flex-wrap gap-2">
           {statusTabs.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold ${activeTab === tab.id ? "bg-emerald-600 text-white" : "bg-slate-50 text-slate-600"}`}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 ${activeTab === tab.id ? "bg-emerald-600 text-white shadow-lg" : "bg-slate-50 text-slate-600 hover:bg-emerald-50"}`}
             >
               {tab.label}
             </button>
@@ -132,15 +210,15 @@ export default function DashboardOrders() {
       </div>
 
       {filteredOrders.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-emerald-200 bg-white p-10 text-center">
-          <ListOrdered className="mx-auto h-10 w-10 text-emerald-600" />
+        <div className="rounded-3xl border border-dashed border-emerald-200 bg-white p-10 text-center relative z-10 animate-scale-in">
+          <ListOrdered className="mx-auto h-10 w-10 text-emerald-600 animate-bounce" />
           <p className="mt-3 text-lg font-semibold text-slate-900">Belum ada pesanan</p>
           <p className="text-sm text-slate-500">Belanja preloved favoritmu untuk melihat status pengiriman.</p>
         </div>
       ) : (
-        <div className="space-y-6">
-          {filteredOrders.map((order) => (
-            <article key={order.id} className="rounded-3xl border border-emerald-50 bg-white p-6 shadow-sm">
+        <div className="space-y-6 relative z-10">
+          {filteredOrders.map((order, index) => (
+            <article key={order.id} className="rounded-3xl border border-emerald-50 bg-white p-6 shadow-sm card-tilt hover:shadow-xl transition-all duration-300 stagger-item" style={{animationDelay: `${index * 0.1}s`}}>
               <div className="flex flex-col gap-3 border-b border-emerald-50 pb-4 md:flex-row md:items-center md:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-slate-500">Order ID</p>
@@ -157,9 +235,9 @@ export default function DashboardOrders() {
 
               <div className="mt-4 space-y-3">
                 {order.items.map((item) => (
-                  <div key={item.name} className="flex items-center gap-4 rounded-2xl border border-emerald-50 p-3">
-                    <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-emerald-50">
-                      <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
+                  <div key={item.name} className="flex items-center gap-4 rounded-2xl border border-emerald-50 p-3 hover:bg-emerald-50/50 transition-all duration-300">
+                    <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-emerald-50 group">
+                      <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-semibold text-slate-900">{item.name}</p>
@@ -187,19 +265,19 @@ export default function DashboardOrders() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-3xl border border-emerald-50 bg-white p-5">
-          <Package className="h-6 w-6 text-emerald-600" />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 relative z-10">
+        <div className="rounded-3xl border border-emerald-50 bg-white p-5 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+          <Package className="h-6 w-6 text-emerald-600 animate-pulse" />
           <p className="mt-3 text-sm font-semibold text-slate-900">Proteksi barang</p>
           <p className="text-sm text-slate-500">Ganti rugi hingga 100% jika barang tidak sesuai deskripsi.</p>
         </div>
-        <div className="rounded-3xl border border-emerald-50 bg-white p-5">
-          <Truck className="h-6 w-6 text-emerald-600" />
+        <div className="rounded-3xl border border-emerald-50 bg-white p-5 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+          <Truck className="h-6 w-6 text-emerald-600 animate-bounce" />
           <p className="mt-3 text-sm font-semibold text-slate-900">Tracking realtime</p>
           <p className="text-sm text-slate-500">Terintegrasi dengan 12 ekspedisi favorit.</p>
         </div>
-        <div className="rounded-3xl border border-emerald-50 bg-white p-5">
-          <Wallet className="h-6 w-6 text-emerald-600" />
+        <div className="rounded-3xl border border-emerald-50 bg-white p-5 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
+          <Wallet className="h-6 w-6 text-emerald-600 animate-pulse" />
           <p className="mt-3 text-sm font-semibold text-slate-900">Cashback XP</p>
           <p className="text-sm text-slate-500">Tukar pengalaman belanja jadi voucher eksklusif.</p>
         </div>

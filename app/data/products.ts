@@ -63,6 +63,30 @@ export const productCategories: ProductCategory[] = [
 				previewUrl:
 					"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80",
 			},
+			{
+				id: "women-7",
+				title: "Rok / Skirt",
+				description:
+					"Rok midi atau maxi dengan berbagai motif dan warna untuk gaya feminin.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "women-8",
+				title: "Jaket Wanita",
+				description:
+					"Jaket kulit atau blazer wanita dengan tampilan elegant dan stylish.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "women-9",
+				title: "Scarf / Hijab",
+				description:
+					"Koleksi scarf dan hijab dengan berbagai warna dan motif cantik.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1601924638867-3a6de6b7a500?auto=format&fit=crop&w=800&q=80",
+			},
 		],
 	},
 	{
@@ -112,6 +136,34 @@ export const productCategories: ProductCategory[] = [
 				previewUrl:
 					"https://images.unsplash.com/photo-1552374196-c4e7ffc6441b?auto=format&fit=crop&w=800&q=80",
 			},
+			{
+				id: "men-7",
+				title: "Polo Shirt",
+				description: "Kaos polo dengan warna solid dan bahan breathable untuk kasual.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "men-8",
+				title: "Hoodie / Sweater",
+				description: "Hoodie atau sweater pria dengan desain simpel dan nyaman.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "men-9",
+				title: "Tas Pria / Backpack",
+				description: "Tas ransel atau messenger bag untuk pria dengan desain maskulin.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "men-10",
+				title: "Kacamata",
+				description: "Kacamata hitam atau frame klasik untuk aksesori pria.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+			},
 		],
 	},
 	{
@@ -139,6 +191,27 @@ export const productCategories: ProductCategory[] = [
 				description: "Mainan anak estetik (kayu/boneka) di lantai atau rak.",
 				previewUrl:
 					"https://images.unsplash.com/photo-1574220745330-64b1ee5531b9?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "kids-4",
+				title: "Sepatu Anak",
+				description: "Sepatu sneakers anak dengan desain sporty dan warna-warni.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "kids-5",
+				title: "Tas Anak",
+				description: "Tas ransel atau tas selempang untuk anak dengan karakter lucu.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1577741314755-048d8525d31e?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "kids-6",
+				title: "Jaket Anak",
+				description: "Jaket atau hoodie anak dengan bahan hangat dan motif menarik.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},
@@ -213,6 +286,41 @@ export const productCategories: ProductCategory[] = [
 				description: "Tanaman hias dalam pot atau lampu meja (Home Decor).",
 				previewUrl:
 					"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "goods-10",
+				title: "Furnitur Kecil",
+				description: "Rak kecil, kursi lipat, atau meja samping dengan desain minimalis.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "goods-11",
+				title: "Aksesoris Tech",
+				description: "Casing HP, charger, atau earphone dengan desain modern.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1535303311164-664fc9ec6532?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "goods-12",
+				title: "Peralatan Fitness",
+				description: "Matras yoga, dumbbell kecil, atau resistance band untuk olahraga rumahan.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "goods-13",
+				title: "Kamera / Fotografi",
+				description: "Kamera vintage atau aksesori fotografi seperti tripod dan lens.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80",
+			},
+			{
+				id: "goods-14",
+				title: "Peralatan Kantor",
+				description: "Organizer meja, lampu baca, atau papan tulis kecil untuk produktivitas.",
+				previewUrl:
+					"https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=800&q=80",
 			},
 		],
 	},

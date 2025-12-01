@@ -288,6 +288,44 @@ export default function RegisterSellerPage() {
             </div>
 
             <div>
+              <label className="block text-gray-700 font-medium mb-2">
+                Avatar Generator
+              </label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <a
+                  href="https://ui-avatars.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors border border-emerald-200"
+                >
+                  <i className="fas fa-user-circle"></i>
+                  UI Avatars
+                </a>
+                <a
+                  href="https://www.dicebear.com/playground"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border border-blue-200"
+                >
+                  <i className="fas fa-dice"></i>
+                  DiceBear
+                </a>
+                <a
+                  href="https://avatar.iran.liara.run/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-purple-700 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors border border-purple-200"
+                >
+                  <i className="fas fa-robot"></i>
+                  Avatar API
+                </a>
+              </div>
+              <p className="text-xs text-gray-500 mb-3">
+                💡 Klik salah satu generator untuk membuat avatar, lalu copy URL nya ke field di bawah
+              </p>
+            </div>
+
+            <div>
               <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
                 Nomor Telepon
               </label>

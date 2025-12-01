@@ -3,13 +3,14 @@ import { getProductById } from "@/lib/product-data";
 import { notFound } from "next/navigation";
 
 interface ProductDetailPageProps {
-  params: {
+  params: Promise<{
     productId: string;
-  };
+  }>;
 }
 
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = getProductById(params.productId);
+export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+  const { productId } = await params;
+  const product = getProductById(productId);
 
   if (!product) {
     notFound();

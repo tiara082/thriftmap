@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface HeaderProps {
   title: string;
@@ -8,6 +11,14 @@ interface HeaderProps {
 }
 
 export default function Header({ title, subtitle }: HeaderProps) {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login-seller");
+  };
   return (
     <header className="bg-gradient-to-r from-white via-green-50 to-white shadow-md border-b border-green-100">
       <div className="flex items-center justify-between px-6 py-4">
@@ -36,11 +47,14 @@ export default function Header({ title, subtitle }: HeaderProps) {
 
           {/* User Profile */}
           <div className="flex items-center space-x-3 pl-6 border-l border-gray-200">
-            <div className="group cursor-pointer">
-              <div className="flex items-center space-x-3">
+            <div className="relative group">
+              <button 
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+              >
                 <div className="relative">
                   <Image
-                    src="https://ui-avatars.com/api/?name=User+ThriftMap&background=10b981&color=fff"
+                    src={user?.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=10b981&color=fff`}
                     alt="User"
                     width={44}
                     height={44}
@@ -49,10 +63,27 @@ export default function Header({ title, subtitle }: HeaderProps) {
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div className="hidden sm:block">
-                  <p className="text-sm font-semibold text-gray-800">User ThriftMap</p>
+                  <p className="text-sm font-semibold text-gray-800">{user?.name || "User ThriftMap"}</p>
                   <p className="text-xs text-gray-500">Seller Aktif</p>
                 </div>
-              </div>
+              </button>
+              
+              {/* User Dropdown Menu */}
+              {showUserMenu && (
+                <div className="absolute right-0 top-14 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-sm font-semibold text-gray-800 truncate">{user?.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <i className="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

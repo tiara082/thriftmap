@@ -53,6 +53,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+        {/* Preconnect to OpenStreetMap tile servers for faster map loading */}
+        <link rel="preconnect" href="https://a.tile.openstreetmap.org" />
+        <link rel="preconnect" href="https://b.tile.openstreetmap.org" />
+        <link rel="preconnect" href="https://c.tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
       </head>
       <body className={`${plusJakarta.variable} ${poppins.variable} font-sans antialiased`}>
         <Providers>

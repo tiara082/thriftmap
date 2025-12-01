@@ -210,20 +210,28 @@ export default function LoginUserPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4"
+      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
       style={{
         fontFamily: "Poppins, 'Plus Jakarta Sans', sans-serif",
-        background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)"
+        background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #d1fae5 100%)"
       }}
     >
-      <div className="max-w-md w-full">
-        <div className="text-center mb-8">
+      {/* Floating Background Elements */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-300/30 rounded-full blur-3xl animate-floating-slow" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-lime-300/20 rounded-full blur-3xl animate-floating-medium" />
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-teal-300/25 rounded-full blur-3xl animate-floating-fast" />
+      
+      <div className="max-w-md w-full relative z-10">
+        <div className="text-center mb-8 animate-fade-in-down">
           <div className="flex justify-center mb-4">
-            <img src="/logo.svg" alt="ThriftMap Logo" className="h-16" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-lime-500 rounded-3xl blur-xl opacity-60 animate-pulse-strong" />
+              <img src="/logo.svg" alt="ThriftMap Logo" className="h-16 relative z-10 animate-bounce-in" />
+            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border-2 border-white/50 animate-scale-in hover:shadow-[0_20px_70px_rgba(16,185,129,0.3)] transition-all duration-500">
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -308,9 +316,10 @@ export default function LoginUserPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-green-600 py-3 text-white font-semibold shadow-md hover:bg-green-700"
+              className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 py-3 text-white font-semibold shadow-lg hover:shadow-2xl hover:from-emerald-700 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
-              {loading ? "Memproses..." : "Masuk"}
+              <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative">{loading ? "⏳ Memproses..." : "✨ Masuk Sekarang"}</span>
             </button>
 
             <div className="my-6 flex items-center gap-4">
@@ -322,7 +331,7 @@ export default function LoginUserPage() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-700"
+                className="flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 py-3 text-sm font-medium text-gray-700 hover:border-emerald-500 hover:bg-emerald-50 hover:scale-105 transform transition-all duration-300 hover:shadow-lg group"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -352,12 +361,12 @@ export default function LoginUserPage() {
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-700"
+                className="flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 py-3 text-sm font-medium text-gray-700 hover:border-emerald-500 hover:bg-emerald-50 hover:scale-105 transform transition-all duration-300 hover:shadow-lg group"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 320 512"
-                  className="h-5 w-5 text-green-600"
+                  className="h-5 w-5 text-green-600 group-hover:scale-110 transition-transform"
                 >
                   <path
                     fill="currentColor"

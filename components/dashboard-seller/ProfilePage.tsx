@@ -39,21 +39,65 @@ export default function ProfilePage() {
               height={96}
               className="rounded-full"
             />
-            <button className="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full">
+            <button className="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full hover:bg-green-700 transition-colors">
               <i className="fas fa-camera text-sm"></i>
             </button>
           </div>
-          <div>
+          <div className="flex-1">
             <h3 className="text-xl font-bold text-gray-800">
               User ThriftMap
             </h3>
             <p className="text-gray-600">user@thriftmap.id</p>
-            <p className="text-gray-500 text-sm">Bergabung sejak Jan 2024</p>
+            <p className="text-gray-500 text-sm mb-3">Bergabung sejak Jan 2024</p>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="https://ui-avatars.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors"
+              >
+                <i className="fas fa-user-circle"></i>
+                UI Avatars
+              </a>
+              <a
+                href="https://www.dicebear.com/playground"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+              >
+                <i className="fas fa-dice"></i>
+                DiceBear
+              </a>
+              <a
+                href="https://avatar.iran.liara.run/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-700 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+              >
+                <i className="fas fa-robot"></i>
+                Avatar API
+              </a>
+            </div>
           </div>
         </div>
 
         <form className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Avatar URL
+              </label>
+              <input
+                type="url"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                placeholder="https://ui-avatars.com/api/?name=Your+Name&background=10b981&color=fff"
+                defaultValue="https://ui-avatars.com/api/?name=User+ThriftMap&background=10b981&color=fff&size=120"
+              />
+              <p className="mt-1.5 text-xs text-gray-500">
+                💡 Gunakan generator avatar di atas untuk membuat avatar kustom Anda
+              </p>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nama Lengkap
